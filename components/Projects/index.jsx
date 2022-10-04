@@ -48,7 +48,7 @@ const Projects = ({ projects, fnProjects, queryId }) => {
 
 
   return (
-    <table className="w-10/12 text-center table-fixed border-slate-200">
+    <table className="w-10/12 text-center table-fixed border-slate-200 mt-12">
       <thead>
         <tr className='h-12'>
           <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Incoming payment</div></th>

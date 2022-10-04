@@ -35,38 +35,24 @@ const ConfirmProject = ({ keyProject, project }) => {
 
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
+          let statusError = { 
+            ...errors,
+            confirm: false
+          }
           if (res.val().partners) {
-            let confirm = false
             const partners = Object.entries(res.val().partners)
             partners.forEach(([key, value]: any) => {
-              if (value.status !== "CONFIRMATED") {
-                confirm = true;
-              }
-            })
-
-            setError(prevState =>{
-              const newState = {
-                ...prevState,
-                wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58(),
-                confirm
-              }
-              console.log("set", newState)
-              return newState
+              value.status !== "CONFIRMATED" && (statusError = { confirm: true, wallet: false })
             })
           }
+          setError(statusError)
         }
       })
-      
       return () => {
         unsubscribe()
       }
     }
-  }, [db, user, keyProject, publicKey])
-
-  useEffect(() => {
-    console.log(errors)
-    console.log("errr")
-  }, [errors])
+  }, [db, user, keyProject])
 
 
   const confirmProject = async () => {
@@ -107,9 +93,15 @@ const ConfirmProject = ({ keyProject, project }) => {
     // }
   };
 
+  useEffect(() => {
+    setError({
+      ...errors,
+      wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58()
+    })
+  }, [user, project, publicKey])
 
   return (
-    <div className="flex flex-col items-center h-min w-11/12 px-4 gap-4">
+    <div className="flex flex-col items-center h-min w-11/12 px-4 gap-4 mt-12">
       <div className="flex text-2xl font-bold justify-between w-full gap-4">
         <p>Net Budget: </p>
         <p>
@@ -125,8 +117,8 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 
-      <h3 className="text-xl font-bold ">Partners</h3>
-      <div className="grid grid-cols-2 w-10/12 items-center gap-4">
+      <h3 className="text-xl font-bold ">Project partners</h3>
+      <div className="grid w-full items-center gap-4">
         {
           project && project.partners &&
           Object.entries(project?.partners)?.map(([key, value]: any) => {
@@ -138,7 +130,7 @@ const ConfirmProject = ({ keyProject, project }) => {
                   <p>{value.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                 </div>
                 <div className="flex w-full justify-between font-normal">
-                  <p>Partner status: </p>
+                  <p>Status: </p>
                   <p>{value.status === "ANNOUNCEMENT" ? "CALLED" : value.status}</p>
                 </div>
               </div>
@@ -154,7 +146,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             <ComponentButton
               isBack={false}
               routeBack=""
-              buttonText="Confirm Project"
+              buttonText="Confirm & Sign Project"
               buttonEvent={confirmProject}
               buttonStyle={`h-14 ${errors?.confirm ? "bg-gray-500" : "bg-[#5A31E1]"}`}
               conditionDisabled={errors?.confirm || errors?.wallet}

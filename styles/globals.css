@@ -34,6 +34,6 @@ a {
     @apply font-medium text-xl px-6 justify-center items-center rounded-lg shadow-sm w-max min-w-max h-14 text-white ring-1 ring-slate-400
   }
   .btn-back{
-    @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-0 rounded-full border-2 border-[#5A31E1]
+    @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-0 rounded-full border-2 border-white
   }
 }

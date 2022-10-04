@@ -28,7 +28,7 @@ const InputSelect = (props) => {
                          <p className={`${styleTitle} font-normal text-xl`}>{title}</p>
                     }
                     <select
-                         className={`${inputStyle} flex bg-slate-800 appearance-none border rounded-xl w-full h-20 text-xl pl-4 ${conditionError ? " shadow-red-600" : "shadow-green-light"}`}
+                         className={`${inputStyle} flex bg-slate-800 appearance-none rounded-xl w-full h-20 text-xl pl-4 ${conditionError ? " shadow-red-600" : "shadow-green-light"}`}
                          name={name}
                          onChange={onChange}
                          defaultValue={ defaultValue || optionDisabled}
@@ -57,10 +57,10 @@ const InputSelect = (props) => {
                <div className="flex flex-col gap-2 w-full">
                     {
                          title &&
-                         <p className={`${styleTitle} font-normal text-xl`}>{title}</p>
+                         <p className={`${styleTitle} text-center`}>{title}</p>
                     }
                     <input
-                         className={`${inputStyle} flex bg-slate-800 appearance-none border rounded-xl w-full h-20 text-xl px-4 ${conditionError ? " shadow-red-600" : "shadow-green-light"} ${type === "date" && "date"}`}
+                         className={`${inputStyle} flex bg-slate-800 appearance-none rounded-full w-full h-20 text-xl px-4 ${conditionError ? " shadow-red-600" : "shadow-green-light"} ${type === "date" && "date"}`}
                          name={name}
                          onChange={onChange}
                          id={id}

@@ -64,35 +64,35 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             ...selectPartners,
                             [user.uid]: listUsers[user.uid]
                         })
+                        if (project.fiatOrCrypto === "CRYPTO") {
+                            // onValue(
+        
+                            // )
+                            get(query(ref(db, `wallet/${user?.uid}`)))
+                                .then(res => {
+                                    const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
+                                    const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
+                                    // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
+                                    setProject({
+                                        ...project,
+                                        partners: {
+                                            ...project.partners,
+                                            [user.uid]: {
+                                                ...project.partners[user.uid],
+                                                wallet: filterWalletInOrganization[0].publicKey
+                                            }
+                                        },
+                                        projectHolder: {
+                                            ...project.projectHolder,
+                                            [user.uid]: {
+                                                ...project.projectHolder[user.uid],
+                                                wallet: filterWalletInOrganization[0].publicKey
+                                            }
+                                        }
+                                    })
+                                })
+                        }
                     })
-                if (project.fiatOrCrypto === "CRYPTO") {
-                    // onValue(
-
-                    // )
-                    get(query(ref(db, `wallet/${user?.uid}`)))
-                        .then(res => {
-                            const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
-                            const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
-                            // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
-                            setProject({
-                                ...project,
-                                partners: {
-                                    ...project.partners,
-                                    [user.uid]: {
-                                        ...project.partners[user.uid],
-                                        wallet: filterWalletInOrganization[0].publicKey
-                                    }
-                                },
-                                projectHolder: {
-                                    ...project.projectHolder,
-                                    [user.uid]: {
-                                        ...project.projectHolder[user.uid],
-                                        wallet: filterWalletInOrganization[0].publicKey
-                                    }
-                                }
-                            })
-                        })
-                }
             })()
         }
     }, [db, user, firestore, program?.account?.group, router.query.organization, project.fiatOrCrypto])
@@ -106,15 +106,15 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
             }
         })
-        console.log((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners )
-        setAvailable((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners)
-        
+        setAvailable(project?.totalNeto - project?.thirdParties?.amount - amountTotalPartners - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))
         setErrors({
             thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
-            available: ((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners) < 0,
-            totalPartners: (project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)) - amountTotalPartners) != 0,
+            available: (project?.totalNeto - project?.thirdParties?.amount - amountTotalPartners - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) < 0,
+            // totalPartners: (Number((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))).toFixed(2)) - Number(amountTotalPartners.toFixed(2))) != 0,
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
+
+
     }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
     const handleBudgetProject = (e, data) => {
@@ -139,7 +139,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 })
             }
             if (e.target.name === "percentage") {
-                console.log((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100)
                 setProject({
                     ...project,
                     partners: {
@@ -149,10 +148,11 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             fullName: data.partner.fullName,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
                             percentage: value,
-                            amount: (value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100,
+                            amount: Number(((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100).toFixed(2)),
                             email: data.partner.email,
                         }
                     },
+
                 })
             }
             if (e.target.name === "partners") {
@@ -164,7 +164,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             ...project.partners[data.uid],
                             fullName: data.partner.fullName,
                             amount: value,
-                            percentage: (value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100,
+                            percentage: Number(((value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100).toFixed(2)),
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
                             email: data.partner.email,
                         }
@@ -180,13 +180,13 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalBruto: (value + value * ((organizations.ratio) / 10000))
+                totalBruto: Number((value + value * ((organizations.ratio) / 10000)).toFixed(2))
             })
         } else if (e.target.name === "totalBruto") {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalNeto: (value - value * ((organizations.ratio) / 10000))
+                totalNeto: Number((value - value * ((organizations.ratio) / 10000)).toFixed(2))
             })
         } else if (e.target.name === "ratio") {
             setProject({
@@ -205,7 +205,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     ...project.partners,
                     [key]: {
                         ...resPartner,
-                        amount: (project?.partners?.[key]?.percentage * (project.totalNeto - project?.thirdParties?.amount)) / 100
+                        amount: Number(((project?.partners?.[key]?.percentage * (project.totalNeto - project?.thirdParties?.amount)) / 100).toFixed(2))
                     }
                 }
 
@@ -339,7 +339,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                     Reserve:
                                 </h3>
                                 <h3>
-                                    {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                                    {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                                 </h3>
                             </div>
                             {
@@ -356,7 +356,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                         setAssembleTeam(true)
                                         :
                                         modifyBudget()
-                                }
+                                 }
                                 buttonText={assembleTeam ? "Modify Budget" : "Add Team Member"}
                             />
                             {
@@ -422,7 +422,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                                             (
                                                                 user.uid === key &&
                                                                 <>
-                                                                    <InputSelect
+                                                                    <InputSelect                                                                        
                                                                         optionDisabled="SelectWallet"
                                                                         name="wallet"
                                                                         title="Select your wallet"
@@ -470,7 +470,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
                             <label>Reserve</label>
-                            {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                            {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                         </div>
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
                             <label>Reserve Percentage</label>

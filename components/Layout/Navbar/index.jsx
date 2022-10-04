@@ -41,31 +41,6 @@ const Navbar = () => {
               />
             </a>
           </Link>
-          {/* <Link href="/wallet" >
-            <a
-              className='flex justify-center items-center'
-              title='Wallet'
-            >
-              <AccountBalanceWalletIcon
-                style={{ color: "#0d9488" }}
-                sx={{ fontSize: 40 }}
-              />
-            </a>
-          </Link> */}
-        </div>
-        <div className='flex mr-4 gap-2'>
-          {/* <div
-            className='flex justify-center items-center cursor-pointer'
-            onClick={() => { handleOpeners("withdraw") }
-            }
-            title="Whitdrawal"
-          >
-            <PaidIcon
-              style={{ color: "#0d9488" }}
-              sx={{ fontSize: 40 }}
-            />
-          </div> */}
-
           <Link
             href={{
               pathname: "/adminprojects",
@@ -83,6 +58,33 @@ const Navbar = () => {
               />
             </a>
           </Link>
+          {/* <Link href="/wallet" >
+            <a
+              className='flex justify-center items-center'
+              title='Wallet'
+            >
+              <AccountBalanceWalletIcon
+                style={{ color: "#0d9488" }}
+                sx={{ fontSize: 40 }}
+              />
+            </a>
+          </Link> */}
+        </div>
+        <div className='flex mr-4 gap-2'>
+        <WalletMultiButton />
+          {/* <div
+            className='flex justify-center items-center cursor-pointer'
+            onClick={() => { handleOpeners("withdraw") }
+            }
+            title="Whitdrawal"
+          >
+            <PaidIcon
+              style={{ color: "#0d9488" }}
+              sx={{ fontSize: 40 }}
+            />
+          </div> */}
+
+ 
         </div>
         {
           router.pathname === "/wallet/movements" ?

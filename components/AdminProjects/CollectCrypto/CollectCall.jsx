@@ -82,28 +82,27 @@ export const ConfirmCall = ({ project, organization, keyProject }) => {
     }
 
     return (
-        <div className="flex flex-col">
-            <h2 className="text-xl font-semibold">Confirmación de Cobro</h2>
+        <div className="flex flex-col px-4 w-full">
+            <h2 className="text-xl font-semibold text-center p-4">Ask for invoice</h2>
             <div className="flex font-bold justify-between text-lg w-full">
-                <p>Titular de Proyecto: </p>
+                <p>Project holder: </p>
                 <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.fullName)}</p>
             </div>
-            <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
+            <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
             <div className="flex w-full justify-between font-bold text-lg">
-                <p>Total Bruto: </p>
+                <p>Total: </p>
                 <p>{project?.totalBruto?.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
             </div>
-            <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
+            <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
             <div className="flex justify-between text-lg w-full">
-                <p>Nombre de Proyecto: </p>
+                <p>Project name: </p>
                 <p>{project?.nameProject}</p>
             </div>
             <div className="flex justify-between text-lg w-full">
-                <p>Billetera del proyecto: </p>
+                <p>Project wallet address: </p>
                 <p>{balance}</p>
             </div>
-            <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 
             {/* <div className="flex justify-between text-lg w-full">
                 <p>Quedara por facturar un total de: </p>
@@ -120,13 +119,13 @@ export const ConfirmCall = ({ project, organization, keyProject }) => {
             </div> */}
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
             <div className="flex flex-col gap-4 text-lg w-full">
-                <p className="text-lg font-normal">Descripción de la factura: </p>
+                <p className="text-lg font-normal">Details for invoice: </p>
                 <p className="w-full bg-slate-200 p-4 rounded-md text-black">
                     {project?.descriptionInvoice}
                 </p>
             </div>
             <div className="flex flex-col items-center gap-4">
-                <p className="text-normal font-bold">Confirmar Pedido de Facturación</p>
+                <p className="text-normal font-bold">Share the invoice with your client</p>
                 <ComponentButton
                     buttonStyle={
                         !dateInvoiceOrder?.date && dateInvoiceOrder?.status ?
@@ -135,7 +134,7 @@ export const ConfirmCall = ({ project, organization, keyProject }) => {
                     }
                     conditionDisabled={!dateInvoiceOrder?.date && dateInvoiceOrder?.status}
                     buttonEvent={() => confirmInvoice(project?.status)}
-                    buttonText="Confirmar Factura"
+                    buttonText="Send Invoice"
                 />
             </div>
         </div>

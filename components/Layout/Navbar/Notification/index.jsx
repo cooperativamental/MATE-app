@@ -152,7 +152,7 @@ const Notification = () => {
           as="/wallet/projects"
           Icon={() => <GroupsIcon color="disabled" />}
           title={value.projectHolder}
-          text={`Te convoca a participar de "${value.nameProject}" para ${value.client}`}
+          text={`is sending a proposal to join "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -167,8 +167,8 @@ const Notification = () => {
           }}
           as="/adminprojects"
           Icon={Decision}
-          title={`El socio ${value.petitioner}`}
-          text={`Solicita revision del monto asignado en el proyecto "${value.nameProject}" para ${value.client}`}
+          title={`The partner ${value.petitioner}`}
+          text={`ask for a review on "${value.nameProject}" team for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -185,7 +185,7 @@ const Notification = () => {
           as="/wallet/projects/"
           Icon={() => <Image height={32} width={32} src={Approve} alt="Revision confirmada" />}
           title={`El titular ${value.projectHolder}`}
-          text={`Realizo la revision del monto asignado en el proyecto "${value.nameProject}" para ${value.client}`}
+          text={`Makes the review on "${value.nameProject}" project for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -201,7 +201,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={AcceptProject}
           title={value.namePartner}
-          text={`Confirmó su participación en "${value.nameProject}" de ${value.client}`}
+          text={`is onboard in "${value.nameProject}" team for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -217,14 +217,14 @@ const Notification = () => {
           as="/admin/project"
           Icon={NoteAddIcon}
           title={value.projectHolder}
-          text={`Solicita la facturación
+          text={`Requiers invoincing
           ${value?.percentage === 1 ?
-              " del 100% " :
+              " 100% " :
               value?.percentage === 2 ?
-                " del 50% " :
-                " de un tercio "
+                " 50% " :
+                " 1/3 "
             }
-          del proyecto "${value.nameProject}" a ${value.client}`}
+          from project "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -241,7 +241,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={() => <RequestPageIcon color="disabled" />}
           title={value.nameProject}
-          text={`Fue facturado a ${value.client}`}
+          text={`Invoiced to ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -256,14 +256,14 @@ const Notification = () => {
           }}
           as="/adminprojects"
           Icon={Charged}
-          title={`Pagó ${value.client}`}
+          title={`Pays ${value.client}`}
           text={`${value?.percentage === 1 ?
-            "El 100% " :
+            " 100% " :
             value?.percentage === 2 ?
-              "El 50% " :
-              "Un tercio "
+              " 50% " :
+              " 1/3 "
             }
-        del proyecto "${value.nameProject}" fue cobrado a ${value.client}`}
+        project "${value.nameProject}" was paid by ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -284,7 +284,7 @@ const Notification = () => {
           }
           as={value.projectID ? "/wallet/projects/" : "/wallet"}
           Icon={() => <Image height={32} width={32} alt="Liquidado" src={SalaryMale} />}
-          title={`Nueva Liquidación`}
+          title={`New Income`}
           text={`Se acreditó tu liquidación ${value?.currency && value?.salarysettlement?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} del proyecto ${value.nameProject} de ${value.client}`}
           keyNoti={key}
           open={value.open}
@@ -444,7 +444,7 @@ const Notification = () => {
                 }
               </ul>
               :
-              <p className="text-base font-bold">No tiene Notificaciones.</p>
+              <p className="text-base font-bold">No Notifications.</p>
           }
         </motion.div>
       </motion.div>

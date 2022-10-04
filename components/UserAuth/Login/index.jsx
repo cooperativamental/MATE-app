@@ -57,16 +57,16 @@ const LogIn = () => {
   return (
     <div className="fixed flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden p-4 z-50 min-w-max min-h-max gap-8" >
 
-      <div className="flex flex-col gap-8 rounded-md">
+      <div className="flex flex-col gap-8 rounded-full">
         <div >
-          <p className='font-bold'>Email address</p>
+          <p className='text-center'>Email address</p>
           <InputSelect
-            placeholder='Correo Electrónico'
+            placeholder='Work Email'
             type="text"
             name="email"
             value={emailPass.email}
             onChange={emailChange}
-            inputStyle={`${errors.email ? "border-red-500" : "border-black"}`}
+            inputStyle={`ring-1 rounded-full caret-slate-100 ${errors.email ? "border-red-500" : "border-black"}`}
           />
           {
             errors.password &&
@@ -74,15 +74,15 @@ const LogIn = () => {
           }
         </div>
         <div>
-          <p className='font-bold'>Password</p>
-          <div className={`flex items-center shadow-md appearance-none border rounded-xl w-full h-16 text-xl ${errors.password ? "border-red-500" : "border-black"}`}>
+          <p className='text-center'>Password</p>
+          <div className={`flex items-center shadow-md appearance-none border rounded-full w-80 h-20 text-xl ring-1 ${errors.password ? "border-red-500" : "border-black"}`}>
             <InputSelect
-              placeholder='Contraseña'
+              placeholder='Password'
               type={visiblePass ? "text" : "password"}
               name="password"
               value={emailPass.password}
               onChange={emailChange}
-              inputStyle={`h-14`}
+              inputStyle={`h-16 ring-1 rounded-full caret-slate-100`}
             />
             <button
               onClick={() => setVisible(!visiblePass)}
@@ -102,16 +102,18 @@ const LogIn = () => {
           }
         </div>
       </div>
-      <button className="bg-transparent text-primary-color" onClick={() => router.push("/resetPass")}>Remember my Password</button>
+      <button className="bg-transparent text-tertiary-color" onClick={() => router.push("/resetPass")}>Remember my Password</button>
       <ComponentButton
         buttonEvent={log}
         buttonText="Sign in"
+        buttonStyle={`mb-4 hover:bg-white hover:text-slate-900`}
       />
       <ComponentButton
         buttonEvent={() => {
           router.push("/register")
         }}
         buttonText="Register"
+        buttonStyle={`mt-8 hover:bg-slate-100 hover:text-slate-900`}
       />
     </div>
 
