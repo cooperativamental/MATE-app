@@ -1,0 +1,85 @@
+@import '../../../../styles/sass/base.scss';
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    background-color: rgba(209, 209, 209, 0.5);
+    transition: 1s;
+    white-space: nowrap;
+    text-align: center;
+    .sidebarOpen{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        border-radius: 0 0 1rem 0;
+        width: 20rem;
+        max-width: 90%;
+        transition: 1s;
+        height: 85%;
+        overflow-x: hidden;
+        color: #999999;
+        box-shadow: 0 0 10px 0 #000000;
+
+        .buttonClose{
+            @include primary-button-p;
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+            color: black;
+        }
+        .titleUser{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 80%
+        }
+        .options{
+            display: flex;
+            flex-direction: column;
+            text-align: initial;
+            padding: 0;
+            width: 17rem;
+            li{
+                list-style: none;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                padding: 0.5rem
+
+            }
+            .selectOption{
+                @extend li;
+                background-color: $primary-selection;
+                color: white;
+            }
+        }
+        .brand{
+            position: absolute;
+            display: flex;
+            bottom: 1rem;
+            align-self: center;
+            white-space: nowrap;
+        }
+    }
+    .sidebarClose{
+        @extend .sidebarOpen;
+        width: 0;
+        max-width: 0;
+        transition: 1s;
+    }
+    button{
+        @include primary-button-p;
+        font-size: 1rem;
+        padding: 0
+    }
+}
+.containerClose{
+    @extend .container;
+    background-color: rgba(209, 209, 209, 0.055);
+    transition: 0.5s;
+}

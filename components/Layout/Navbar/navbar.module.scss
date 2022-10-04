@@ -1,0 +1,50 @@
+@import '../../../styles/sass/base.scss';
+
+.container{
+    // position: fixed;
+    top: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem 0 1rem;
+    height: 3rem;
+    background-color: white;
+    z-index: 100;
+
+    .containerHamburguerMenu{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        .imageOpen{
+            transition: 1s;
+            transform-origin: 50%;
+            max-height: max-content;
+            max-width: max-content;
+        }
+        .imageClose{
+            @extend .imageOpen;
+            transition: 1s;
+            transform: rotate(-180deg);
+            transform-origin: 50%;
+
+        }
+    }
+    .title{
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .titleUser{
+        @extend .title;
+        font-size: 1.2rem;
+        font-weight: 600;
+
+    }
+
+}   

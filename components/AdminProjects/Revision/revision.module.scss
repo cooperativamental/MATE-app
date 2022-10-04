@@ -1,0 +1,40 @@
+@import '../../../styles/sass/base.scss';
+
+
+.cardSalarySettlement{
+    border-radius: 1rem;
+    width: max-content;
+    min-height: 20rem;
+    height: max-content;
+    padding: 1rem;
+    color: honeydew;
+    background-color: $primary-color;
+    .listUsers{
+        display: grid;
+        grid-template-columns: auto ;
+        overflow-y: auto;
+        .cotainerNameUser{
+            display: flex;
+            align-items: center;
+            button{
+                @include primary-button;
+                cursor: pointer;
+                height: 1.5rem;
+                margin-left: 1rem;
+            }
+        }
+        .dropdownNone{
+            opacity: 0;
+            visibility: 0;
+            transition: opacity 0.2s, height 0.5s;
+        }
+        .dropdown{
+            opacity: 1;
+            visibility: 0;
+            transition: opacity 1.5s, height 0.5s;
+        }
+    }
+    button {
+        @include primary-button
+    }
+}

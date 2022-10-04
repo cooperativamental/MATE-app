@@ -1,0 +1,24 @@
+@import '../../styles/sass/base.scss';
+
+.container{
+    width: 80%;
+    .titular{
+        @include division;
+        font-weight: 700
+    }
+    .titularError{
+        @extend .titular;
+        border: solid 1px red
+    }
+    .sendProposal{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        button{
+            @include primary-button;
+            width: 100%;
+            font-weight: 200;
+        }
+    }
+}

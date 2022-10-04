@@ -1,0 +1,127 @@
+@import '../../../../styles/sass/base.scss';
+
+
+// .containerNoti{
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     background-position: center;
+//     height: 2rem;
+    
+//     @media (min-width: 700px) { 
+//         cursor: pointer;
+//     }
+    .count{
+        position: absolute;
+        display: flex;
+        background-color: red;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        top: -0.4rem;
+        right: -0.5rem;
+        justify-content: center;
+        align-items: center;
+    }
+    .container{
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        z-index: 10000;
+        right: 0;
+        top: 0;
+        background-color: rgba(209, 209, 209, 0.5);
+        transition: 1s;
+        .modal{
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 0 0 0 1rem;
+            width: 20rem;
+            max-width: 90%;
+            height: 85%;
+            padding-top: 1rem;
+            box-shadow: 0 0 10px 0 #000000;
+            transition: 1s;
+            .list{
+                list-style: none;
+                overflow-x: hidden;
+                padding-left: 1rem;
+                @include scrollbar(0, 10px);
+                .cardNoti{
+                    position: relative;
+                    margin: 0 1rem 1rem 1rem;
+                    border-left: 6px solid white;
+                    background-color: #d3d3d35b;
+                    display: flex;
+                    width: 17rem;
+                    .icon{
+                        padding: 1rem 1rem 0 1rem;
+                        img{
+                            height: 24px;
+                            width:24px
+                        }
+                    }
+                    .cardBody{
+                        width: 12rem;
+
+                    }
+                    .open{
+                        position: absolute;
+                        height: 0.5rem;
+                        width: .5rem;
+                        top: 1rem;
+                        right: 0.8rem;
+                        border-radius: 50%;
+                        background-color: blue;
+                    }
+                }
+
+            }
+            .buttonClose{
+                @include primary-button-p;
+                position: absolute;
+                left: 0.5rem;
+                top: 0.5rem;
+                color: black;
+            }
+            .options{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                li{
+                    list-style: none;
+                    margin-left: 2rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem
+                }
+                .selectOption{
+                    @extend li;
+                    background-color: $primary-selection;
+                }
+            }
+            .notNotification{
+                text-align: center
+            }
+        }
+        .modalClose{
+            @extend .modal;
+            width: 0;
+            max-width: 0;
+            transition: 1s;
+        }
+   
+    }
+    .containerClose{
+        @extend .container;
+        background-color: rgba(209, 209, 209, 0.055);
+        transition: 0.5s;
+    }
+// }
+
+

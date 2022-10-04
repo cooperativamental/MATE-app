@@ -1,0 +1,71 @@
+@import '../../styles/sass/base.scss';
+
+
+    .division{
+        @include division;
+        .totalNeto{
+            font-weight: 700;
+        }
+    }
+    .listPartners{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+        width: 100%;
+        margin-bottom: 1rem;
+        @include scrollbar(0, 10px);
+        
+        .partner{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: solid 2px #727272;
+            border-top: solid 2px #727272;
+
+            margin: .5rem 0 1rem 0;
+            width: 100%;
+            padding: .5rem 0 .5rem 0;
+            .fullName{
+                font-size: 1.2rem;
+                font-weight: 600;
+                width: 90%;
+            }
+            .contentPartner{
+                @extend .division;
+                font-size: 1rem;
+                border-bottom: none
+
+            }
+        }
+        .confirmRevision{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1rem; 
+            .confirm{
+                @include primary-button;
+                font-size: 1.2rem;
+                height: 3rem;
+            }
+            .revision{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                p{
+                    text-align: center;
+                    color: #929292
+                }
+                input{
+                    @include input
+                }
+                button{
+                    @include primary-button;
+                    margin-top: 1rem;
+                    width: 60%;
+                    height: 2rem;
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }

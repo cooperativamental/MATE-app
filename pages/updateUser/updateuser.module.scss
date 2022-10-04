@@ -1,0 +1,16 @@
+@import '../../styles/sass/base';
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    @include scrollbar(0, 10px);
+    .buttonBack{
+        @include buttonBack;
+        left: 2rem;
+    }
+}

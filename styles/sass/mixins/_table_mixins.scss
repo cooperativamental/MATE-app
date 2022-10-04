@@ -1,0 +1,19 @@
+@mixin table{
+  border-collapse: collapse;
+  border-spacing: 0px 1px;
+  width: 100%;
+  text-align: center;
+  text-transform: capitalize;
+
+  th{
+    color: #6b6b6b99;
+    font-weight: 500;
+  }
+  tr{
+      height: 2rem;
+      border-bottom: solid 1px #21212114;
+      @media (min-width: 750px) {
+        height: 5rem;
+      }
+    }  
+}

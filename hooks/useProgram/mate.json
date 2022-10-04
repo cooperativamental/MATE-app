@@ -1,0 +1,235 @@
+{
+  "version": "0.1.0",
+  "name": "mate",
+  "instructions": [
+    {
+      "name": "createGroup",
+      "accounts": [
+        {
+          "name": "group",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "ratio",
+          "type": "u16"
+        },
+        {
+          "name": "members",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createProject",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "group",
+          "type": "string"
+        },
+        {
+          "name": "projectType",
+          "type": "string"
+        },
+        {
+          "name": "ratio",
+          "type": "u16"
+        },
+        {
+          "name": "payments",
+          "type": {
+            "vec": {
+              "defined": "Payment"
+            }
+          }
+        },
+        {
+          "name": "next",
+          "type": "string"
+        },
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "startDate",
+          "type": "u64"
+        },
+        {
+          "name": "endDate",
+          "type": "u64"
+        },
+        {
+          "name": "client",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Group",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "ratio",
+            "type": "u16"
+          },
+          {
+            "name": "members",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Project",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "group",
+            "type": "string"
+          },
+          {
+            "name": "projectType",
+            "type": "string"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "ratio",
+            "type": "u16"
+          },
+          {
+            "name": "payments",
+            "type": {
+              "vec": {
+                "defined": "Payment"
+              }
+            }
+          },
+          {
+            "name": "currency",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "startDate",
+            "type": "u64"
+          },
+          {
+            "name": "endDate",
+            "type": "u64"
+          },
+          {
+            "name": "client",
+            "type": "publicKey"
+          },
+          {
+            "name": "next",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Payment",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "member",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "address": "6VdcN2k1Fm2S5EpGxvXHggDoCwRCqt9XT8u8jNxJaNmw"
+  }
+}

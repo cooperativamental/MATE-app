@@ -1,0 +1,10 @@
+@mixin division{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    border-bottom: solid 2px $primary-grey ;
+    font-size: 1.3rem;
+    overflow-x: auto;
+    justify-items:center;
+    @include scrollbar(10px, 0);
+}

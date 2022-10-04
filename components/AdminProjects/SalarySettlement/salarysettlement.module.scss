@@ -1,0 +1,135 @@
+@import '../../../styles/sass/base.scss';
+
+
+    .division{
+        @include division;
+        margin: 1rem 0 1rem 0;
+        .totalNeto{
+            font-weight: 700;
+        }
+        .nameProject{
+            font-weight: 600
+        }
+    }
+    .input{
+        @include input
+    }
+    .contentThird{
+        @include division;
+        width: 100%;
+        margin: 1rem 0 1rem 0;
+        input{
+            @include input
+        }
+    }
+    .inputSalarySettlement{
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+    .available{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        span{
+            width: 90%;
+            text-align: left;
+        }
+
+    }
+
+    .listUsers{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        h2{
+            margin: 0;
+        }
+        select{
+         @include input   
+        }
+        .containerUser{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+            .infoUser{
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+
+                .divisionUser{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                input{
+                    @include input
+                }
+                .errorInput{
+                    @extend input;
+                    border-color: red;
+                    border-width: 3px;
+                }
+            }
+            .btnDropdown{
+                background-color: transparent;
+                border-bottom: solid 2px black;
+                border-right: solid 2px black;
+                border-radius: 0;
+                transform: rotate(-45deg);
+                height: 1rem;
+                width: 1rem;
+            }
+        }
+        .dropdownNone{
+            opacity: 0;
+            visibility: 0;
+            transition: opacity 0.2s, height 0.5s;
+        }
+        .dropdown{
+            opacity: 1;
+            visibility: 0;
+            transition: opacity 1.5s, height 0.5s;
+        }
+        .cardPartner{
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem;
+            margin-top: 2rem;
+            background-color: $primary-grey;
+            border-radius: 0.5rem;
+            .titleCard{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem;
+                font-size: 1.5rem;
+                border-radius: 0.5rem;
+                background-color: #0000002d;
+                margin-bottom: 0.5rem;
+                button{
+                    font-size: 1rem;
+                    border-radius: 50%;
+                    background-color: black;
+                    height: 1.5rem;
+                    width: 1.5rem;
+                }
+            }
+            input{
+                @include input
+            }
+            span{
+                color: #727272
+            }
+        }
+    }
+    .btnConfirm{
+        height: 4rem;
+        margin: 3rem 0 3rem 0;
+    }
+    .disabled{
+        @include button-disabled 
+    }

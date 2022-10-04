@@ -1,0 +1,28 @@
+@mixin scrollbar($height, $width) {
+&::-webkit-scrollbar {
+    height: $height;
+    width: $width;
+    transition: all 1s;
+    padding-top: 1rem;
+  }
+  
+  /* Track */
+// &::-webkit-scrollbar-track {
+//     box-shadow: inset 0 0 5px grey; 
+//     border-radius: 1px;
+//     border: 5px solid transparent;
+// }
+
+/* Handle */
+&::-webkit-scrollbar-thumb {
+    background: #D9D4BA; 
+    border-radius: 10px;
+    border-radius: 10px;
+    width: 20%;
+}
+
+/* Handle on hover */
+&::-webkit-scrollbar-thumb:hover {
+    background:  rgb(78, 82, 83);    
+}
+}

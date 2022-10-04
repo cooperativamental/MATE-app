@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-weight: 200;
+  caret-color: transparent;
+  background-color: #0f172a;
+  height: 100vh;
+  color: white
+}
+
+input{
+  caret-color: black;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+@layer components {
+  .btn {
+    @apply font-medium text-xl px-6 justify-center items-center rounded-lg shadow-sm w-max min-w-max h-14 text-white ring-1 ring-slate-400
+  }
+  .btn-back{
+    @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-0 rounded-full border-2 border-[#5A31E1]
+  }
+}

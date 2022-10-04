@@ -1,0 +1,189 @@
+@import '../../styles/sass/base.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .header {
+        display: grid;
+        justify-items: center;
+        grid-template-rows: min-content auto;
+
+        .cardBalance {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 1rem;
+            height: min-content;
+            margin-top: 1rem;
+            .balance{ 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                width: 100%;
+                h1{
+                    font-weight: 400;
+                    margin: 0;
+                    font-size: 3.50rem  ;
+                } 
+                span{
+                    margin: 0;
+                }      
+            } 
+            .containerAmountProjects{
+                display: flex;
+                width: 90%;
+                height: min-content;
+                justify-content: center;
+                align-items: center;
+                margin: 1rem 0 1rem 0;  
+                .amountProjects{                   
+                    height: min-content;
+                    align-items: center;
+                    justify-content: center;
+
+                    p {
+                        font-size: 1rem;
+                        font-weight: 900;
+                        text-align: center;
+                    }
+                }
+
+                .countProjects {
+                    display: grid;
+                    grid-template-rows: auto 0.5rem;
+                    height: 100%;
+                    flex-direction: column;
+                    align-items: center;
+
+                    p {
+                        font-weight: 700;
+                        font-size: 2rem;
+                        margin: 0;
+                        text-align: center;
+                    }
+
+                    span {
+                        justify-content: center;
+                        margin: 0;
+                        font-size: 0.7rem;
+                        color: #00000099;
+                    }
+                }
+            }
+
+            span {
+                font-weight: 400;
+                margin: 1rem;
+            }
+
+            .btnHomeUser {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1.5rem;
+                width: 100%;
+
+                .btnWithdraw {
+                    @include primary-button;
+                    // width: 80%;
+                    // height: 3rem;
+                    // margin: 1rem 0 1rem 0;
+                    // font-size: 1.2rem;
+                    // font-weight: 600;
+                }
+
+                .btnnMovePrj {
+                    width: 100%;
+                    margin-top: 1rem;
+
+                    .btnMovements {
+                        @include primary-button;
+                        font-weight: normal;
+                        height: 3rem;
+                        width: 50%;
+                        font-size: 1.2rem;
+                        border-radius: 0.5rem 0 0 0.5rem;
+                        padding: 0 2rem 0 1rem;
+                        margin: 0;
+                        background-color: $secondary-color-button;
+                    }
+
+                    .btnProjects {
+                        @include primary-button;
+                        font-weight: normal;
+                        height: 3rem;
+                        width: 50%;
+                        margin: 0;
+                        font-size: 1.2rem;
+                        border-radius: 0 0.5rem 0.5rem 0;
+                        padding: 0 1rem 0 2rem;
+                        background-color: $tertiary-color-button;
+                        font-weight: 500;
+                        color: grey;
+                    }
+                }
+            }
+        }
+
+        .cards {
+            display: flex;
+            height: min-content;
+            width: min-content;
+        }
+
+
+        .hideCards {
+            @extend .cards;
+
+            border-radius: 1rem;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            transition: visibility 1s, margin 1s, height 1s
+        }
+
+    }
+
+    .containerTools {
+        display: flex;
+        justify-content: center;
+        height: 20rem;
+
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        // background-color: $primary-color;
+        // border-radius: 1rem;
+        // width: 100%;
+        // padding: 1rem;
+        .cardTools {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            overflow-y: scroll;
+            background-color: $primary-color;
+            border-radius: 1rem;
+            padding: 1rem;
+            height: min-content;
+            max-height: 25rem;
+            width: 20rem;
+            transition: width 1s, height 1s, opacity 0.5s;
+            @include scrollbar(0, 10px)
+        }
+
+        .cardToolsHidden {
+            @extend .cardTools;
+            padding: 0;
+            width: 0;
+            opacity: 0;
+            transition: width 1s, height 1s, opacity 0.5s;
+        }
+    }
+}

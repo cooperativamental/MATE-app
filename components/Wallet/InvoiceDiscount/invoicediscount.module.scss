@@ -1,0 +1,100 @@
+@import '../../styles/sass/base.scss';
+
+
+.buttonFilter{
+    display: flex;
+    position: relative;
+    height: 1.5rem;
+    margin-top: 1rem;
+    justify-self: flex-end;
+    justify-content: center;
+    align-items: center;
+    @media (min-width: 700px) { 
+      cursor: pointer;
+    }
+    .count{
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        top: -0.2rem;
+        left: 1rem;
+        justify-content: center;
+        caret-color: transparent;
+        align-items: center;
+    }
+    .visibleModal{
+        z-index: 1000;
+        position: absolute;
+        overflow-y: auto;
+        border-top: none;
+        cursor: default;
+        box-shadow: 0 0 15px 0 $primary-grey;
+        width: 15rem;
+        top: 105%;
+        height: 12rem;
+        max-height: max-content;
+        right: 0;
+        background-color: white;
+        border-radius: 1rem;
+        padding: 1rem;
+        transition: height 1s, opacity 0.5s;
+        @include scrollbar(0, 5px);
+        .filterClear{
+          color: red;
+          border: none;
+          margin-bottom: 1rem;
+          background-color: transparent;
+          @media (min-width: 700px) { 
+            cursor: pointer;
+          }
+        }
+        .optionFilter{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: $primary-grey;
+          padding: 0.5rem 1rem 0.5rem 1rem;
+          border-radius: 0.5rem;
+          p{
+            margin: 0
+          }
+          .dropdownFilter{
+            border: none;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            margin: 0;
+            height: 1rem;
+            width: 1rem;
+            background-color: transparent;
+            transition: 1s;
+            transform: rotate(135deg);
+
+            @media (min-width: 600px) { 
+              cursor: pointer;
+            }
+          }
+          .dropdownFilterNone{
+            @extend .dropdownFilter;
+
+            transform: rotate(45deg);
+            transition: 1s
+          }
+        }
+        .listFilter{
+          padding: 0;
+          li{
+            padding: 0 0 0 0.5rem;
+            margin-bottom: 0.5rem;
+            @include division
+          }
+          list-style: none;
+        }
+    }
+    .invisibleModal{
+        @extend .visibleModal;
+        height: 0;
+        opacity:  0;
+        @include scrollbar(0, 10px)
+    }
+  }

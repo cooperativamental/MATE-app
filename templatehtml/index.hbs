@@ -1,0 +1,71 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <table style="width: 65%;
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px;
+    border: solid 1px #64798f1f;
+    padding: 0;
+    border-collapse: collapse;
+    ">
+        <tr>
+            <td align="center" style="background-color: #5A31E1; height: 3rem;">
+                <h4 style="width: max-content; margin: 0; color:white">
+                    Mate
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td style="display: flex; width: 100%; justify-content: center; ">
+                <table style="width: 100%">
+                    <tbody style="width: 100%">
+                        <tr style="display: flex; width: 100%;">
+                            <td style="width: 100%;">
+                                <p style="text-align: center;">
+                                    Hi, {{ to.name }}
+                                </p>
+                            </td>
+                        </tr>
+                        <br>
+                        <tr style="margin-left: auto; margin-right: auto;  padding: 2rem">
+                            <td style="text-align: center;
+                                        width: 100%;
+                                        margin-left: auto;
+                                        margin-right: auto;
+                                        ">
+                                {{#each text}}
+                                <h2 style="margin: 0;">
+                                    {{this}}
+                                </h2>
+                                {{/each}}
+                            </td>
+                        </tr>
+                        <br>
+                        <tr style=" width: 100%">
+                            <td style="width: 100%; text-align: center;">
+                                {{link "Launch App" url}}
+                            </td>
+                        </tr>
+                        <tr style=" width: 100%">
+                            <td style="width: 100%; text-align: center;">
+                               If button don´t working: {{url}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <br>
+    </table>
+    </div>
+</body>
+
+</html>

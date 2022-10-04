@@ -1,0 +1,16 @@
+@import '../../styles/sass/base.scss';
+
+
+  .list{
+    @include table;
+    text-transform: capitalize;
+    .selected{
+      background-color: $primary-selection;
+    }
+    .client{
+      color: #a09e9e;
+    }
+    .status{
+      font-weight: 600;
+    }
+  }

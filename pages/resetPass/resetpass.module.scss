@@ -1,0 +1,14 @@
+@import '../../styles/sass/base';
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    .buttonBack{
+        @include buttonBack;
+        top: 2rem !important;
+        left: 2rem !important;
+    }
+}

@@ -1,0 +1,17 @@
+@import '../../../styles/sass/base';
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    text-align: center;
+    input{
+        @include input;
+    }
+    button{
+        @include primary-button;
+        margin-top: 2rem
+    }
+}

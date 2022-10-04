@@ -1,0 +1,10 @@
+@import '../../styles/sass/base';
+
+.pageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}

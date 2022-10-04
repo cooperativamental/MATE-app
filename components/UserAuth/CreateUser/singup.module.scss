@@ -1,0 +1,25 @@
+@import '../../../styles/sass/base';
+
+.signup{
+  background-color: $secondary-color;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  .title{
+      text-align: center;
+      font-weight: bold;
+      font-size: 2rem; 
+  }
+  button{
+      @include primary-button;
+  }
+  a{
+      text-decoration: whitesmoke solid underline;
+  }
+ a:hover{
+      text-decoration: whitesmoke solid  ;
+  }
+}

@@ -1,0 +1,41 @@
+@import '../../../styles/sass/base.scss';
+
+
+    .division{
+        @include division;
+        .totalNeto{
+            font-weight: 700;
+        }
+    }
+    .listPartners{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+        width: 100%;
+        margin-bottom: 1rem;
+        @include scrollbar(0, 10px);
+        .partner{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: solid 2px $primary-grey;
+            border-top: solid 2px $primary-grey;
+            margin: .5rem 0 .5rem 0;
+            width: 100%;
+            .fullName{
+                font-size: 1.2rem;
+                font-weight: 600;
+                width: 90%;
+            }
+            .contentPartner{
+                @extend .division;
+                font-size: 1rem;
+                border-bottom: none
+
+            }
+        }
+    }
+    .disabled{
+        @include button-disabled
+    }

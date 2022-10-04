@@ -1,0 +1,46 @@
+@import '../../../styles/sass/base';
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 80%;
+        align-items: center;
+        .login{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            input{
+                @include input;
+            }
+    
+            .inputPass{
+                @include input;
+                display: flex;
+                padding: 0;
+                align-items: center;
+                input{
+                    border: none;
+                    margin: 0;
+                    height: 90%;
+                }
+                .error{
+                    @extend .content;
+                    border-radius: .5rem;
+                    border: solid 1px red
+                }
+                button{
+                    background-color: transparent;
+                    border: none
+                }
+            }
+        }
+        .btn{
+            @include primary-button;
+            height: 3rem;
+        }
+        .btnP{
+            @include primary-button-p;
+            color: $primary-color
+        }
+    }

@@ -1,0 +1,12 @@
+@import '../../../styles/sass/base.scss';
+
+.cardInfoPrj {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    width: 80%;
+}
+.buttonBack {
+    @include buttonBack
+}

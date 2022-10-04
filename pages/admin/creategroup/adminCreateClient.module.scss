@@ -1,0 +1,12 @@
+@import '../../../styles/sass/base';
+
+.content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 3rem);
+    width: 100%;
+    overflow-y: auto;
+    align-items: center;
+    padding: 1rem;
+    @include scrollbar(0, 10px);
+}

@@ -1,0 +1,26 @@
+@import '../../../styles/sass/base.scss';
+
+.container{
+    height: 5.30rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    box-shadow: 0px 0px 40px #00000040;
+    background-color: #fff;
+    z-index: 100;
+    cursor: pointer;
+    .content{
+        display: grid;
+        grid-template-rows: auto 1fr;
+        justify-items: center;
+        align-items: center;
+        text-align: center;
+        padding: 0.5rem 0.5rem 0 0.5rem;
+        p{
+            margin: 0;
+        }
+    }
+    .border{
+        border-top: solid 2px $primary-color;
+    }
+}

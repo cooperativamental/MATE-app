@@ -1,0 +1,61 @@
+@import '../../../styles/sass/base.scss';
+
+.container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .btnMove{
+        margin-top: 1rem;
+        width: 50%;
+        display: flex;
+        .btnIncome{
+            @include primary-button;
+            font-weight: normal;
+            height: 3rem;
+            width: 50%;
+            font-size: 1.2rem;
+            border-radius: 0.5rem 0 0 0.5rem;
+            background-color: $secondary-color-button; 
+            color: white;
+            margin: 0
+        }
+        .btnIncomeNoSelect{
+            @extend .btnIncome;
+            background-color: #0000001F; 
+            color: black;
+            margin: 0
+        }
+        .btnWithdraw{
+            @include primary-button;
+            font-weight: normal;
+            height: 3rem;
+            width: 50%;
+            font-size: 1.2rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            background-color: $secondary-color-button; 
+            font-weight: 500;
+            color: white;
+            margin: 0
+        }
+        .btnWithdrawNoSelect{
+            @extend .btnWithdraw;
+            background-color: #0000001F; 
+            color: black;
+            margin: 0
+        }
+    }
+
+    tbody{
+        display: block;
+        height: calc(100vh - 16rem);
+        overflow-y: auto;
+        @include scrollbar(0, 10px);
+
+    }
+    thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;/* even columns width , fix width of table too*/
+    }
+}

@@ -1,0 +1,48 @@
+@import '../../styles/sass/base';
+
+.headButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+    gap: 0.5rem;
+    min-height: 3rem;
+    margin-bottom: 2rem;
+    .btnClient {
+        @include primary-button;
+        background-color: $primary-color;
+        min-width: 131px;
+        font-size: 1rem;
+        border-radius: 1rem;
+        margin: 0
+    }
+
+    .btnProjects {
+        @include primary-button;
+        min-width: 131px;
+        background-color: $secondary-color;
+        font-size: 1rem;
+        border-radius: 1rem;
+        margin: 0
+    }
+
+    .btnTransferences {
+        @include primary-button;
+        min-width: 131px;
+        background-color: $tertiary-color;
+        font-size: 1rem;
+        color: black;
+        border-radius: 1rem;
+        margin: 0
+    }
+
+    .btnCurrencyConversion {
+        @include primary-button;
+        background-color: #1b63d6;
+        min-width: 131px;
+        font-size: 1rem;
+        border-radius: 1rem;
+        margin: 0
+    }
+}

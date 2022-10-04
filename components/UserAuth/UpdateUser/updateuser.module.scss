@@ -1,0 +1,57 @@
+@import '../../../styles/sass/base';
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    .form{
+        display: flex;
+        flex-direction: column;
+        margin: 1rem;
+        letter-spacing: 0.149rem;
+        label{
+            display: inline-block;
+            font-weight: 800;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        input{
+            @include input
+        }
+        p{
+            margin: 0;
+            letter-spacing: 0;
+            margin: 0.5rem 0 0 1rem;
+        }
+    }
+    button{
+        @include primary-button;
+        margin-top: 2rem
+    }
+    .inputPass{
+        @include input;
+        display: flex;
+        padding: 0;
+        align-items: center;
+        margin-top: 2rem;
+        input{
+            padding-left: 0.5rem;
+            border: none;
+            margin: 0;
+            height: 90%;
+            width: 90%;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        button{
+            margin: 0 0.5rem 0 0;
+            background-color: transparent;
+            border: none
+        }
+    }
+    .inputError{
+        @extend .inputPass;
+        border: red solid 2px
+    }
+}

@@ -1,0 +1,194 @@
+@import '../../../styles/sass/base.scss';
+
+.container{
+    position: fixed;
+    z-index: 10000;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    background-color: #949191B2;
+    transition:  1s;
+
+    .content{
+        position: fixed;
+        z-index: 1000;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 1rem 1rem 0 0;
+        background-color: white;
+        overflow-y: hidden;
+        color: #999999;
+        white-space: nowrap;
+        max-height: 80%;
+        height: 32rem;
+        width: 100%;
+        transition: 1s;
+        @include scrollbar(0, 10px);
+        .closes{
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 2rem;
+            width: 100%;
+            .slideClose{
+                position: absolute;
+                background-color: black;
+                height: 4px;
+                width: 5rem;
+                left: calc(50% - 2.5rem);
+                color: black;
+            }
+            .buttonClose{
+                position: absolute;
+                background-color: transparent;
+                border: none;
+                right: 1rem;
+                font-size: 2rem;
+                color: black;
+            }
+        }
+
+        .cardRetiremet{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 80%;
+            height: calc(100% - 2rem);
+            gap: .5rem;
+            // word-wrap: break-word;
+            .containerAmountWithdraw{
+                width: 80%;
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                div:first-child {
+                    width: 100%;
+                }
+            }
+            .disabled{
+                @include button-disabled
+            }
+            input, select{
+                @include input;
+                width: 100%;
+            }
+            select{
+                font-size: 1em
+            }
+            label{
+                width: 80%;
+                font-size: 1.2rem;
+                text-align: center;
+                white-space: break-spaces;;
+            }
+            .addFile{
+                @include input;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+                font-size: 1.2rem;
+                margin-top: 1rem;
+                max-width: 80%;
+                font-weight: 600;
+                color: black;
+            }
+            input[type="file"] {
+                display: none;
+            }
+            .subtitle{
+                font-size: 0.9rem;
+                margin: 0;
+            }
+            .containerImg{
+                display: flex;
+                height: 8rem;
+                max-width: 100%;
+                overflow-y: auto;
+                @include scrollbar(0, 10px);
+                h4{
+                    margin: 0
+                }
+            }            
+
+            button{
+                @include primary-button;
+                height: 3rem;
+            }
+            .modal{
+                position:fixed;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(128, 128, 128, 0.671);
+                top:0;
+                left:0;  
+                height: 100vh;
+                width: 100vw;
+                z-index: 10;
+                .modalContent{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                    text-align: center;
+                    border-radius: 1rem;
+                    background-color: white;
+                    width: 80%;
+                    .bodyModal{
+                        width: 80%;
+                        text-align: start;
+                        span{
+                            white-space: normal;
+                        }
+
+                    }
+                    .containerButton{
+                        display: flex;
+                        width: 100%;
+                        justify-content: flex-end;
+                        color: $primary-color;
+                        margin-top: 2rem;
+                        margin-right: 1rem;
+                        button{
+                            @include primary-button-p;
+                            font-weight: lighter;
+                            color: $primary-color
+                        }
+
+                    }
+                }
+                .progress{
+                    margin: 2rem 0 2rem 0;
+                }
+            }
+        }
+        .error{
+            border: solid 1px red !important;
+            border-radius: 1rem;
+            padding: 0.5rem !important;
+            box-shadow: 0 0 10px #719ECE;
+            &:focus{
+                outline: none !important;
+                border: solid 1px red !important;
+
+            }
+        }
+    }
+    .contentClose{
+        @extend .content;
+        height: 0;
+        transition: 1s;
+    }
+}
+.containerClose{
+    @extend .container;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.041);
+    transition:  1s;
+}
