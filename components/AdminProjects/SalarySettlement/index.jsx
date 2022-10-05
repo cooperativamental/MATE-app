@@ -249,7 +249,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
                                   email: valuePartner.email
                                 },
                                 subject: `Nueva Liquidación`,
-                                redirect: `${host}/wallet/projects/${keyPrj}`,
+                                redirect: `${host}/projects/${keyPrj}`,
                                 text: [
                                   `Se acreditó tu liquidación de ${project.currency} ${valuePartner.amount}`,
                                   `del proyecto ${project.nameProject} de ${cliName}`

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import Projects from "../../../components/Projects";
+import Projects from "../../components/Projects";
 
 import { getDatabase, ref, query, get } from "firebase/database";
-import { useAuth } from "../../../context/auth";
+import { useAuth } from "../../context/auth";
 
 import styles from "./projects.module.scss";
 
