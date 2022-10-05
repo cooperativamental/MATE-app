@@ -79,7 +79,7 @@ const CreateProject = () => {
         return new Promise((resolve, reject) => {
           set(ref(db, "users/" + key + "/projects/" + keyProject), {
             amount: valuePartner?.amount,
-            status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+            status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMED",
             createdAt: serverTimestamp(),
           })
             .then((snapshot) => {

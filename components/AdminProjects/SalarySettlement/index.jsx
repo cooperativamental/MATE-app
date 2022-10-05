@@ -281,7 +281,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
         [uid]: {
           amount: Number(e.target.value),
           fullName: partner.fullName,
-          status: "CONFIRMATED"
+          status: "CONFIRMED"
         }
       }
     })

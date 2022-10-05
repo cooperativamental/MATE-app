@@ -54,6 +54,7 @@ const Navbar = () => {
           </Link> */}
         </div>
         <div className='flex mr-4 gap-2'>
+        <WalletMultiButton />
           {/* <div
             className='flex justify-center items-center cursor-pointer'
             onClick={() => { handleOpeners("withdraw") }

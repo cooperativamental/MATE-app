@@ -39,7 +39,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             let confirm = false
             const partners = Object.entries(res.val().partners)
             partners.forEach(([key, value]: any) => {
-              if (value.status !== "CONFIRMATED") {
+              if (value.status !== "CONFIRMED") {
                 confirm = true;
               }
             })
