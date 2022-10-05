@@ -64,6 +64,17 @@ const CreateClient = () => {
     }
   };
 
+  useEffect(()=> {
+console.log(    Object.values(clientReg).includes(value => {
+      return !value
+    }))
+    if(Object.values(clientReg).includes(value => {
+      return !value
+    })){
+      console.log("vacio")
+    }
+  },[clientReg])
+
   const createClient = async () => {
 
     await addDoc(collection(firestore, "clients"), {
