@@ -106,11 +106,12 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
             }
         })
-        setAvailable(project?.totalNeto - project?.thirdParties?.amount - amountTotalPartners - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))
+        setAvailable((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners)
+        
         setErrors({
             thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
-            available: (project?.totalNeto - project?.thirdParties?.amount - amountTotalPartners - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) < 0,
-            // totalPartners: (Number((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))).toFixed(2)) - Number(amountTotalPartners.toFixed(2))) != 0,
+            available: ((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners) < 0,
+            totalPartners: (project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)) - amountTotalPartners) != 0,
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
 
