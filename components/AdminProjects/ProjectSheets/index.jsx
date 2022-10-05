@@ -71,7 +71,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                 } else if (value.status === "REVISION_PARTNER") {
                                     status = "Revision"
                                 } else {
-                                    status = "Summoned"
+                                    status = "Invited"
                                 }
                                 return (
                                     <div key={userId} className="flex flex-col w-full justify-between gap-4 bg-slate-500 p-8 rounded-md">
