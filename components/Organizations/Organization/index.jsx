@@ -81,7 +81,7 @@ const Organization = () => {
             (async () => {
                 const resOrganizationWeb3 = await program?.account?.group.all()
                 const organizationQuery = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === router.query.organization)
-                console.log(organizationQuery.publicKey.toBase58())
+
                 const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("organization", "array-contains", organizationQuery?.publicKey?.toBase58())),
                     (resUsers) => {
                         let users = {}

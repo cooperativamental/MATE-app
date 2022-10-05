@@ -27,7 +27,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
 
   useEffect(() => {
     if (user && organization) {
-
+      console.log(organization)
       getDocs(query(collection(firestore, "clients"), where("organizations", "==", organization)))
         .then(querySnapshot => {
           let dataClient = null
