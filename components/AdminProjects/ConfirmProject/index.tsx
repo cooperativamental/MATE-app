@@ -57,13 +57,11 @@ const ConfirmProject = ({ keyProject, project }) => {
                 wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58(),
                 confirm
               }
-              console.log("set", newState)
               return newState
             })
           }
         }
       })
-
       return () => {
         unsubscribe()
       }
