@@ -144,12 +144,12 @@ const Notification = () => {
       new_project:
         <CardListNotification
           href={{
-            pathname: "/wallet/projects/[id]",
+            pathname: "/projects/[id]",
             query: {
               id: value.projectID
             }
           }}
-          as="/wallet/projects"
+          as="/projects"
           Icon={() => <GroupsIcon color="disabled" />}
           title={value.projectHolder}
           text={`Te convoca a participar de "${value.nameProject}" para ${value.client}`}
@@ -177,12 +177,12 @@ const Notification = () => {
       revision_confirm:
         <CardListNotification
           href={{
-            pathname: "/wallet/projects/[id]",
+            pathname: "/projects/[id]",
             query: {
               id: value.projectID
             }
           }}
-          as="/wallet/projects/"
+          as="/projects/"
           Icon={() => <Image height={32} width={32} src={Approve} alt="Revision confirmada" />}
           title={`El titular ${value.projectHolder}`}
           text={`Realizo la revision del monto asignado en el proyecto "${value.nameProject}" para ${value.client}`}
@@ -273,7 +273,7 @@ const Notification = () => {
           href={
             value.projectID ?
               {
-                pathname: "/wallet/projects/[id]",
+                pathname: "/projects/[id]",
 
                 query: {
                   id: value.projectID
@@ -282,7 +282,7 @@ const Notification = () => {
               :
               "/wallet"
           }
-          as={value.projectID ? "/wallet/projects/" : "/wallet"}
+          as={value.projectID ? "/projects/" : "/wallet"}
           Icon={() => <Image height={32} width={32} alt="Liquidado" src={SalaryMale} />}
           title={`Nueva Liquidación`}
           text={`Se acreditó tu liquidación ${value?.currency && value?.salarysettlement?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} del proyecto ${value.nameProject} de ${value.client}`}

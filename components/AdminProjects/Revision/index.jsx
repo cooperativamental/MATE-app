@@ -92,7 +92,7 @@ const RevisionPartners = ({ keyProject, project }) => {
                       email: project.partners[key].email
                     },
                     subject: `El titular ${projOwn} confirma la revisión`,
-                    redirect: `${host}/wallet/projects/${value.projectID}`,
+                    redirect: `${host}/projects/${value.projectID}`,
                     text: [
                       `${project.partners[key].fullName}`,
                       `Se realizo una nueva propuesta por ${revisionPartners?.[key]}`,

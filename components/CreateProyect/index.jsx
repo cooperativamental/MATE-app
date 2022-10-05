@@ -113,7 +113,7 @@ const CreateProject = () => {
                           email: valuePartner.email
                         },
                         subject: "You have been called to a new project",
-                        redirect: `${host}/wallet/projects/${keyProject}`,
+                        redirect: `${host}/projects/${keyProject}`,
                         text: [
                           `Member: ${user.fullName},`,
                           `Calls you for the project ${project.nameProject} for ${cliName}.`
