@@ -54,12 +54,12 @@ const CallProject = ({ selected }) => {
 
   const comfirmProject = () => {
     update(ref(db, `projects/${selected}/partners/${user.uid}`), {
-      status: "CONFIRMATED",
+      status: "CONFIRMED",
       wallet: selectWallet
     })
       .then((res) => {
         update(ref(db, `users/${user.uid}/projects/${selected}`), {
-          status: "CONFIRMATED",
+          status: "CONFIRMED",
           wallet: selectWallet
         }).then(res => {
           const pushNoti = push(ref(db, `notifications/${Object.keys(project.projectHolder).map(key => key)}`))

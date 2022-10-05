@@ -76,10 +76,9 @@ const AdminProjects = ({ organization, prj }) => {
 
       />,
     collect_call:
-      <ConfirmCall
-        project={project}
+      <ProjectSheets
         keyProject={keyProject}
-
+        project={project}
       />
     ,
     bill_collected:

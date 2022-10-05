@@ -72,22 +72,24 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     get(query(ref(db, `wallet/${user?.uid}`)))
                         .then(res => {
                             const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
+                            console.log(findOrganization, convertWalletsInOrganization)
                             const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
                             // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
+                            console.log(filterWalletInOrganization[0]?.publicKey)
                             setProject({
                                 ...project,
                                 partners: {
                                     ...project.partners,
                                     [user.uid]: {
                                         ...project.partners[user.uid],
-                                        wallet: filterWalletInOrganization[0].publicKey
+                                        wallet: filterWalletInOrganization[0]?.publicKey
                                     }
                                 },
                                 projectHolder: {
                                     ...project.projectHolder,
                                     [user.uid]: {
                                         ...project.projectHolder[user.uid],
-                                        wallet: filterWalletInOrganization[0].publicKey
+                                        wallet: filterWalletInOrganization[0]?.publicKey
                                     }
                                 }
                             })
@@ -147,7 +149,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         [data.uid]: {
                             ...project.partners[data.uid],
                             fullName: data.partner.fullName,
-                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             percentage: value,
                             amount: (value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100,
                             email: data.partner.email,
@@ -165,7 +167,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             fullName: data.partner.fullName,
                             amount: value,
                             percentage: (value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100,
-                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             email: data.partner.email,
                         }
                     }

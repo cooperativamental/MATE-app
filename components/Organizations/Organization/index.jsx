@@ -4,8 +4,8 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 
 import { useAuth } from "../../../context/auth"
-import { equalTo, get, getDatabase, ref, orderByChild } from "firebase/database"
-import { getDocs, query, collection, getDoc, updateDoc, doc, where, query as queryFirestore, arrayUnion, onSnapshot } from "firebase/firestore"
+import { equalTo, get, getDatabase, ref, orderByChild, query } from "firebase/database"
+import { getDocs, collection, getDoc, updateDoc, doc, where, query as queryFirestore, arrayUnion, onSnapshot } from "firebase/firestore"
 
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { useConnection } from "@solana/wallet-adapter-react"
@@ -81,7 +81,8 @@ const Organization = () => {
             (async () => {
                 const resOrganizationWeb3 = await program?.account?.group.all()
                 const organizationQuery = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === router.query.organization)
-                const unSubscribeSnapshot = onSnapshot(query(collection(firestore, "users"), where("organization", "array-contains", organizationQuery?.publicKey?.toBase58())),
+                console.log(organizationQuery.publicKey.toBase58())
+                const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("organization", "array-contains", organizationQuery?.publicKey?.toBase58())),
                     (resUsers) => {
                         let users = {}
 
