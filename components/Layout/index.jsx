@@ -7,6 +7,8 @@ import CurrencyConversion from "./CurrencyConversion"
 import Navbar from "./Navbar";
 import BottomBar from "./BottomBar"
 import Withdraw from "./Withdraw";
+import PopUp from "../PopUp"
+
 import { useBalance } from "../../context/contextBalance";
 import { AnimatePresence } from "framer-motion";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
@@ -47,6 +49,11 @@ const Layout = ({ children }) => {
 
   return (
     <>
+      <PopUp
+        title="Titulo popup"
+        text="PopUp"
+        buttonText="Button"
+      />
       {
         !existPath && <Navbar />
       }
