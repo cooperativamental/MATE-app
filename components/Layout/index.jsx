@@ -7,15 +7,17 @@ import CurrencyConversion from "./CurrencyConversion"
 import Navbar from "./Navbar";
 import BottomBar from "./BottomBar"
 import Withdraw from "./Withdraw";
+import PopUp from "../PopUp"
+
 import { useBalance } from "../../context/contextBalance";
 import { AnimatePresence } from "framer-motion";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { getDatabase, ref, get, orderByChild, query, equalTo, set, push } from "firebase/database";
-
+import { updateDoc, query as queryFirestore, doc, arrayUnion } from "firebase/firestore";
 
 const Layout = ({ children }) => {
   const db = getDatabase()
-  const { user } = useAuth()
+  const { user, firestore } = useAuth()
   const router = useRouter()
   const { openers } = useBalance()
   const paths = ['/login', '/register', '/', '/resetPass', '/checkout/[prjID]'];
@@ -37,6 +39,9 @@ const Layout = ({ children }) => {
               publicKey: publicKey.toBase58()
             })
           }
+          updateDoc(doc(firestore, "users", user.uid), {
+            wallets: arrayUnion(publicKey.toBase58())
+          })
         }
       }
     )()
@@ -53,8 +58,8 @@ const Layout = ({ children }) => {
       {
         !existPath &&
         <AnimatePresence>
-          { openers?.currencyConversion && <CurrencyConversion key="curencyConcersion"/>}
-          { openers?.withdraw && <Withdraw key="withdraw"/>}
+          {openers?.currencyConversion && <CurrencyConversion key="curencyConcersion" />}
+          {openers?.withdraw && <Withdraw key="withdraw" />}
         </AnimatePresence>
       }
       {/* {

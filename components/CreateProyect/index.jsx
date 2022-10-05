@@ -79,7 +79,7 @@ const CreateProject = () => {
         return new Promise((resolve, reject) => {
           set(ref(db, "users/" + key + "/projects/" + keyProject), {
             amount: valuePartner?.amount,
-            status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+            status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMED",
             createdAt: serverTimestamp(),
           })
             .then((snapshot) => {
@@ -113,7 +113,7 @@ const CreateProject = () => {
                           email: valuePartner.email
                         },
                         subject: "You have been called to a new project",
-                        redirect: `${host}/wallet/projects/${keyProject}`,
+                        redirect: `${host}/projects/${keyProject}`,
                         text: [
                           `Member: ${user.fullName},`,
                           `Calls you for the project ${project.nameProject} for ${cliName}.`

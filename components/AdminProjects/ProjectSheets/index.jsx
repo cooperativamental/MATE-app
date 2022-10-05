@@ -8,7 +8,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
 
 
     return (
-        <div className="flex flex-col w-10/12 items-center gap-4">
+        <div className="flex flex-col w-6/12 items-center gap-4">
             <div className="flex w-full justify-between font-semibold text-xl">
                 {
                     project?.client && Object.entries(project?.client).map(([key, res]) => {
@@ -43,13 +43,13 @@ const ProjectSheet = ({ keyPrj, project }) => {
             <div className="flex w-full justify-between font-semibold text-lg">
                 <p className="">Third parties</p>
                 <div className="flex gap-4">
-                    <p>Amount:</p>
+                    <p>Amount ◎:</p>
                     <p>{project?.thirdParties?.amount}</p>
                 </div>
                 {
                     !!project?.thirdParties?.salarysettlement &&
                     <div className="flex gap-4">
-                        <p>Cancel:</p>
+                        <p>Canceled:</p>
                         <p>{project?.thirdParties?.salarysettlement}</p>
                     </div>
                 }
@@ -66,8 +66,8 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                 let status = ""
                                 if (value.amount <= value.salarysettlement) {
                                     status = "Liquidated"
-                                } else if (value.status === "CONFIRMATED") {
-                                    status = "Confirmated"
+                                } else if (value.status === "CONFIRMED") {
+                                    status = "Confirmed"
                                 } else if (value.status === "REVISION_PARTNER") {
                                     status = "Revision"
                                 } else {
@@ -84,12 +84,12 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                             </p>
                                         </div>
                                         <div className="flex w-full justify-between">
-                                            <p>Amount:</p>
+                                            <p>Amount ◎:</p>
                                             <p>{value.amount}</p>
                                         </div>
                                         <hr className=" h-[3px] bg-slate-300 border-[1px] w-full" />
                                         <div className="flex w-full justify-between">
-                                            <p>Cancel:</p>
+                                            <p>Canceled:</p>
                                             <p>{value.salarysettlement}</p>
                                         </div>
                                     </div>

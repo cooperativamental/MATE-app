@@ -9,6 +9,9 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaidIcon from '@mui/icons-material/Paid';
 import FolderIcon from '@mui/icons-material/Folder';
 
+import { ClipboardDocumentListIcon } from '@heroicons/react/20/solid'
+
+
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 import { getDatabase, ref, get, set, push, query, orderByChild, equalTo } from "firebase/database";
@@ -41,6 +44,55 @@ const Navbar = () => {
               />
             </a>
           </Link>
+          {/* <Link
+            href={{
+              pathname: "/projects",
+
+            }}
+            passHref
+          >
+            <a
+              className='flex justify-center items-center'
+              title="Admin Projects"
+            >
+              <FolderIcon
+                style={{ color: "#0d9488" }}
+                sx={{ fontSize: 40 }}
+              />
+            </a>
+          </Link> */}
+          <ClipboardDocumentListIcon
+            onClick={() => {
+              router.push("projects")
+            }}
+            className="h-10 w-10 text-[#0d9488]" aria-hidden="true"
+            />
+          {/* <Link href="/wallet" >
+            <a
+              className='flex justify-center items-center'
+              title='Wallet'
+            >
+              <AccountBalanceWalletIcon
+                style={{ color: "#0d9488" }}
+                sx={{ fontSize: 40 }}
+              />
+            </a>
+          </Link> */}
+        </div>
+        <div className='flex mr-4 gap-2'>
+          <WalletMultiButton />
+          {/* <div
+            className='flex justify-center items-center cursor-pointer'
+            onClick={() => { handleOpeners("withdraw") }
+            }
+            title="Whitdrawal"
+          >
+            <PaidIcon
+              style={{ color: "#0d9488" }}
+              sx={{ fontSize: 40 }}
+            />
+          </div> */}
+
           <Link
             href={{
               pathname: "/adminprojects",
@@ -58,33 +110,7 @@ const Navbar = () => {
               />
             </a>
           </Link>
-          {/* <Link href="/wallet" >
-            <a
-              className='flex justify-center items-center'
-              title='Wallet'
-            >
-              <AccountBalanceWalletIcon
-                style={{ color: "#0d9488" }}
-                sx={{ fontSize: 40 }}
-              />
-            </a>
-          </Link> */}
-        </div>
-        <div className='flex mr-4 gap-2'>
-        <WalletMultiButton />
-          {/* <div
-            className='flex justify-center items-center cursor-pointer'
-            onClick={() => { handleOpeners("withdraw") }
-            }
-            title="Whitdrawal"
-          >
-            <PaidIcon
-              style={{ color: "#0d9488" }}
-              sx={{ fontSize: 40 }}
-            />
-          </div> */}
 
- 
         </div>
         {
           router.pathname === "/wallet/movements" ?
@@ -94,7 +120,7 @@ const Navbar = () => {
               Movements
             </p>
             :
-            router.pathname === "/wallet/projects" || router.pathname === "/wallet/projects/[id]"
+            router.pathname === "/projects" || router.pathname === "/projects/[id]"
               ?
               <p
                 className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold"

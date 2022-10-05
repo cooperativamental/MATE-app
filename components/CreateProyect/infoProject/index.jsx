@@ -27,7 +27,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
 
   useEffect(() => {
     if (user && organization) {
-
+      console.log(organization)
       getDocs(query(collection(firestore, "clients"), where("organizations", "==", organization)))
         .then(querySnapshot => {
           let dataClient = null
@@ -150,7 +150,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
     <>
       {!confirmation.infoProject ? (
         <div className="pt-2 flex flex-col items-center gap-4 w-8/12">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full text-center">
             <InputSelect
               conditionError={errors?.nameProject}
               type="text"
@@ -159,7 +159,8 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
               value={project?.nameProject}
               onChange={handlerProject}
               subtitle="Up to 100 characters"
-              styleSubtitle="text-xs pl-5"
+              styleSubtitle="text-xs pl-5 text-center"
+              inputStyle="text-center"
             />
           </div>
           <div className="flex w-full" >
@@ -186,7 +187,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
               onChange={handlerProject}
               defaultValue="Client"
               optionDisabled="Client"
-              subtitle="Select or request registration at admin@cooperativamental.com"
+              subtitle="Select the project client"
               styleSubtitle="text-xs pl-5"
             >{
                 clients && Object.entries(clients).map(([key, client]) => {
@@ -210,10 +211,10 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
                   }
                 )
               }}
+              buttonStyle="w-6/12"
             />
-
-
           </div>
+          <div className={`flex w-full items-center flex-row gap-8`} >
           <div className="flex flex-col w-full  ">
             <InputSelect
               conditionError={errors?.start}
@@ -231,15 +232,14 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
                   : new Date().getDate()
                 }`}
               forwardedRef={refDateStart}
-              subtitle="Project Timings"
-              styleSubtitle="text-xs pl-5"
+              subtitle="Project kickoff date"
+              styleSubtitle="text-xs pl-5 text-center"
 
             />
-
           </div>
           {
             project.start && (
-              <div className=" flex flex-col w-full">
+              <div className="flex flex-col w-full">
                 <InputSelect
                   conditionError={errors?.end}
                   inputStyle="date relative"
@@ -251,11 +251,12 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
                   forwardedRef={refDateEnd}
                   onMouseOverCapture={() => { refDateEnd.current.type = "date" }}
                   subtitle="Last deadline considering organic delays."
-                  styleSubtitle="text-xs pl-5"
+                  styleSubtitle="text-xs pl-5 text-center"
                 />
               </div>
             )
           }
+          </div>
           <div className=" flex w-full flex-col items-center gap-4">
             {
               Object.keys(errors).length > 0 &&

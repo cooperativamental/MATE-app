@@ -27,12 +27,12 @@ export const CardsNotification = () => {
                                 <CardNotification
                                     Icon={() => <GroupsIcon color="disabled" />}
                                     href={{
-                                        pathname: "/wallet/projects/[id]",
+                                        pathname: "/projects/[id]",
                                         query: {
                                             id: value.projectID
                                         }
                                     }}
-                                    as="/wallet/projects/"
+                                    as="/projects/"
                                     value={value}
                                     keyNoti={key}
                                     title={value.projectHolder}
@@ -148,12 +148,12 @@ export const CardsNotification = () => {
                                 <CardNotification
                                     value={value}
                                     href={{
-                                        pathname: "/wallet/projects/[id]",
+                                        pathname: "/projects/[id]",
                                         query: {
                                             id: value.projectID
                                         }
                                     }}
-                                    as="/wallet/projects/"
+                                    as="/projects/"
                                     Icon={() => <Image height={32} width={32} alt="Liquidado" src={SalaryMale} />}
                                     keyNoti={key}
                                     title={`Nueva Liquidación`}

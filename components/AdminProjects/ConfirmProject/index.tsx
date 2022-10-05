@@ -13,13 +13,20 @@ import { useCreateWeb3 } from "../../../functions/createWeb3"
 import { PublicKey } from "@solana/web3.js";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-
+import PopUp from "../../PopUp"
 
 
 const ConfirmProject = ({ keyProject, project }) => {
   const db = getDatabase()
   const { user } = useAuth()
   const router = useRouter()
+  const [ popUp, setPopUp ] = useState({
+    status: false,
+    title: "Titulo",
+    text: "Texto",
+    buttonEvent: ()=>{},
+    buttonText: "Button"
+  })
   const [errors, setError] = useState({
     wallet: false,
     confirm: false
@@ -35,17 +42,25 @@ const ConfirmProject = ({ keyProject, project }) => {
 
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
-          let statusError = { 
-            ...errors,
-            confirm: false
-          }
+          let confirm = false
           if (res.val().partners) {
             const partners = Object.entries(res.val().partners)
             partners.forEach(([key, value]: any) => {
-              value.status !== "CONFIRMATED" && (statusError = { confirm: true, wallet: false })
+              if (value.status !== "CONFIRMED") {
+                confirm = true;
+              }
+            })
+
+            setError(prevState => {
+              const newState = {
+                ...prevState,
+                wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58(),
+                confirm
+              }
+              console.log("set", newState)
+              return newState
             })
           }
-          setError(statusError)
         }
       })
       return () => {
@@ -83,6 +98,13 @@ const ConfirmProject = ({ keyProject, project }) => {
           treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
         })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
+      setPopUp({
+        status: true,
+        text: `https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`,
+        title: `Created Project`,
+        buttonEvent: ()=>{},
+        buttonText: ""
+      })
     }
     // router.push(router.pathname)
     // } else {
@@ -156,6 +178,12 @@ const ConfirmProject = ({ keyProject, project }) => {
               <p className="text-center font-semibold">Wrong Wallet. Connect with addres: {project.projectHolder[user.uid].wallet}</p>
             }
           </>
+      }
+      {
+        popUp.status && 
+        <PopUp
+          {...popUp}
+        />
       }
     </div>
   )

@@ -93,6 +93,36 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                 })
                         }
                     })
+                if (project.fiatOrCrypto === "CRYPTO") {
+                    // onValue(
+
+                    // )
+                    get(query(ref(db, `wallet/${user?.uid}`)))
+                        .then(res => {
+                            const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
+                            console.log(findOrganization, convertWalletsInOrganization)
+                            const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
+                            // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
+                            console.log(filterWalletInOrganization[0]?.publicKey)
+                            setProject({
+                                ...project,
+                                partners: {
+                                    ...project.partners,
+                                    [user.uid]: {
+                                        ...project.partners[user.uid],
+                                        wallet: filterWalletInOrganization[0]?.publicKey
+                                    }
+                                },
+                                projectHolder: {
+                                    ...project.projectHolder,
+                                    [user.uid]: {
+                                        ...project.projectHolder[user.uid],
+                                        wallet: filterWalletInOrganization[0]?.publicKey
+                                    }
+                                }
+                            })
+                        })
+                }
             })()
         }
     }, [db, user, firestore, program?.account?.group, router.query.organization, project.fiatOrCrypto])
@@ -147,7 +177,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         [data.uid]: {
                             ...project.partners[data.uid],
                             fullName: data.partner.fullName,
-                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             percentage: value,
                             amount: Number(((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100).toFixed(2)),
                             email: data.partner.email,
@@ -165,8 +195,8 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             ...project.partners[data.uid],
                             fullName: data.partner.fullName,
                             amount: value,
-                            percentage: Number(((value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100).toFixed(2)),
-                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMATED",
+                            percentage: (value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100,
+                            status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             email: data.partner.email,
                         }
                     }
@@ -308,7 +338,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                     disabled={assembleTeam ? "disabled" : false}
                                 />
                             </div>
-                            <p className=" text-xs text-gray-500">Total Expenses of Third Parties not members of your team.</p>
+                            <p className=" text-xs text-gray-500">Total expenses of third parties, not members of your team.</p>
                         </div>
                         <div className="flex flex-col w-full  gap-3" >
                             <div className=" flex flex-row gap-2 items-center w-full">
@@ -329,7 +359,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         <div className="sticky top-16 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col w-full font-bold gap-4 p-4 rounded-lg text-xl">
                             <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
                                 <h3>
-                                    Available Budget:
+                                    Available Budget ◎:
                                 </h3>
                                 <h3>
                                     {`${available.toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
@@ -337,7 +367,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             </div>
                             <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
                                 <h3>
-                                    Reserve:
+                                    Reserve ◎:
                                 </h3>
                                 <h3>
                                     {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
@@ -453,28 +483,28 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     :
                     <div className="flex flex-col items-center w-8/12 gap-4">
                         <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Net Total</label>
+                            <label>Net Total ◎</label>
                             <p>{project.totalNeto}</p>
                         </div>
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
 
                         <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Total invoice</label>
+                            <label>Total invoice ◎</label>
                             <p>{project.totalBruto}</p>
                         </div>
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
 
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Team Budget</label>
+                            <label>Team Budget ◎</label>
                             <p>{(project?.totalNeto - project?.thirdParties?.amount).toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Reserve</label>
+                            <label>Reserve ◎</label>
                             {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                         </div>
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Reserve Percentage</label>
+                            <label>Reserve Percentage %</label>
                             {project?.ratio}
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />

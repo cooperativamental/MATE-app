@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import ComponentButton from "../../../components/Elements/ComponentButton";
-import CallProject from "../../../components/CallProject";
+import ComponentButton from "../../components/Elements/ComponentButton";
+import CallProject from "../../components/CallProject";
 
-import styles from "./projectid.module.scss";
+// import styles from "./projectid.module.scss";
 
 const PageHomeProjects = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ const PageHomeProjects = () => {
         isBack
         routeBack={() => {
           router.push({
-            pathname: "/wallet/projects",
+            pathname: "/projects",
           });
         }}
       />

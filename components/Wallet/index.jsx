@@ -75,7 +75,7 @@ const Wallet = () => {
             <ComponentButton
               buttonStyle="rounded-lg md:rounded-none h-12 w-min px-4 md:pl-8 md:pr-4 text-white bg-slate-800 text-white text-2xl font-normal md:rounded-r-lg text-center hover:bg-slate-700"
               buttonText="Projects"
-              buttonEvent={() => router.push("wallet/projects")}
+              buttonEvent={() => router.push("projects")}
             />
           </div>
         </div>

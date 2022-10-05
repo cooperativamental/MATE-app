@@ -76,11 +76,10 @@ const AdminProjects = ({ organization, prj }) => {
 
       />,
     collect_call:
-    <ProjectSheets
-    keyProject={keyProject}
-    project={project}
-    />
-
+      <ProjectSheets
+        keyProject={keyProject}
+        project={project}
+      />
     ,
     bill_collected:
       <SalarySettlement
