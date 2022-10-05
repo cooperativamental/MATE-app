@@ -49,11 +49,6 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <PopUp
-        title="Titulo popup"
-        text="PopUp"
-        buttonText="Button"
-      />
       {
         !existPath && <Navbar />
       }
