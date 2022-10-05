@@ -23,13 +23,13 @@ const ProjectSheet = ({ keyPrj, project }) => {
             </div>
             <hr className=" h-[3px] bg-slate-300 border-[1px] w-full  " />
             <div className="flex w-full justify-between font-semibold text-lg">
-                <p>Fecha de Inicio: </p>
+                <p>Starting date: </p>
                 <p>{project?.start}</p>
             </div>
             <hr className=" h-[3px] bg-slate-300 border-[1px] w-full  " />
 
             <div className="flex w-full justify-between font-semibold text-lg">
-                <p>Titular del Proyecto: </p>
+                <p>Project holder: </p>
                 {project?.projectHolder && Object.entries(project?.projectHolder).map(([key, titular]) => {
                     return (
                         <p key={key}>
@@ -41,15 +41,15 @@ const ProjectSheet = ({ keyPrj, project }) => {
             </div>
             <hr className=" h-[3px] bg-slate-300 border-[1px] w-full  " />
             <div className="flex w-full justify-between font-semibold text-lg">
-                <p className="">Terceros</p>
+                <p className="">Third parties</p>
                 <div className="flex gap-4">
-                    <p>Monto:</p>
+                    <p>Amount:</p>
                     <p>{project?.thirdParties?.amount}</p>
                 </div>
                 {
                     !!project?.thirdParties?.salarysettlement &&
                     <div className="flex gap-4">
-                        <p>Saldado:</p>
+                        <p>Cancel:</p>
                         <p>{project?.thirdParties?.salarysettlement}</p>
                     </div>
                 }
@@ -59,7 +59,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
                 {
                     project?.partners && Object.entries(project?.partners).length > 0 &&
                     <div className="flex flex-col gap-4 w-full justify-between items-center font-semibold text-lg">
-                        <h3>Equipo Convocado:</h3>
+                        <h3>Team:</h3>
                         {
                             project?.partners && Object.entries(project?.partners).map(([userId, value]) => {
 
@@ -74,7 +74,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                     status = "Summoned"
                                 }
                                 return (
-                                    <div key={userId} className="flex flex-col w-full justify-between gap-4 bg-slate-200 p-8 rounded-md">
+                                    <div key={userId} className="flex flex-col w-full justify-between gap-4 bg-slate-500 p-8 rounded-md">
                                         <div className="flex w-full justify-between">
                                             <p className="">
                                                 {value.fullName}
@@ -84,12 +84,12 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                             </p>
                                         </div>
                                         <div className="flex w-full justify-between">
-                                            <p>Monto:</p>
+                                            <p>Amount:</p>
                                             <p>{value.amount}</p>
                                         </div>
                                         <hr className=" h-[3px] bg-slate-300 border-[1px] w-full" />
                                         <div className="flex w-full justify-between">
-                                            <p>Saldado:</p>
+                                            <p>Cancel:</p>
                                             <p>{value.salarysettlement}</p>
                                         </div>
                                     </div>
