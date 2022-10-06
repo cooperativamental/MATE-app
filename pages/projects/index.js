@@ -51,8 +51,8 @@ const PageHomeProjects = () => {
 
   return (
     <div className="flex h-full w-8/12 justify-evenly mt-12">
-    <Projects showModel={true} projects={listProjects} fnProjects={handleInfoProject} />
-  </div>
+      <Projects showModel={true} projects={listProjects} fnProjects={handleInfoProject} />
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ import { BalanceProvider } from "../context/contextBalance";
 import "../styles/globals.css";
 import { RulesProvider } from "../context/rulesApp";
 import WalletContextProvider from "../context/WalletContext";
+import { PopUpProvider } from "../components/PopUp";
 
 const MyApp = ({ Component, pageProps }) => {
 
@@ -22,12 +23,14 @@ const MyApp = ({ Component, pageProps }) => {
               <DollarProvider>
                 <HostProvider>
                   <RouteGuard>
-                    <Layout>
-                      <Head>
-                        <title>Mate</title>
-                      </Head>
-                      <Component {...pageProps} />
-                    </Layout>
+                    {/* <PopUpProvider> */}
+                      <Layout>
+                        <Head>
+                          <title>Mate</title>
+                        </Head>
+                        <Component {...pageProps} />
+                      </Layout>
+                    {/* </PopUpProvider> */}
                   </RouteGuard>
                 </HostProvider>
               </DollarProvider>

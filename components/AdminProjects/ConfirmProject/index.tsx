@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { useRouter } from "next/dist/client/router";
 
 import {
@@ -13,20 +14,14 @@ import { useCreateWeb3 } from "../../../functions/createWeb3"
 import { PublicKey } from "@solana/web3.js";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import PopUp from "../../PopUp"
+import { usePopUp } from "../../../context/PopUp"
 
 
 const ConfirmProject = ({ keyProject, project }) => {
   const db = getDatabase()
   const { user } = useAuth()
   const router = useRouter()
-  const [ popUp, setPopUp ] = useState({
-    status: false,
-    title: "Projetc confirmed",
-    text: "View on Explorer",
-    buttonEvent: ()=>{},
-    buttonText: "Button"
-  })
+  const { handlePopUp } = usePopUp()
   const [errors, setError] = useState({
     wallet: false,
     confirm: false
@@ -66,7 +61,7 @@ const ConfirmProject = ({ keyProject, project }) => {
         unsubscribe()
       }
     }
-  }, [db, user, keyProject])
+  }, [db, user, keyProject, publicKey])
 
 
   const confirmProject = async () => {
@@ -92,17 +87,27 @@ const ConfirmProject = ({ keyProject, project }) => {
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
       update(ref(db, `projects/${keyProject}`),
-        {
-          status: "COLLECT_PENDING",
-          treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
-        })
+      {
+        status: "COLLECT_PENDING",
+        treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
+      })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
-      setPopUp({
-        status: true,
-        text: `https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`,
-        title: `Created Project`,
-        buttonEvent: ()=>{},
-        buttonText: ""
+      handlePopUp({
+        text: 
+        <div className="">
+          <p>View on Explorer</p>
+        <Link 
+          href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+        >
+          <a 
+          target="_blank"
+          className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
+            {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+          </a>
+        </Link>
+        </div>
+        ,
+        title: `Project Confirmed & Signed`,
       })
     }
     // router.push(router.pathname)
@@ -114,12 +119,6 @@ const ConfirmProject = ({ keyProject, project }) => {
     // }
   };
 
-  useEffect(() => {
-    setError({
-      ...errors,
-      wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58()
-    })
-  }, [user, project, publicKey])
 
   return (
     <div className="flex flex-col items-center h-min w-11/12 px-4 gap-4 mt-12">
@@ -174,15 +173,9 @@ const ConfirmProject = ({ keyProject, project }) => {
             />
             {
               errors?.wallet &&
-              <p className="text-center font-semibold">Wrong Wallet. Connect with addres: {project.projectHolder[user.uid].wallet}</p>
+              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project.projectHolder[user.uid].wallet}</p>
             }
           </>
-      }
-      {
-        popUp.status && 
-        <PopUp
-          {...popUp}
-        />
       }
     </div>
   )

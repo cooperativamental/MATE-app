@@ -19,13 +19,16 @@ const CreateClient = () => {
   const { firestore } = useAuth()
   const [clientReg, setClient] = useState({
     clientName: "",
-    businessName: "",
     wallet: "",
     // currency: "",
-    email: "", 
-    taxes: false
+    email: "",
+    // taxes: false
   });
-
+  const [errors, setErrors] = useState({
+    clientName: true,
+    wallet: true,
+    email: true,
+  })
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
   const { program } = useProgram({ connection, wallet });
@@ -51,7 +54,7 @@ const CreateClient = () => {
   // }, [program?.account?.group])
 
   const clientChange = (e) => {
-    if(e.target.name === "taxes"){
+    if (e.target.name === "taxes") {
       setClient({
         ...clientReg,
         [e.target.name]: Number(e.target.value) * 100,
@@ -64,19 +67,23 @@ const CreateClient = () => {
     }
   };
 
-  useEffect(()=> {
-console.log(    Object.values(clientReg).includes(value => {
-      return !value
-    }))
-    if(Object.values(clientReg).includes(value => {
-      return !value
-    })){
-      console.log("vacio")
+  useEffect(() => {
+    if (
+      Object.entries(clientReg).filter(([prop, value]) => {
+        return !value
+      }).length
+    ) {
+      console.log(Object.entries(clientReg).filter(([prop, value]) => {
+        return !value
+      }))
+      setErrors({
+        
+      })
     }
-  },[clientReg])
+
+  }, [clientReg])
 
   const createClient = async () => {
-
     await addDoc(collection(firestore, "clients"), {
       ...clientReg,
       organizations: router.query.organization
@@ -86,7 +93,7 @@ console.log(    Object.values(clientReg).includes(value => {
     const pushClient = push(clientRef);
     set(pushClient, {
       ...clientReg,
-      taxes: clientReg.taxes
+      // taxes: clientReg.taxes
     })
       .then((res) => {
         alert("success")

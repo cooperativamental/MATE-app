@@ -8,7 +8,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
 
 
     return (
-        <div className="flex flex-col w-6/12 items-center gap-4">
+        <div className="flex flex-col w-full mt-8 items-center gap-4">
             <div className="flex w-full justify-between font-semibold text-xl">
                 {
                     project?.client && Object.entries(project?.client).map(([key, res]) => {
@@ -87,11 +87,14 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                             <p>Amount ◎:</p>
                                             <p>{value.amount}</p>
                                         </div>
-                                        <hr className=" h-[3px] bg-slate-300 border-[1px] w-full" />
-                                        <div className="flex w-full justify-between">
+                                        <hr className=" h-[1px] bg-slate-300 border-[1px] w-full" />
+                                        { 
+                                        !!value.salarysettlement &&
+                                            <div className="flex w-full justify-between">
                                             <p>Canceled:</p>
                                             <p>{value.salarysettlement}</p>
                                         </div>
+                                        }
                                     </div>
                                 );
 

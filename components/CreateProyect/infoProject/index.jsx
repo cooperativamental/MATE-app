@@ -103,7 +103,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
           client: {
             [e.target.value]: {
               clientName: clients[e.target.value].clientName,
-              taxes: clients[e.target.value].taxes,
+              // taxes: clients[e.target.value].taxes,
               email: clients[e.target.value].email,
               ...(
                 project.fiatOrCrypto === "CRYPTO" &&
@@ -145,6 +145,8 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [refDateStart, refDateEnd]);
+
+  console.log(errors)
 
   return (
     <>
@@ -257,17 +259,18 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
             )
           }
           </div>
-          <div className=" flex w-full flex-col items-center gap-4">
-            {
-              Object.keys(errors).length > 0 &&
-              <p className="flex flex-col items-center text-base font-normal justify-center">Fill in all the fields to activate the button</p>
-            }
+          <div className=" flex w-full flex-col items-center gap-2 mt-6">
+            
             <ComponentButton
               conditionDisabled={Object.values(errors).find(error => !!error)}
               buttonStyle={`${Object.values(errors).find(error => !!error) ? "bg-gray-400" : ""} font-medium text-xl text-white ring-1 hover:ring-2 ring-slate-400`}
               buttonText="Open Project"
               buttonEvent={handlerConfirm}
             />
+            {
+              Object.keys(errors).length > 0 &&
+              <p className="flex flex-col items-center text-xs justify-center">Fill in all the fields to activate the button</p>
+            }
           </div>
         </div >
       )

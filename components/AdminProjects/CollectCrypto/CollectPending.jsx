@@ -28,7 +28,7 @@ export const CollectPending = ({ project, keyProject }) => {
     const confirmCallCollect = () => {
         if (descriptionInvoice) {
             const call_Collect = {
-                status: "COLLECT_CALL",
+                status: "AWAITING_PAYMENT",
                 descriptionInvoice: descriptionInvoice,
 
             }
@@ -54,10 +54,10 @@ export const CollectPending = ({ project, keyProject }) => {
     }
 
     return (
-        <div>
+        <div className="w-full mt-8">
             <h2 className="text-xl font-semibold">Request Invoice</h2>
             <div className="flex text-2xl font-bold justify-between w-full gap-4">
-                <p>Total amount: </p>
+                <p>Total amount ◎: </p>
                 <p>{project?.totalBruto?.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
             </div>
             {/* <InputSelect

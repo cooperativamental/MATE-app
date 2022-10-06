@@ -64,34 +64,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             ...selectPartners,
                             [user.uid]: listUsers[user.uid]
                         })
-                        if (project.fiatOrCrypto === "CRYPTO") {
-                            // onValue(
-        
-                            // )
-                            get(query(ref(db, `wallet/${user?.uid}`)))
-                                .then(res => {
-                                    const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
-                                    const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
-                                    // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
-                                    setProject({
-                                        ...project,
-                                        partners: {
-                                            ...project.partners,
-                                            [user.uid]: {
-                                                ...project.partners[user.uid],
-                                                wallet: filterWalletInOrganization[0].publicKey
-                                            }
-                                        },
-                                        projectHolder: {
-                                            ...project.projectHolder,
-                                            [user.uid]: {
-                                                ...project.projectHolder[user.uid],
-                                                wallet: filterWalletInOrganization[0].publicKey
-                                            }
-                                        }
-                                    })
-                                })
-                        }
                     })
                 if (project.fiatOrCrypto === "CRYPTO") {
                     // onValue(
@@ -136,6 +108,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
             }
         })
+        console.log((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners )
         setAvailable((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners)
         
         setErrors({
@@ -144,8 +117,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             totalPartners: (project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)) - amountTotalPartners) != 0,
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
-
-
     }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
     const handleBudgetProject = (e, data) => {
@@ -170,6 +141,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 })
             }
             if (e.target.name === "percentage") {
+                console.log((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100)
                 setProject({
                     ...project,
                     partners: {
@@ -179,11 +151,10 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             fullName: data.partner.fullName,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             percentage: value,
-                            amount: Number(((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100).toFixed(2)),
+                            amount: (value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100,
                             email: data.partner.email,
                         }
                     },
-
                 })
             }
             if (e.target.name === "partners") {
@@ -211,13 +182,13 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalBruto: Number((value + value * ((organizations.ratio) / 10000)).toFixed(2))
+                totalBruto: (value + value * ((organizations.ratio) / 10000))
             })
         } else if (e.target.name === "totalBruto") {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalNeto: Number((value - value * ((organizations.ratio) / 10000)).toFixed(2))
+                totalNeto: (value - value * ((organizations.ratio) / 10000))
             })
         } else if (e.target.name === "ratio") {
             setProject({
@@ -236,7 +207,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     ...project.partners,
                     [key]: {
                         ...resPartner,
-                        amount: Number(((project?.partners?.[key]?.percentage * (project.totalNeto - project?.thirdParties?.amount)) / 100).toFixed(2))
+                        amount: (project?.partners?.[key]?.percentage * (project.totalNeto - project?.thirdParties?.amount)) / 100
                     }
                 }
 
@@ -273,15 +244,13 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             ...project,
             partners: {
                 [user.uid]: {
-                    ...project.partners[user],
+                    ...project.partners[user.uid],
                     amount: 0,
                     percentage: 0
                 }
             }
-
         })
     }
-
 
     return (
         <>
@@ -292,7 +261,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             <div className="flex flex-row gap-2 w-full items-center  ">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4  ${errors?.totalNeto ? " border border-red-600 " : null} `}
+                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.totalNeto ? " border border-red-600 " : null} `}
                                     placeholder="Project's Budget ◎"
                                     value={!!project?.totalBruto && project?.totalBruto?.toString()}
                                     type="number"
@@ -310,7 +279,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4  ${errors?.totalNeto ? " border border-red-600 " : null} `}
+                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.totalNeto ? " border border-red-600 " : null} `}
                                     placeholder="Net budget ◎"
                                     value={!!project?.totalNeto && project?.totalNeto?.toString()}
                                     name="totalNeto"
@@ -328,7 +297,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-center text-xl pl-4 ${errors?.thirdParties ? " border border-red-600 " : null} `}
+                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-center text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
                                     placeholder={`Third parties budget ◎`}
                                     value={!!project?.thirdParties?.amount && project?.thirdParties?.amount.toString()}
                                     name="thirdParties"
@@ -343,7 +312,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         <div className="flex flex-col w-full" >
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl text-center w-full h-16 text-xl pl-4 ${errors?.thirdParties ? " border border-red-600 " : null} `}
+                                    inputStyle={`flex appearance-none border rounded-xl text-center w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
                                     placeholder={`Reserve %`}
                                     title="Reserve %"
                                     value={!!project?.ratio && project?.ratio.toString()}
