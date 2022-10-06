@@ -250,7 +250,7 @@ const CreateProject = () => {
       }
       {
         confirmation.budget && confirmation.infoProject &&
-        <div className="flex flex-col items-center w-full gap-4">
+        <div className="flex flex-col items-center gap-4 m-4">
           <p className="text-base font-normal">Send proposals to your partners</p>
           {
             retrySendProposal.status ?

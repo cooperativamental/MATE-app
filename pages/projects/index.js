@@ -50,7 +50,9 @@ const PageHomeProjects = () => {
   }, []);
 
   return (
-      <Projects showModel={true} projects={listProjects} fnProjects={handleInfoProject} />
+    <div className="flex h-full w-8/12 justify-evenly mt-12">
+    <Projects showModel={true} projects={listProjects} fnProjects={handleInfoProject} />
+  </div>
   );
 };
 

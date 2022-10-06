@@ -13,10 +13,9 @@ const PageHomeProjects = () => {
       <ComponentButton
         isBack
         routeBack={() => {
-          router.push({
-            pathname: "/projects",
-          });
+          router.back();
         }}
+
       />
       <CallProject selected={id} />
     </div>

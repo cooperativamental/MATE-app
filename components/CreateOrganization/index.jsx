@@ -187,7 +187,7 @@ const CreateOrganizations = () => {
                 name="treasury"
                 value={organization.treasury.toString()}
                 onChange={organizationChange}
-                title="Percentage of team's treasury agreement: When two or more members of the organization build team to solve a project, it contributes to the organization´s treasury"
+                title="Fund the Treasury. Set aside a slice of the project’s budget for later rewards and bonuses"
                 inputStyle="text-center"
             />
             {/* <MultiSelect

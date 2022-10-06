@@ -168,7 +168,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={Decision}
           title={`The partner ${value.petitioner}`}
-          text={`ask for a review on "${value.nameProject}" team for ${value.client}`}
+          text={`ask for a review on "${value.nameProject}" budget for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -184,8 +184,8 @@ const Notification = () => {
           }}
           as="/projects/"
           Icon={() => <Image height={32} width={32} src={Approve} alt="Revision confirmada" />}
-          title={`El titular ${value.projectHolder}`}
-          text={`Makes the review on "${value.nameProject}" project for ${value.client}`}
+          title={`${value.projectHolder}`}
+          text={`Makes the review on "${value.nameProject}" budget for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -201,7 +201,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={AcceptProject}
           title={value.namePartner}
-          text={`is onboard in "${value.nameProject}" team for ${value.client}`}
+          text={`is onboard to team "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -217,14 +217,14 @@ const Notification = () => {
           as="/admin/project"
           Icon={NoteAddIcon}
           title={value.projectHolder}
-          text={`Requiers invoincing
+          text={`Requiers invoicing
           ${value?.percentage === 1 ?
               " 100% " :
               value?.percentage === 2 ?
                 " 50% " :
                 " 1/3 "
             }
-          from project "${value.nameProject}" for ${value.client}`}
+          of "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -256,7 +256,7 @@ const Notification = () => {
           }}
           as="/adminprojects"
           Icon={Charged}
-          title={`Pays ${value.client}`}
+          title={`${value.client} paid`}
           text={`${value?.percentage === 1 ?
             " 100% " :
             value?.percentage === 2 ?

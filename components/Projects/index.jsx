@@ -48,11 +48,11 @@ const Projects = ({ projects, fnProjects, queryId }) => {
 
 
   return (
-    <table className="w-10/12 text-center table-fixed border-slate-200 mt-12">
+    <table className="w-full text-center table-fixed border-slate-200">
       <thead>
         <tr className='h-12'>
           <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Incoming payment</div></th>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Project Name</div></th>
+          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Project Name / Client</div></th>
           {
             router.pathname !== "/wallet" &&
             <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="status" onClick={(e) => sort(e)}>Status</div></th>

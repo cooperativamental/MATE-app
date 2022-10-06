@@ -22,8 +22,8 @@ const ConfirmProject = ({ keyProject, project }) => {
   const router = useRouter()
   const [ popUp, setPopUp ] = useState({
     status: false,
-    title: "Titulo",
-    text: "Texto",
+    title: "Projetc confirmed",
+    text: "View on Explorer",
     buttonEvent: ()=>{},
     buttonText: "Button"
   })
