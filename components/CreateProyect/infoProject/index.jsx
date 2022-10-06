@@ -146,6 +146,8 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
     };
   }, [refDateStart, refDateEnd]);
 
+  console.log(errors)
+
   return (
     <>
       {!confirmation.infoProject ? (

@@ -7,15 +7,12 @@ import CallProject from "../../components/CallProject";
 const PageHomeProjects = () => {
   const router = useRouter();
   const { id } = router?.query;
-
   return (
     <div className="flex justify-evenly w-full h-min">
       <ComponentButton
         isBack
         routeBack={() => {
-          router.push({
-            pathname: "/projects",
-          });
+          router.back();
         }}
       />
       <CallProject selected={id} />
