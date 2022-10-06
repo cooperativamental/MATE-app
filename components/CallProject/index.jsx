@@ -27,8 +27,8 @@ const CallProject = ({ selected }) => {
   useEffect(() => {
     if (program?.account?.group) {
 
-      get(ref(db, `wallet/${user?.uid}`))
-        .then(async (res) => {
+      const unsubscribe = onValue(ref(db, `wallet/${user?.uid}`),
+        async (res) => {
           const resOrganizationWeb3 = await program?.account?.group.all()
           const findOrganization = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === project?.organization)
           const convertWalletsInOrganization = findOrganization?.account?.members?.map(member => member.toBase58())
@@ -36,8 +36,13 @@ const CallProject = ({ selected }) => {
           const objWalletsInOrganization = Object.fromEntries(filterWalletInOrganization)
           setWallets(objWalletsInOrganization)
         }
-        )
+      )
+      return () => {
+        unsubscribe()
+      }
     }
+
+
   }, [db, user, program?.account?.group, project])
 
   useEffect(() => {
@@ -183,7 +188,7 @@ const CallProject = ({ selected }) => {
         <h3>Equipo Convocado:</h3>
         {
           project && project?.partners &&
-          <div className="flex flex-col w-full justify-between gap-4 bg-slate-200 p-8 rounded-md">
+          <div className="flex flex-col w-full justify-between gap-4 bg-slate-700 p-8 rounded-md">
             <div className="flex justify-between w-full">
               <h5>Socio: </h5>
               <h5>{user.fullName}</h5>

@@ -27,43 +27,45 @@ const Organizations = () => {
 
     useEffect(() => {
         (async () => {
-            const resOrganizationsWeb3 = await program?.account?.group.all()
-            const listOrganizations = resOrganizationsWeb3?.map(async organization => {
-                const resUsers = await getDocs(query(collection(firestore, "users"), where("organization", "array-contains", organization?.publicKey.toBase58())))
-                let users = {}
-                resUsers.forEach(user => {
-                    users = {
-                        ...users,
-                        [user.id]: user.data()
+            const resOrganizationsWeb3 = await program?.account?.group?.all()
+            if(resOrganizationsWeb3?.length){
+                const listOrganizations = resOrganizationsWeb3?.map(async organization => {
+                    const resUsers = await getDocs(query(collection(firestore, "users"), where("organization", "array-contains", organization?.publicKey.toBase58())))
+                    let users = {}
+                    resUsers.forEach(user => {
+                        users = {
+                            ...users,
+                            [user.id]: user.data()
+                        }
+                    })
+                    return {
+                        ...organization,
+                        users
                     }
                 })
-                return {
-                    ...organization,
-                    users
-                }
-            })
-            if (listOrganizations) {
-                Promise.all(listOrganizations)
-                    .then(res => {
-                        res.sort((a, b) => {
-                            if (user?.organization?.includes(a.publicKey.toBase58())) {
-                                return -1
-                            } else {
-                                return 1
-                            }
-                        })
-                        const organizationsIsOrNotMember = res.map(organization => {
-                            if (user?.organization?.includes(organization.publicKey.toBase58())) {
-                                return {
-                                    ...organization,
-                                    isMember: true
+                if (listOrganizations) {
+                    Promise.all(listOrganizations)
+                        .then(res => {
+                            res.sort((a, b) => {
+                                if (user?.organization?.includes(a.publicKey.toBase58())) {
+                                    return -1
+                                } else {
+                                    return 1
                                 }
-                            }
-                            return organization
+                            })
+                            const organizationsIsOrNotMember = res.map(organization => {
+                                if (user?.organization?.includes(organization.publicKey.toBase58())) {
+                                    return {
+                                        ...organization,
+                                        isMember: true
+                                    }
+                                }
+                                return organization
+                            })
+                            setOrganizations(organizationsIsOrNotMember)
+                            setLoading(false)
                         })
-                        setOrganizations(organizationsIsOrNotMember)
-                        setLoading(false)
-                    })
+                }
             }
         })()
     }, [firestore, user, program?.account?.group])

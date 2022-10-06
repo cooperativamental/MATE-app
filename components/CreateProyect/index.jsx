@@ -245,7 +245,7 @@ const CreateProject = () => {
           currency={project?.currency}
           setProject={setProject}
           project={project}
-          taxesClient={Object.values(project.client).map(res => res.taxes)[0]}
+          // taxesClient={Object.values(project.client).map(res => res.taxes)[0]}
         />
       }
       {

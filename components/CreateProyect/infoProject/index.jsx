@@ -103,7 +103,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
           client: {
             [e.target.value]: {
               clientName: clients[e.target.value].clientName,
-              taxes: clients[e.target.value].taxes,
+              // taxes: clients[e.target.value].taxes,
               email: clients[e.target.value].email,
               ...(
                 project.fiatOrCrypto === "CRYPTO" &&
