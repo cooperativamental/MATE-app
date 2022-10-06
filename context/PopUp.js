@@ -45,6 +45,7 @@ const PopUpProvider = ({ children }) => {
                         <ComponentButton
                             buttonText="Close"
                             buttonEvent={() => setOpen(false)}
+                            buttonStyle="w-min"
                         />
                     </div>
                 </div>

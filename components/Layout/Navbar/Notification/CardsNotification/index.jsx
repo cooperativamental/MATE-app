@@ -36,7 +36,7 @@ export const CardsNotification = () => {
                                     value={value}
                                     keyNoti={key}
                                     title={value.projectHolder}
-                                    text={`Te convoca a participar de "${value.nameProject}" para ${value.client}`}
+                                    text={`is sending a proposal to join "${value.nameProject}" for ${value.client}`}
                                 />
                             )
                         case "INVOICE_DISCOUNT":
@@ -72,7 +72,7 @@ export const CardsNotification = () => {
                                     value={value}
                                     keyNoti={key}
                                     title={value.namePartner}
-                                    text={`Confirmó su participación en "${value.nameProject}" de ${value.client}`}
+                                    text={`is onboard to team "${value.nameProject}" for ${value.client}`}
                                 />
 
                             )
@@ -91,14 +91,14 @@ export const CardsNotification = () => {
                                     Icon={() => <NoteAddIcon color="disabled" />}
                                     keyNoti={key}
                                     title={value.projectHolder}
-                                    text={`Solicita la facturación
+                                    text={`Requiers invoicing
                                             ${value?.percentage === 1 ?
-                                            " del 100% " :
+                                            " 100% " :
                                             value?.percentage === 2 ?
-                                                " del 50% " :
-                                                " de un tercio "
+                                                " 50% " :
+                                                " 1/3 "
                                         }
-                                            del proyecto "${value.nameProject}" a ${value.client}`}
+                                            of "${value.nameProject}" for ${value.client}`}
                                 />
 
                             )
@@ -117,7 +117,7 @@ export const CardsNotification = () => {
                                     Icon={() => <RequestPageIcon color="disabled" />}
                                     keyNoti={key}
                                     title={value.nameProject}
-                                    text={`Fue facturado a ${value.client}`}
+                                    text={`Invoiced to ${value.client}`}
                                 />
                             )
                         case "BILL_COLLECTED":
@@ -133,14 +133,14 @@ export const CardsNotification = () => {
                                     as="/adminprojects"
                                     Icon={() => <Image height={32} width={32} alt="Cobrado" src={Charged} />}
                                     keyNoti={key}
-                                    title={`Pagó ${value.client}`}
+                                    title={`${value.client} paid`}
                                     text={`${value?.percentage === 1 ?
-                                        "El 100% " :
+                                        " 100% " :
                                         value?.percentage === 2 ?
-                                            "El 50% " :
-                                            "Un tercio "
+                                            "50% " :
+                                            "1/3 "
                                         }
-                                    del proyecto "${value.nameProject}" fue cobrado a ${value.client}`}
+                                    project "${value.nameProject}" was paid by ${value.client}`}
                                 />
                             )
                         case "LIQUIDATED":

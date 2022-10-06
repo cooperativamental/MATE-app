@@ -67,6 +67,7 @@ const Organizations = () => {
                         })
                 }
             }
+            
         })()
     }, [firestore, user, program?.account?.group])
 
@@ -121,7 +122,7 @@ const Organizations = () => {
     // }, [db, user, firestore])
 
     if (loading) return (
-        <div className=" flex  flex-col items-center justify-center w-11/12 h-96  ">
+        <div className=" flex flex-col items-center justify-center w-11/12 h-96  ">
             <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
         </div>
     )
@@ -210,7 +211,7 @@ const Organizations = () => {
                                                     </div>
                                                     <p className=" self-center">
                                                         {
-                                                            `Treasury Ratio ${organization?.ratio / 100}`
+                                                            `Treasury Ratio ${organization?.ratio / 100} %`
                                                         }
                                                     </p>
                                                 </a>

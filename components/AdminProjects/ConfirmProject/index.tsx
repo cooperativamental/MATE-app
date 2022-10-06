@@ -37,8 +37,8 @@ const ConfirmProject = ({ keyProject, project }) => {
 
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
+          let confirm = false
           if (res.val().partners) {
-            let confirm = false
             const partners = Object.entries(res.val().partners)
             partners.forEach(([key, value]: any) => {
               if (value.status !== "CONFIRMED") {
@@ -62,11 +62,6 @@ const ConfirmProject = ({ keyProject, project }) => {
       }
     }
   }, [db, user, keyProject, publicKey])
-
-  useEffect(() => {
-    console.log(errors)
-    console.log("errr")
-  }, [errors])
 
 
   const confirmProject = async () => {
@@ -99,15 +94,20 @@ const ConfirmProject = ({ keyProject, project }) => {
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
       handlePopUp({
         text: 
+        <div className="">
+          <p>View on Explorer</p>
         <Link 
           href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
         >
-          <a>
+          <a 
+          target="_blank"
+          className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
             {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
           </a>
         </Link>
+        </div>
         ,
-        title: `Created Project`,
+        title: `Project Confirmed & Signed`,
       })
     }
     // router.push(router.pathname)
@@ -121,7 +121,7 @@ const ConfirmProject = ({ keyProject, project }) => {
 
 
   return (
-    <div className="flex flex-col items-center h-min w-11/12 px-4 gap-4">
+    <div className="flex flex-col items-center h-min w-11/12 px-4 gap-4 mt-12">
       <div className="flex text-2xl font-bold justify-between w-full gap-4">
         <p>Net Budget: </p>
         <p>
@@ -137,20 +137,20 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 
-      <h3 className="text-xl font-bold ">Partners</h3>
-      <div className="grid grid-cols-2 w-10/12 items-center gap-4">
+      <h3 className="text-xl font-bold ">Project partners</h3>
+      <div className="grid w-full items-center gap-4">
         {
           project && project.partners &&
           Object.entries(project?.partners)?.map(([key, value]: any) => {
             return (
-              <div key={key} className="flex flex-col justify-between gap-4 bg-slate-200 text-black p-4 rounded-md">
+              <div key={key} className="flex flex-col justify-between gap-4 bg-slate-500 text-black p-4 rounded-md">
                 <p className="text-lg font-semibold">{value.fullName}</p>
                 <div className="flex w-full justify-between font-normal">
                   <p>Amount agreed: </p>
                   <p>{value.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                 </div>
                 <div className="flex w-full justify-between font-normal">
-                  <p>Partner status: </p>
+                  <p>Status: </p>
                   <p>{value.status === "ANNOUNCEMENT" ? "CALLED" : value.status}</p>
                 </div>
               </div>
@@ -166,14 +166,14 @@ const ConfirmProject = ({ keyProject, project }) => {
             <ComponentButton
               isBack={false}
               routeBack=""
-              buttonText="Confirm Project"
+              buttonText="Confirm & Sign Project"
               buttonEvent={confirmProject}
               buttonStyle={`h-14 ${errors?.confirm ? "bg-gray-500" : "bg-[#5A31E1]"}`}
               conditionDisabled={errors?.confirm || errors?.wallet}
             />
             {
               errors?.wallet &&
-              <p className="text-center font-semibold">Wrong Wallet. Connect with addres: {project.projectHolder[user.uid].wallet}</p>
+              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project.projectHolder[user.uid].wallet}</p>
             }
           </>
       }

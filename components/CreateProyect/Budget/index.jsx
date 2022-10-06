@@ -252,7 +252,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
         })
     }
 
-
     return (
         <>
             {
@@ -262,8 +261,8 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             <div className="flex flex-row gap-2 w-full items-center  ">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-xl pl-4  ${errors?.totalNeto ? " border border-red-600 " : null} `}
-                                    placeholder="Projects Budget"
+                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.totalNeto ? " border border-red-600 " : null} `}
+                                    placeholder="Project's Budget ◎"
                                     value={!!project?.totalBruto && project?.totalBruto?.toString()}
                                     type="number"
                                     name="totalBruto"
@@ -273,15 +272,15 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
 
                                 />
                             </div>
-                            <p className=" text-xs text-gray-500">Invoice amount without taxes</p>
+                            <p className="text-xs text-gray-100 text-center">Invoice total amount without VAT</p>
                         </div>
 
-                        <div className="flex flex-col w-full  gap-3" >
+                        <div className="flex flex-col w-full" >
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-xl pl-4  ${errors?.totalNeto ? " border border-red-600 " : null} `}
-                                    placeholder="Net Budget"
+                                    inputStyle={`flex appearance-none border text-center rounded-xl w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.totalNeto ? " border border-red-600 " : null} `}
+                                    placeholder="Net budget ◎"
                                     value={!!project?.totalNeto && project?.totalNeto?.toString()}
                                     name="totalNeto"
                                     onChange={(e) => handleBudgetProject(e)}
@@ -291,15 +290,15 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
 
                                 />
                             </div>
-                            <p className=" text-xs text-gray-500">Amount after taxes and team treasury ratio</p>
+                            <p className=" text-xs text-gray-100 text-center">Amount after invoicing taxes and team´s treasury ratio</p>
                         </div>
 
-                        <div className="flex flex-col w-full  gap-3" >
+                        <div className="flex flex-col w-full" >
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 {/* <h4>{currency}</h4> */}
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-xl pl-4 ${errors?.thirdParties ? " border border-red-600 " : null} `}
-                                    placeholder={`Third parties budget`}
+                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-center text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
+                                    placeholder={`Third parties budget ◎`}
                                     value={!!project?.thirdParties?.amount && project?.thirdParties?.amount.toString()}
                                     name="thirdParties"
                                     onChange={(e) => handleBudgetProject(e)}
@@ -308,28 +307,28 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                     disabled={assembleTeam ? "disabled" : false}
                                 />
                             </div>
-                            <p className=" text-xs text-gray-500">Total Expenses of Third Parties not members of your team.</p>
+                            <p className=" text-xs text-gray-100 text-center">Third party expenses, not members of your team.</p>
                         </div>
-                        <div className="flex flex-col w-full  gap-3" >
+                        <div className="flex flex-col w-full" >
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 <InputSelect
-                                    inputStyle={`flex appearance-none border rounded-xl w-full h-16 text-xl pl-4 ${errors?.thirdParties ? " border border-red-600 " : null} `}
-                                    placeholder={`Reserve`}
-                                    title="Reserve"
+                                    inputStyle={`flex appearance-none border rounded-xl text-center w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
+                                    placeholder={`Reserve %`}
+                                    title="Reserve %"
                                     value={!!project?.ratio && project?.ratio.toString()}
                                     name="ratio"
                                     onChange={(e) => handleBudgetProject(e)}
                                     type="number"
                                     min={0}
                                     disabled={assembleTeam ? "disabled" : false}
-
                                 />
                             </div>
+                            <p className=" text-xs text-gray-100 text-center">Reserve for extraordinary expenses, final clearing, budget deviations, etc.</p>
                         </div>
                         <div className="sticky top-16 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col w-full font-bold gap-4 p-4 rounded-lg text-xl">
                             <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
                                 <h3>
-                                    Available Budget:
+                                    Available Budget ◎:
                                 </h3>
                                 <h3>
                                     {`${available.toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
@@ -337,10 +336,10 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             </div>
                             <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
                                 <h3>
-                                    Reserve:
+                                    Reserve ◎:
                                 </h3>
                                 <h3>
-                                    {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                                    {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                                 </h3>
                             </div>
                             {
@@ -357,7 +356,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                         setAssembleTeam(true)
                                         :
                                         modifyBudget()
-                                }
+                                 }
                                 buttonText={assembleTeam ? "Modify Budget" : "Add Team Member"}
                             />
                             {
@@ -423,7 +422,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                                             (
                                                                 user.uid === key &&
                                                                 <>
-                                                                    <InputSelect
+                                                                    <InputSelect                                                                        
                                                                         optionDisabled="SelectWallet"
                                                                         name="wallet"
                                                                         title="Select your wallet"
@@ -453,33 +452,34 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     :
                     <div className="flex flex-col items-center w-8/12 gap-4">
                         <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Net Total</label>
+                            <label>Net Total ◎</label>
                             <p>{project.totalNeto}</p>
                         </div>
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
 
                         <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Total invoice</label>
+                            <label>Total invoice ◎</label>
                             <p>{project.totalBruto}</p>
                         </div>
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
 
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Team Budget</label>
+                            <label>Team Budget ◎</label>
                             <p>{(project?.totalNeto - project?.thirdParties?.amount).toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />
+                       
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Reserve</label>
-                            {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                            <label>Reserve percentage %</label>
+                            {project?.ratio}
                         </div>
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
-                            <label>Reserve Percentage</label>
-                            {project?.ratio}
+                            <label>Reserve ◎</label>
+                            {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />
                         <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Not members</label>
+                            <label>Third party expenses</label>
                             <p>{project.thirdParties?.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />

@@ -9,13 +9,13 @@ const ComponentButton
                     onClick={routeBack || buttonEvent}
                     className={`${buttonStyle || ""} btn-back`}
                 >
-                    <button className="h-3 w-3  border-t-2 border-l-2 border-white -rotate-45" />
+                    <button className="h-3 w-3 border-t-2 border-l-2 border-white -rotate-45" />
                 </div>
             )
         } else {
             return (
                 <button className=
-                    {`${buttonStyle || ""} ${conditionDisabled && "bg-gray-500"} btn active:ring-4`}
+                    {`${buttonStyle || ""} ${conditionDisabled && "bg-gray-500"} btn w-full rounded-full active:ring-4`}
                     onClick={buttonEvent}
                     disabled={conditionDisabled ? "disabled" : undefined}
                 >

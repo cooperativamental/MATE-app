@@ -14,6 +14,7 @@ const PageHomeProjects = () => {
         routeBack={() => {
           router.back();
         }}
+
       />
       <CallProject selected={id} />
     </div>

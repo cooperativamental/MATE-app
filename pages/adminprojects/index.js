@@ -6,7 +6,8 @@ const PageAdminProjects = () => {
   const router = useRouter()
 
   return (
-    <div className="flex h-full justify-evenly px-4 mt-12">
+    <>
+    <div className="mt-8">
       {
         router.query.prj &&
         <ComponentButton
@@ -14,8 +15,11 @@ const PageAdminProjects = () => {
           routeBack={() => router.back()}
         />
       }
+      </div>
+      <div className="flex h-full justify-evenly px-4 mt-8 w-8/12">
       <AdminProjects />
-    </div>
+     </div>
+    </>
   );
 };
 

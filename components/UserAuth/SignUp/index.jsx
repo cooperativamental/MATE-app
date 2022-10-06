@@ -70,21 +70,22 @@ const SignUp = () => {
     }
 
     return (
-        <div className="flex flex-col w-10/12 items-center gap-4 pb-4">
-            <p className=" text-xl font-medium">Sign Up for independent powers</p>
-            <p>Manage collaborative ownership projects</p>
+        <div className="flex flex-col w-6/12 items-center gap-4 pb-4 mt-8">
+            <p className="text-xl font-medium mb-8 text-center">Register for independent powers to manage collaborative ownership projects.</p>
             <InputSelect
                 title="Mate Username"
                 type="text"
                 value={user?.userName}
                 name="userName"
                 onChange={userChange}
+                inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />
             <InputSelect
                 title="Name"
                 name="fullName"
                 value={user?.fullName}
                 onChange={userChange}
+                inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />
             <InputSelect
                 title="Work Email"
@@ -92,14 +93,15 @@ const SignUp = () => {
                 name="email"
                 value={user?.email}
                 onChange={userChange}
+                inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />
-            <div className={`flex items-center shadow-md appearance-none border rounded-xl h-min w-full text-xl border-black`}>
+            <div className={`flex items-center shadow-md appearance-none ring-1 rounded-full h-min w-full text-xl`}>
                 <InputSelect
-                    placeholder='Contraseña'
+                    placeholder='Password'
                     type={visiblePass ? "text" : "password"}
                     name="password"
                     onChange={userChange}
-                // inputStyle={`h-14`}
+                    inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
                 />
                 <button
                     onClick={() => setVisible(!visiblePass)}
@@ -116,6 +118,7 @@ const SignUp = () => {
             <ComponentButton
                 buttonText="Create User"
                 buttonEvent={register}
+                buttonStyle={`mt-10 hover:bg-white hover:text-slate-900`}
             />
         </div>
     );

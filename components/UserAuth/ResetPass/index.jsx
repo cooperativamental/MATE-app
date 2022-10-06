@@ -22,20 +22,21 @@ const ResetPass = (props) => {
 
     return (
         <div className="flex flex-col h-max w-max gap-8 items-center">
-            <label><strong>Ingrese el correo para recuperar contraseña.</strong></label>
+            <label><strong>Enter your registered email</strong></label>
             <InputSelect
                 type="email"
                 onChange={ (e) => setEmail(e.target.value) } 
+                inputStyle="w-80 text-center text-2xl text-white caret-slate-100"
             />
             <ComponentButton
                 buttonEvent={resetPassword}
-                buttonText="Restablecer"
+                buttonText="Reset"
             />
             {
                 sendMail ?
                 <div>
-                    <p>Se envio un correo al correo correspondiente.</p> 
-                    <p>En caso de no encontrarlo en tu casilla fijarse en la seccion de span</p>
+                    <p>Password reset email sent!</p> 
+                    <p>Just in case check the spam inbox.</p>
                 </div>
                 :
                 null

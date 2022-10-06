@@ -158,37 +158,37 @@ const CreateOrganizations = () => {
     }
 
     return (
-        <div className="flex flex-col w-10/12 items-center gap-8 pb-4 h-min">
+        <div className="flex flex-col w-6/12 items-center gap-8 pb-4 h-min mt-12">
             <h1 className=" text-xl font-medium">New Team</h1>
-            <p>Build your team with partners, not employees, to manage collaborative ownership projects.</p>
+            <p>Build your team with partners, not employees. To manage collaborative ownership projects.</p>
 
             <InputSelect
-                // className={` text-blackflex w-full border rounded-xl h-16 p-4 text-xl shadow-sm shadow-[#5A31E1] `}
                 id="name"
                 placeholder="Team Name"
                 type="text"
                 name="name"
                 value={organization.name}
                 onChange={organizationChange}
+                inputStyle="text-center"
             />
             <InputSelect
-                // className={`flex w-full border rounded-xl h-16 p-4 text-xl shadow-sm shadow-[#5A31E1]`}
                 id="activity"
                 placeholder="Activity"
                 type="text"
                 name="activity"
                 value={organization.activity}
                 onChange={organizationChange}
+                inputStyle="text-center"
             />
             <InputSelect
-                // className={`flex w-full border rounded-xl h-16 p-4 text-xl shadow-sm shadow-[#5A31E1]`}
                 id="treasury"
-                placeholder="Porcentaje de servicios cooperativos"
+                placeholder="Team treasury ratio"
                 type="number"
                 name="treasury"
                 value={organization.treasury.toString()}
                 onChange={organizationChange}
-                title="Percentage of team's treasury"
+                title="Fund the Treasury. Set aside a slice of the project’s budget for later rewards and bonuses"
+                inputStyle="text-center"
             />
             {/* <MultiSelect
                 label="Search your Team Mate"

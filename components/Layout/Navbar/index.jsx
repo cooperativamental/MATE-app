@@ -78,21 +78,6 @@ const Navbar = () => {
               />
             </a>
           </Link> */}
-        </div>
-        <div className='flex mr-4 gap-2'>
-          <WalletMultiButton />
-          {/* <div
-            className='flex justify-center items-center cursor-pointer'
-            onClick={() => { handleOpeners("withdraw") }
-            }
-            title="Whitdrawal"
-          >
-            <PaidIcon
-              style={{ color: "#0d9488" }}
-              sx={{ fontSize: 40 }}
-            />
-          </div> */}
-
           <Link
             href={{
               pathname: "/adminprojects",
@@ -110,12 +95,29 @@ const Navbar = () => {
               />
             </a>
           </Link>
+        </div>
+
+        
+        <div className='flex mr-4 gap-2'>
+          <WalletMultiButton />
+          {/* <div
+            className='flex justify-center items-center cursor-pointer'
+            onClick={() => { handleOpeners("withdraw") }
+            }
+            title="Whitdrawal"
+          >
+            <PaidIcon
+              style={{ color: "#0d9488" }}
+              sx={{ fontSize: 40 }}
+            />
+          </div> */}
+
 
         </div>
         {
           router.pathname === "/wallet/movements" ?
             <p
-              className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold"
+              className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold p-4"
             >
               Movements
             </p>
@@ -123,13 +125,13 @@ const Navbar = () => {
             router.pathname === "/projects" || router.pathname === "/projects/[id]"
               ?
               <p
-                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold"
+                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold p-4"
               >
                 Projects
               </p>
               :
               <p
-                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold"
+                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
               >
                 gm, {user?.displayName}
               </p>

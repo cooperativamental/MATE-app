@@ -46,7 +46,7 @@ export const CollectPending = ({ project, keyProject }) => {
                 redirect: `${host}/checkout/${keyProject}`,
                 text: [
                     `${emailClient.name},`,
-                    `Checkout for the project ${project.nameProject}.`
+                    `Checkout the project ${project.nameProject}.`
                 ],
             })
             })
@@ -54,10 +54,10 @@ export const CollectPending = ({ project, keyProject }) => {
     }
 
     return (
-        <div>
-            <h2 className="text-xl font-semibold">Monto a Cobrar</h2>
+        <div className="w-full mt-8">
+            <h2 className="text-xl font-semibold">Request Invoice</h2>
             <div className="flex text-2xl font-bold justify-between w-full gap-4">
-                <p>Total Bruto: </p>
+                <p>Total amount ◎: </p>
                 <p>{project?.totalBruto?.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
             </div>
             {/* <InputSelect
@@ -70,13 +70,13 @@ export const CollectPending = ({ project, keyProject }) => {
                 <option value={2} disabled={!project?.percentage || project?.percentage === 2 ? false : true}>Mitad</option>
                 <option value={1} disabled={!project?.percentage || project?.percentage === 1 ? false : true}>Total</option>
             </InputSelect> */}
-            <h3 className="font-normal self-start">Descripción de cobro: </h3>
+            <h3 className="font-normal self-start p-2">Project description:</h3>
             <textarea
                 onChange={(e) => setDescriptionInvoice(e.target.value)}
                 className="h-40 w-full text-black font-semibold shadow border rounded-xl p-4"
             />
             <div className="flex flex-col items-center gap-2">
-                <p className="text-base font-normal">Confirmar monto de cobro.</p>
+                <p className="text-base font-normal">Send invoice to client´s email</p>
                 <ComponentButton
                     buttonEvent={() => confirmCallCollect()}
                     buttonStyle={

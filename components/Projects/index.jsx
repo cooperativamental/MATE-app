@@ -52,7 +52,7 @@ const Projects = ({ projects, fnProjects, queryId }) => {
       <thead>
         <tr className='h-12'>
           <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Incoming payment</div></th>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Project Name</div></th>
+          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Project Name / Client</div></th>
           {
             router.pathname !== "/wallet" &&
             <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="status" onClick={(e) => sort(e)}>Status</div></th>
