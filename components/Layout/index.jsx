@@ -14,6 +14,7 @@ import { AnimatePresence } from "framer-motion";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { getDatabase, ref, get, orderByChild, query, equalTo, set, push } from "firebase/database";
 import { updateDoc, query as queryFirestore, doc, arrayUnion } from "firebase/firestore";
+import { PopUpProvider } from "../../context/PopUp";
 
 const Layout = ({ children }) => {
   const db = getDatabase()
@@ -52,9 +53,11 @@ const Layout = ({ children }) => {
       {
         !existPath && <Navbar />
       }
-      <main className={`overflow-y-auto flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
-        {children}
-      </main>
+      <PopUpProvider>
+        <main className={`overflow-y-auto flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
+          {children}
+        </main>
+      </PopUpProvider>
       {
         !existPath &&
         <AnimatePresence>

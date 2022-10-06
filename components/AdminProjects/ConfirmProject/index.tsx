@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { useRouter } from "next/dist/client/router";
 
 import {
@@ -13,20 +14,14 @@ import { useCreateWeb3 } from "../../../functions/createWeb3"
 import { PublicKey } from "@solana/web3.js";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import PopUp from "../../PopUp"
+import { usePopUp } from "../../../context/PopUp"
 
 
 const ConfirmProject = ({ keyProject, project }) => {
   const db = getDatabase()
   const { user } = useAuth()
   const router = useRouter()
-  const [popUp, setPopUp] = useState({
-    status: false,
-    title: "Titulo",
-    text: "Texto",
-    buttonEvent: () => { },
-    buttonText: "Button"
-  })
+  const { handlePopUp } = usePopUp()
   const [errors, setError] = useState({
     wallet: false,
     confirm: false
@@ -96,20 +91,23 @@ const ConfirmProject = ({ keyProject, project }) => {
       }
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
-
+      update(ref(db, `projects/${keyProject}`),
+      {
+        status: "COLLECT_PENDING",
+        treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
+      })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
-      setPopUp({
-        status: true,
-        text: `https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`,
+      handlePopUp({
+        text: 
+        <Link 
+          href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+        >
+          <a>
+            {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+          </a>
+        </Link>
+        ,
         title: `Created Project`,
-        buttonEvent: () => {
-          update(ref(db, `projects/${keyProject}`),
-            {
-              status: "COLLECT_PENDING",
-              treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
-            })
-        },
-        buttonText: ""
       })
     }
     // router.push(router.pathname)
@@ -178,12 +176,6 @@ const ConfirmProject = ({ keyProject, project }) => {
               <p className="text-center font-semibold">Wrong Wallet. Connect with addres: {project.projectHolder[user.uid].wallet}</p>
             }
           </>
-      }
-      {
-        popUp.status && 
-      <PopUp
-        {...popUp}
-      />
       }
     </div>
   )

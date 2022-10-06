@@ -77,6 +77,9 @@ module.exports = {
                 "background": "transparent",
                 "-webkit-background-clip": "text",
               },
+              ".break-text":{
+                "overflow-wrap": "anywhere"
+              }
             }
           )
         })()
