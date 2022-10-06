@@ -244,7 +244,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             ...project,
             partners: {
                 [user.uid]: {
-                    ...project.partners[user],
+                    ...project.partners[user.uid],
                     amount: 0,
                     percentage: 0
                 }
