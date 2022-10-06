@@ -249,7 +249,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     percentage: 0
                 }
             }
-
         })
     }
 

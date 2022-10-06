@@ -93,7 +93,7 @@ const CreateClient = () => {
     const pushClient = push(clientRef);
     set(pushClient, {
       ...clientReg,
-      taxes: clientReg.taxes
+      // taxes: clientReg.taxes
     })
       .then((res) => {
         alert("success")
