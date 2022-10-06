@@ -20,11 +20,11 @@ const ConfirmProject = ({ keyProject, project }) => {
   const db = getDatabase()
   const { user } = useAuth()
   const router = useRouter()
-  const [ popUp, setPopUp ] = useState({
+  const [popUp, setPopUp] = useState({
     status: false,
     title: "Titulo",
     text: "Texto",
-    buttonEvent: ()=>{},
+    buttonEvent: () => { },
     buttonText: "Button"
   })
   const [errors, setError] = useState({
@@ -96,17 +96,19 @@ const ConfirmProject = ({ keyProject, project }) => {
       }
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
-      update(ref(db, `projects/${keyProject}`),
-        {
-          status: "COLLECT_PENDING",
-          treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
-        })
+
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
       setPopUp({
         status: true,
         text: `https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`,
         title: `Created Project`,
-        buttonEvent: ()=>{},
+        buttonEvent: () => {
+          update(ref(db, `projects/${keyProject}`),
+            {
+              status: "COLLECT_PENDING",
+              treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
+            })
+        },
         buttonText: ""
       })
     }
@@ -179,9 +181,9 @@ const ConfirmProject = ({ keyProject, project }) => {
       }
       {
         popUp.status && 
-        <PopUp
-          {...popUp}
-        />
+      <PopUp
+        {...popUp}
+      />
       }
     </div>
   )

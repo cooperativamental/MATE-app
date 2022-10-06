@@ -22,7 +22,7 @@ import ProjectSheets from "./ProjectSheets"
 import { CollectPending } from "./CollectCrypto/CollectPending";
 import { ConfirmCall } from "./CollectCrypto/CollectCall";
 
-const AdminProjects = ({ organization, prj }) => {
+const AdminProjects = ({ prj }) => {
   const db = getDatabase();
   const router = useRouter()
   const { user } = useAuth();
@@ -75,7 +75,7 @@ const AdminProjects = ({ organization, prj }) => {
         keyProject={keyProject}
 
       />,
-    collect_call:
+    awaiting_payment:
       <ProjectSheets
         keyProject={keyProject}
         project={project}
@@ -141,7 +141,7 @@ const AdminProjects = ({ organization, prj }) => {
         // }
       }
     }
-  }, [user, organization]);
+  }, [user]);
 
   useEffect(() => {
     if (keyProject && user) {
@@ -158,12 +158,7 @@ const AdminProjects = ({ organization, prj }) => {
   }, [keyProject])
 
   const handleInfoProject = async (propProject) => {
-    // if (objRender[propProject.status.toLowerCase()]) {
-    router.push({
-      pathname: router.pathname,
-      query: { prj: propProject.id, organization: organization }
-    }, router.pathname, { shallow: true })
-    // }
+    router.push(`${router.pathname}/${propProject.id}`)
   }
 
 

@@ -63,7 +63,7 @@ const Navbar = () => {
           </Link> */}
           <ClipboardDocumentListIcon
             onClick={() => {
-              router.push("projects")
+              router.push("/projects")
             }}
             className="h-10 w-10 text-[#0d9488]" aria-hidden="true"
             />

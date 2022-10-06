@@ -28,7 +28,7 @@ export const CollectPending = ({ project, keyProject }) => {
     const confirmCallCollect = () => {
         if (descriptionInvoice) {
             const call_Collect = {
-                status: "COLLECT_CALL",
+                status: "AWAITING_PAYMENT",
                 descriptionInvoice: descriptionInvoice,
 
             }

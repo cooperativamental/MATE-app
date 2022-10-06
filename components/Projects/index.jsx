@@ -48,7 +48,7 @@ const Projects = ({ projects, fnProjects, queryId }) => {
 
 
   return (
-    <table className="w-10/12 text-center table-fixed border-slate-200">
+    <table className="w-full text-center table-fixed border-slate-200">
       <thead>
         <tr className='h-12'>
           <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Incoming payment</div></th>
@@ -69,14 +69,14 @@ const Projects = ({ projects, fnProjects, queryId }) => {
                   selectProject({ id: project?.id, project: project });
                 }}
                 className={`
-                  h-12 max-h-12 hover:bg-slate-800 cursor-pointer
+                   h-12 max-h-12 hover:bg-slate-800 cursor-pointer
                   ${selected === project?.id ? " bg-[#F2EBFE] text-[#5A31E1]" : ""}
                 `}
                 ref={refProject}
               >
-                <td className='border-y-2 border-slate-600'>{project?.invoiceDate || "Not confirmed"}</td>
-                <td className='border-y-2 border-slate-600'>
-                  <div>
+                <td className='border-y-2 border-slate-600 h-12 max-h-12'>{project?.invoiceDate || "Not confirmed"}</td>
+                <td className='border-y-2 border-slate-600 h-12 max-h-12'>
+                  <div className="h-12 max-h-12">
                     <p>
                       {project?.nameProject}
                     </p>
@@ -87,7 +87,7 @@ const Projects = ({ projects, fnProjects, queryId }) => {
                 </td>
                 {
                   router.pathname !== "/wallet" &&
-                  <td className='border-y-2 border-slate-600'>
+                  <td className='border-y-2 border-slate-600 h-12 max-h-12'>
                     {
                       project?.status?.toLowerCase() === "INVOICE_CALL".toLowerCase() ?
                         "Call for invoicing" :
