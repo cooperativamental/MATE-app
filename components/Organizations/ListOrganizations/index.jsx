@@ -28,7 +28,7 @@ const Organizations = () => {
     useEffect(() => {
         (async () => {
             const resOrganizationsWeb3 = await program?.account?.group?.all()
-            if (resOrganizationsWeb3.length) 
+            if (resOrganizationsWeb3?.length) 
             {
                 const listOrganizations = resOrganizationsWeb3?.map(async organization => {
                     const resUsers = await getDocs(query(collection(firestore, "users"), where("organization", "array-contains", organization?.publicKey.toBase58())))
