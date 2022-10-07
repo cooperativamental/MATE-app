@@ -51,8 +51,8 @@ const Projects = ({ projects, fnProjects, queryId }) => {
     <table className="w-full text-center table-fixed border-slate-200">
       <thead>
         <tr className='h-12'>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Incoming payment</div></th>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Project Name / Client</div></th>
+          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Project Name</div></th>
+          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Client</div></th>
           {
             router.pathname !== "/wallet" &&
             <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="status" onClick={(e) => sort(e)}>Status</div></th>
@@ -74,16 +74,13 @@ const Projects = ({ projects, fnProjects, queryId }) => {
                 `}
                 ref={refProject}
               >
-                <td className='border-y-2 border-slate-600 h-12 max-h-12'>{project?.invoiceDate || "Not confirmed"}</td>
+                <td className='border-y-2 border-slate-600 h-12 max-h-12'>{project?.nameProject}</td>
                 <td className='border-y-2 border-slate-600 h-12 max-h-12'>
-                  <div className="h-12 max-h-12">
-                    <p>
-                      {project?.nameProject}
-                    </p>
-                    <p className={`${selected === project?.id ? " text-[#cca9fd]" : " text-slate-100"}`}>
-                      {project?.client && Object.values(project?.client).map(client => client.clientName)}
-                    </p>
-                  </div>
+
+                  <p className={`${selected === project?.id ? " text-[#cca9fd]" : " text-slate-100"}`}>
+                    {project?.client && Object.values(project?.client).map(client => client.clientName)}
+                  </p>
+
                 </td>
                 {
                   router.pathname !== "/wallet" &&
