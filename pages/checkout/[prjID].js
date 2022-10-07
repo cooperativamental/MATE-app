@@ -19,7 +19,7 @@ export default function Checkout() {
   const router = useRouter()
   const [amount, setAmount] = useState()
   const [projectPublicKey, setProjectPublicKey] = useState()
-
+  const [project, setProject] = useState()
 
   useEffect(() => {
     router.query.prjID &&
@@ -30,6 +30,7 @@ export default function Checkout() {
             const amount = new BigNumber(res.val().totalBruto)
             setAmount(amount)
             // Solana Pay transfer params
+            setProject(res.val())
             const urlParams = {
               recipient: new PublicKey(res?.val()?.treasuryKey),
               amount,
