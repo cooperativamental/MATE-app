@@ -274,14 +274,12 @@ const CallProject = ({ selected }) => {
                     "Convocado"
                   }
                   return (
-
                     <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-700 p-8 font-normal">
                       <p>{value.fullName}</p>
                       <p>
                         {status}
                       </p>
                     </div>
-
                   );
                 }
               })

@@ -1,5 +1,5 @@
 // pages/shop/checkout.tsx
-import { createQR, encodeURL, EncodeURLComponents, findTransactionSignature, FindTransactionSignatureError, validateTransactionSignature, ValidateTransactionSignatureError } from "@solana/pay";
+import { createQR, encodeURL, EncodeURLComponents, findTransactionSignature, fetchTransaction, FindTransactionSignatureError, validateTransactionSignature, ValidateTransactionSignatureError } from "@solana/pay";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl, Connection, Keypair } from "@solana/web3.js";
 import BigNumber from "bignumber.js";
@@ -8,40 +8,38 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { PublicKey } from "@solana/web3.js"
 import { get, getDatabase, ref } from "firebase/database";
 
+import ComponentButton from "../../components/Elements/ComponentButton"
+
+import { sendEmail } from "../../functions/sendMail"
+import { useHost } from "../../context/host";
+
 
 export default function Checkout() {
   const qrRef = useRef(null)
   const db = getDatabase()
   const router = useRouter()
+  const { host } = useHost()
+
   const [amount, setAmount] = useState()
+  const [project, setProject] = useState()
   const [projectPublicKey, setProjectPublicKey] = useState()
+  const [ pay, setPay] = useState(true)
+  const [ stateSendEmail, setSendEmail] = useState(false)
 
   useEffect(() => {
-    router.query.prjID &&
-    get(ref(db, `projects/${router.query.prjID}`))
-      .then(res => {
-        if(res.exists()){
-          setProjectPublicKey(res.val().treasuryKey)
-          const amount =new BigNumber(res.val().totalBruto)
-          setAmount(amount)
-          // Solana Pay transfer params
-          const urlParams = {
-            recipient: new PublicKey(res?.val()?.treasuryKey),
-            amount,
-            label: "🧉 Protocol",
-            message: "Thanks for using the 🧉 Protocol",
+      router.query.prjID &&
+      get(ref(db, `projects/${router.query.prjID}`))
+        .then(res => {
+          if(res.exists()){
+            setProject(res.val())
+            setProjectPublicKey(res.val().treasuryKey)
+            const amount =new BigNumber(res.val().totalBruto)
+            setAmount(amount)
+            // Solana Pay transfer params
+
           }
-  
-          // Encode the params into the format shown
-          const url = encodeURL(urlParams)
-          console.log({ url })
-          const qr = createQR(url, 512, 'transparent')
-          if (qrRef.current && amount.isGreaterThan(0)) {
-            qrRef.current.innerHTML = ''
-            qr.append(qrRef.current)
-          }
-        }
-      })
+        })
+    
   }, [db, router.query])
 
 
@@ -53,7 +51,6 @@ export default function Checkout() {
   const endpoint = clusterApiUrl(network)
   const connection = new Connection(endpoint)
 
-
   // new BigNumber(1)
   // // ref to a div where we'll show the QR code
   //  = "CUtKCTar8gb5VYCDWbX5yFMVrhbnod9aCNf4cfhD2qPK"
@@ -62,13 +59,19 @@ export default function Checkout() {
 
   // Check every 0.5s if the transaction is completed
   useEffect(() => {
-    if (amount) {
+    if(projectPublicKey){
       const interval = setInterval(async () => {
         try {
+          const transactionList = await connection.getSignaturesForAddress(new PublicKey(projectPublicKey))
+          const signatureTransaction = transactionList.map(trs => trs?.signature)
+          signatureTransaction
+          const transactionDetails = await connection.getParsedTransactions(signatureTransaction)
+
+          setPay(!!transactionDetails.length)
           // Check if there is any transaction for the reference
-          const signatureInfo = await findTransactionSignature(connection, reference, {}, 'confirmed')
-          // Validate that the transaction has the expected recipient, amount and SPL token
-          await validateTransactionSignature(connection, signatureInfo.signature, shopAddress, amount, reference, 'confirmed')
+          // const signatureInfo = await findTransactionSignature(connection, reference, {}, 'confirmed')
+          // // Validate that the transaction has the expected recipient, amount and SPL token
+          // await validateTransactionSignature(connection, signatureInfo.signature, shopAddress, amount, reference, 'confirmed')
         } catch (e) {
           console.error('Unknown error', e)
         }
@@ -77,7 +80,47 @@ export default function Checkout() {
         clearInterval(interval)
       }
     }
-  }, [amount])
+  }, [projectPublicKey])
+
+  useEffect(()=> {
+    if(!pay){
+      const urlParams = {
+        recipient: new PublicKey(projectPublicKey),
+        amount,
+        label: "🧉 Protocol",
+        message: "Thanks for using the 🧉 Protocol",
+      }
+  
+      // Encode the params into the format shown
+      const url = encodeURL(urlParams)
+      console.log({ url })
+      const qr = createQR(url, 512, 'transparent')
+      if (qrRef.current && amount.isGreaterThan(0)) {
+        qrRef.current.innerHTML = ''
+        qr.append(qrRef.current)
+      }
+    } else {
+      qrRef.current.innerHTML = 'Canceled'
+      
+    }
+  },[pay])
+
+  const handlerEmail = () => {
+    const email ={
+      from: {
+        name: Object.values(project.client).map(client=> client.clientName)[0],
+        email: Object.values(project.client).map(client=> client.email)[0]
+      },
+      to: {
+        name: Object.values(project.projectHolder).map(prjHolder => prjHolder.fullName)[0],
+        email: Object.values(project.projectHolder).map(prjHolder => prjHolder.email)[0],
+      },
+      subject: "Payment Made",
+      text: "",
+      redirect: `${host}/adminprojects/${router.query.prjID}`
+    }
+    sendEmail(email)
+  }
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-full w-full">
@@ -85,7 +128,12 @@ export default function Checkout() {
       <p className="text-3xl font-semibold">Amount: ${amount?.toString()}</p>
 
       {/* div added to display the QR code */}
-      <div ref={qrRef} className=" bg-gradient-to-r from-purple-700 to-cyan-500"/>
+      <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500"/>
+      <ComponentButton
+        buttonEvent={handlerEmail}
+        buttonStyle="w-max"
+        buttonText="Send Confirmation"
+      />
     </div>
   )
 }

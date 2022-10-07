@@ -144,17 +144,31 @@ const AdminProjects = ({ prj }) => {
 
   useEffect(() => {
     if (keyProject && user) {
+      let interval
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
           if (res.val()?.projectHolder?.[user.uid] || res.val()?.projectOwner?.[user.uid]) {
             setIsHolder(true)
           }
           setProject(res.val())
+          interval = setInterval(async () => {
+            try {
+              const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
+              if(bal && res.val().status !== "LIQUIDATED"){
+                update(ref(db, `projects/${keyProject}`), { status: "LIQUIDATED"})
+              }
+            } catch (e) {
+              console.error('Unknown error', e)
+            }
+          }, 500)
         }
       })
-      return () => unsubscribe()
+      return () => {
+        unsubscribe()
+        clearInterval(interval)
+      }
     }
-  }, [keyProject])
+  }, [db, user, keyProject])
 
   const handleInfoProject = async (propProject) => {
     router.push(`${router.pathname}/${propProject.id}`)

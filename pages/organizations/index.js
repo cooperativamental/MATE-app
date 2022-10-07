@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import Organizations from "../../components/Organizations/ListOrganizations"
 
 const PageOrganizations = () => {
