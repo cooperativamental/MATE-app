@@ -122,11 +122,11 @@ const Withdraw = ({ open, setOpen }) => {
                             name: valueUser.fullName,
                             email: valueUser.email
                           },
-                          subject: "Pedido de Retiro",
+                          subject: "Requests withdrawal",
                           redirect: `${host}/admin/transferences/${pushWithdraw.key}?u=${user.uid}`,
                           text: [
-                            `El socio ${user.fullName}`,
-                            `Solicito el retiro de ${withdrawal.currency} ${withdrawal.amount}`,
+                            `The Partner ${user.fullName}`,
+                            `requests withdrawal of ${withdrawal.currency} ${withdrawal.amount}`,
                           ],
                         }
                       )

@@ -248,11 +248,11 @@ const SalarySettlement = ({ keyPrj, project }) => {
                                   name: valuePartner.fullName,
                                   email: valuePartner.email
                                 },
-                                subject: `Nueva Liquidación`,
+                                subject: `New income`,
                                 redirect: `${host}/projects/${keyPrj}`,
                                 text: [
-                                  `Se acreditó tu liquidación de ${project.currency} ${valuePartner.amount}`,
-                                  `del proyecto ${project.nameProject} de ${cliName}`
+                                  `Your payment is available ${project.currency} ${valuePartner.amount}`,
+                                  `from project ${project.nameProject} commissioned by ${cliName}`
                                 ],
                               })
                               router.push(router.pathname)

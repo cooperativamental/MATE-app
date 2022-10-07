@@ -152,7 +152,7 @@ const Notification = () => {
           as="/projects"
           Icon={() => <GroupsIcon color="disabled" />}
           title={value.projectHolder}
-          text={`is sending a proposal to join "${value.nameProject}" for ${value.client}`}
+          text={`Invites you to join "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -168,7 +168,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={Decision}
           title={`The partner ${value.petitioner}`}
-          text={`ask for a review on "${value.nameProject}" budget for ${value.client}`}
+          text={`requests review on "${value.nameProject}" budget for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -201,7 +201,7 @@ const Notification = () => {
           as="/adminprojects"
           Icon={AcceptProject}
           title={value.namePartner}
-          text={`is onboard to team "${value.nameProject}" for ${value.client}`}
+          text={`agrees to join "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -217,7 +217,7 @@ const Notification = () => {
           as="/admin/project"
           Icon={NoteAddIcon}
           title={value.projectHolder}
-          text={`Requiers invoicing
+          text={`Requires invoicing
           ${value?.percentage === 1 ?
               " 100% " :
               value?.percentage === 2 ?
@@ -285,7 +285,7 @@ const Notification = () => {
           as={value.projectID ? "/projects/" : "/wallet"}
           Icon={() => <Image height={32} width={32} alt="Liquidado" src={SalaryMale} />}
           title={`New Income`}
-          text={`Se acreditó tu liquidación ${value?.currency && value?.salarysettlement?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} del proyecto ${value.nameProject} de ${value.client}`}
+          text={`your payment is available ${value?.currency && value?.salarysettlement?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} from project ${value.nameProject} commissioned by ${value.client}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -302,7 +302,7 @@ const Notification = () => {
           as="/admin/transferences"
           Icon={CurrencyExchangeIcon}
           title={value.petitioner}
-          text={`Solicita el retiro de ${value?.currency && value?.withdraw?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })}`}
+          text={`Requests withdrawal of ${value?.currency && value?.withdraw?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -319,7 +319,7 @@ const Notification = () => {
           as="/admin/currencyconversion/"
           Icon={PaidIcon}
           title={value.petitioner}
-          text={`Solicita el cambio de ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })}`}
+          text={`requests currency exchange for ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })}`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -334,8 +334,8 @@ const Notification = () => {
           }}
           as="/wallet/movements"
           Icon={() => <PriceCheckIcon color="disabled" />}
-          title={"Transferencia Confirmada."}
-          text={`Retiro de ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} procesado.`}
+          title={"Transfer completed"}
+          text={`Withdrawal of ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} confirmed.`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -350,8 +350,8 @@ const Notification = () => {
           }}
           as="/wallet/movements"
           Icon={RequestMoney}
-          title={"Factura de terceros."}
-          text={`Descuento de factura por ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} de ${value.name}.`}
+          title={"Third party invoice"}
+          text={`Invoice discrepancy amounts to ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} from ${value.name}.`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -366,8 +366,8 @@ const Notification = () => {
           }}
           as="/wallet/movements"
           Icon={RequestMoney}
-          title={"Factura de terceros."}
-          text={`Descuento de factura por ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} de ${value.name}.`}
+          title={"Third party invoice."}
+          text={`Invoice discrepancy amounts to ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} from ${value.name}.`}
           keyNoti={key}
           open={value.open}
           key={key}
@@ -377,8 +377,8 @@ const Notification = () => {
           href={`/wallet`}
           as="/wallet"
           Icon={MonetizationOnIcon}
-          title={"Conversion de moneda rechazada."}
-          text={`Cambio de ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} fue rechazado.`}
+          title={"Currency exchange failed"}
+          text={`Exchange for ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} was rejected.`}
           keyNoti={key}
           open={value.open}
           key={key}

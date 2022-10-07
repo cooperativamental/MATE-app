@@ -182,12 +182,12 @@ const CreateOrganizations = () => {
             />
             <InputSelect
                 id="treasury"
-                placeholder="Team treasury ratio"
+                placeholder="Team treasury %"
                 type="number"
                 name="treasury"
                 value={organization.treasury.toString()}
                 onChange={organizationChange}
-                title="Fund the Treasury. Set aside a slice of the project’s budget for later rewards and bonuses"
+                title="Fund the Treasury. Set aside a slice (%) of the project’s budget for later rewards and bonuses"
                 inputStyle="text-center"
             />
             {/* <MultiSelect
