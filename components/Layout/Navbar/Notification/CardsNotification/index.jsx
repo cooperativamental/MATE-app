@@ -36,14 +36,14 @@ export const CardsNotification = () => {
                                     value={value}
                                     keyNoti={key}
                                     title={value.projectHolder}
-                                    text={`is sending a proposal to join "${value.nameProject}" for ${value.client}`}
+                                    text={`Invites you to join "${value.nameProject}" for ${value.client}`}
                                 />
                             )
                         case "INVOICE_DISCOUNT":
                             return (
                                 <CardNotification
                                     Icon={() =>
-                                        <Image height={32} width={32} alt="Descuento de Factura" src={RequestMoney} />
+                                        <Image height={32} width={32} alt="Third party invoice" src={RequestMoney} />
                                     }
                                     href={{
                                         pathname: `/wallet/movements`,
@@ -54,8 +54,8 @@ export const CardsNotification = () => {
                                     as="/wallet/movements"
                                     value={value}
                                     keyNoti={key}
-                                    title="Factura de terceros."
-                                    text={`Descuento de factura por ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} de ${value.name}.`}
+                                    title="Third party invoice"
+                                    text={`Invoice discrepancy amounts to ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} from ${value.name}.`}
                                 />
                             )
                         case "CONFIRM_PARTNER":
@@ -72,7 +72,7 @@ export const CardsNotification = () => {
                                     value={value}
                                     keyNoti={key}
                                     title={value.namePartner}
-                                    text={`is onboard to team "${value.nameProject}" for ${value.client}`}
+                                    text={`agrees to join "${value.nameProject}" for ${value.client}`}
                                 />
 
                             )
@@ -131,7 +131,7 @@ export const CardsNotification = () => {
                                         }
                                     }}
                                     as="/adminprojects"
-                                    Icon={() => <Image height={32} width={32} alt="Cobrado" src={Charged} />}
+                                    Icon={() => <Image height={32} width={32} alt="Collected" src={Charged} />}
                                     keyNoti={key}
                                     title={`${value.client} paid`}
                                     text={`${value?.percentage === 1 ?
@@ -154,10 +154,10 @@ export const CardsNotification = () => {
                                         }
                                     }}
                                     as="/projects/"
-                                    Icon={() => <Image height={32} width={32} alt="Liquidado" src={SalaryMale} />}
+                                    Icon={() => <Image height={32} width={32} alt="Income" src={SalaryMale} />}
                                     keyNoti={key}
-                                    title={`Nueva Liquidación`}
-                                    text={`Se acreditó tu liquidación de ${value.currency} ${value.salarysettlement} del proyecto ${value.nameProject} de ${value.client}`}
+                                    title={`New Income`}
+                                    text={`your payment is available ${value.currency} ${value.salarysettlement} from project ${value.nameProject} commissioned by ${value.client}`}
                                 />
                             )
                         case "WITHDRAWAL":
@@ -175,7 +175,7 @@ export const CardsNotification = () => {
                                     Icon={() => <PaidIcon color="disabled" />}
                                     keyNoti={key}
                                     title={value.petitioner}
-                                    text={`Solicita el retiro de ${value.currency} ${value.withdraw}`}
+                                    text={`requests withdrawal of ${value.currency} ${value.withdraw}`}
                                 />
                             )
                         case "CURRENCY_CONVERSION":
@@ -193,7 +193,7 @@ export const CardsNotification = () => {
                                     as="/admin/currencyconversion/"
                                     title={value.petitioner}
                                     Icon={() => <CurrencyExchangeIcon color="disabled" />}
-                                    text={`Solicita el cambio de ${value.currency} ${value.amount}`}
+                                    text={`Requests currency exchange for ${value.currency} ${value.amount}`}
                                 />
                             )
                         case "TRANSFERENCE_CONFIRM":
@@ -203,8 +203,8 @@ export const CardsNotification = () => {
                                     href={`/wallet`}
                                     Icon={() => <PriceCheckIcon color="disabled" />}
                                     keyNoti={key}
-                                    title={"Transferencia Confirmada"}
-                                    text={`Retiro de ${value.currency} ${value.withdrawal} procesado.`}
+                                    title={"Transfer completed"}
+                                    text={`withdrawal of ${value.currency} ${value.withdrawal} confirmed.`}
                                 />
 
                             )
@@ -215,8 +215,8 @@ export const CardsNotification = () => {
                                     href={`/wallet`}
                                     Icon={() => <Image height={32} width={32} alt={"Currency Conversion Confirm"} src={Exchange} />}
                                     keyNoti={key}
-                                    title={"Conversion de moneda confirmada."}
-                                    text={`Cambio de ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} procesado.`}
+                                    title={"Currency exchange confirmed."}
+                                    text={`Exchange for ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} confirmed.`}
                                 />
                             )
                         case "CURRENCY_CONVERSION_REJECT":
@@ -226,8 +226,8 @@ export const CardsNotification = () => {
                                     href={`/wallet`}
                                     Icon={() => <Image height={32} width={32} alt={"Currency Conversion Confirm"} src={Exchange} />}
                                     keyNoti={key}
-                                    title={"Conversion de moneda rechazada."}
-                                    text={`Cambio de ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} fue rechazado.`}
+                                    title={"Currency exchange failed"}
+                                    text={`Exchange for ${value?.currency && value?.amount?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} was rejected.`}
                                 />
                             )
                     }

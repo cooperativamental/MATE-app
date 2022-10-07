@@ -14,6 +14,9 @@ function App() {
           <h1>
             <Mate className="w-72 hover:scale-125" />
           </h1>
+          <h4 className='p-8 text-xl font-layer font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#6221e8] to-[#3bb89f]'>
+            @ Demo Day Solana Hacker House Bogotá 2022
+          </h4>
         </a>
       </Link>
     </div>

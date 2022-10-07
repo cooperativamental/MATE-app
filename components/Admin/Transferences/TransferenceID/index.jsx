@@ -72,11 +72,11 @@ const TransferencesID = () => {
                             name: partner?.data?.fullName,
                             email: partner?.data?.email
                         },
-                        subject: "Pedido de Retiro",
+                        subject: "Requests withdrawal",
                         redirect: `${host}/wallet`,
                         text: [
-                            `Se ha confirmado la transferencia`,
-                            `de ${selectedWithdraw.currency} ${selectedWithdraw.amount}`,
+                            `Transfer completed`,
+                            `of ${selectedWithdraw.currency} ${selectedWithdraw.amount}`,
                         ],
                     }
                 )
@@ -118,7 +118,7 @@ const TransferencesID = () => {
             <div className="flex flex-col items-center w-11/12 gap-8">
                 <h1 className="text-xl font-bold">{partner?.data?.fullName}</h1>
                 <div className="flex justify-between w-8/12 text-lg font-semibold">
-                    <p>Monto: </p>
+                    <p>Amount: </p>
                     <p>{`${selectedWithdraw?.currency ?? ""} ${selectedWithdraw?.amount}`}</p>
                 </div>
                 {

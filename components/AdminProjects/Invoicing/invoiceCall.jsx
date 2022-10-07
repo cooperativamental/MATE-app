@@ -50,18 +50,18 @@ export const InvoiceCall = ({ project, keyProject }) => {
                     textEmail: (txt) => {
                         let text = ""
                         if (txt?.percentage === 1) {
-                            text = " del 100% "
+                            text = " 100% "
                         } else if (txt?.percentage === 2) {
-                            text = " del 50% "
+                            text = " 50% "
                         } else {
-                            text = " de un tercio "
+                            text = " 1/3 "
                         }
                         return ({
                             text: [
-                                `${txt?.projectHolder} solicita la facturación ${text}`,
-                                `del proyecto "${txt?.nameProject}" a ${txt?.client}`
+                                `${txt?.projectHolder} request for invoicing ${text}`,
+                                `from tthe project "${txt?.nameProject}" to ${txt?.client}`
                             ],
-                            subject: "Solicitud de facturación",
+                            subject: "Invoice request",
                         })
                     },
                     percentage: percentage && Number(percentage),

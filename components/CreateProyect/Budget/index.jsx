@@ -309,6 +309,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             </div>
                             <p className=" text-xs text-gray-100 text-center">Third party expenses, not members of your team.</p>
                         </div>
+                        <hr className="flex bg-slate-300 border-[1px] w-full" />
                         <div className="flex flex-col w-full" >
                             <div className=" flex flex-row gap-2 items-center w-full">
                                 <InputSelect
@@ -451,16 +452,20 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     </div>
                     :
                     <div className="flex flex-col items-center w-8/12 gap-4">
-                        <div className="flex items-center h-10 w-full justify-between font-medium text-base">
+                        <div className="flex items-center h-8 w-full justify-between font-medium text-base">
+                            <label>Total invoice ◎</label>
+                            <p>{project.totalBruto}</p>
+                        </div>
+                        <div className="flex items-center h-8 w-full justify-between font-medium text-base">
                             <label>Net Total ◎</label>
                             <p>{project.totalNeto}</p>
                         </div>
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
-
-                        <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Total invoice ◎</label>
-                            <p>{project.totalBruto}</p>
-                        </div>
+                        <div className="flex items-center h-4 w-full justify-between font-medium text-base">
+                            <label>Third party expenses</label>
+                            <p>{project.thirdParties?.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
+                        </div> 
+  
                         <hr className="flex bg-slate-300 border-[1px] w-full " />
 
                         <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
@@ -469,20 +474,15 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                         </div>
                         <hr className="  flex bg-slate-300 border-[1px] w-full " />
                        
-                        <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
+                        <div className="flex items-center h-4 w-full justify-between font-light text-sm">
                             <label>Reserve percentage %</label>
                             {project?.ratio}
                         </div>
-                        <div className="flex items-center h-10 w-full justify-between font-medium text-2xl">
+                        <div className="flex items-center h-10 w-full justify-between font-light text-base">
                             <label>Reserve ◎</label>
                             {`${((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) /100 ).toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
                         </div>
-                        <hr className="  flex bg-slate-300 border-[1px] w-full " />
-                        <div className="flex items-center h-10 w-full justify-between font-medium text-base">
-                            <label>Third party expenses</label>
-                            <p>{project.thirdParties?.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
-                        </div>
-                        <hr className="  flex bg-slate-300 border-[1px] w-full " />
+                        <hr className="  flex bg-slate-300 border-[3px] w-full " />
 
                         {
                             renderInfo(project.partners)

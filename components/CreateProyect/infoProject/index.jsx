@@ -284,7 +284,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
             <hr className="flex bg-slate-300 border-[1px] w-full" />
             <div className="flex items-center justify-between w-10/12 font-normal ">
               <p>KickOff: {new Date(project.start).toLocaleDateString('es-ar')}</p>
-              <p>Close:  {new Date(project.end).toLocaleDateString('es-ar')}</p>
+              <p>Deadline:  {new Date(project.end).toLocaleDateString('es-ar')}</p>
             </div>
             <hr className="flex bg-slate-300 border-[1px] w-full" />
 
