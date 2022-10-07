@@ -56,7 +56,9 @@ const sendEmail = (req, res) => {
                 });
 
                 const mailOption = {
-
+                    from: {
+                        name: "MATE"
+                    },
                     to: to.email,
                     subject: `${subject}`,
                     html: htmlToSend,
