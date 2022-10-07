@@ -275,7 +275,7 @@ const CallProject = ({ selected }) => {
                   }
                   return (
 
-                    <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-200 p-8 font-normal">
+                    <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-700 p-8 font-normal">
                       <p>{value.fullName}</p>
                       <p>
                         {status}
