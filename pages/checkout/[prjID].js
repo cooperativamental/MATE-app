@@ -11,35 +11,43 @@ import { get, getDatabase, ref } from "firebase/database";
 import ComponentButton from "../../components/Elements/ComponentButton"
 
 import { sendEmail } from "../../functions/sendMail"
-import { useHost } from "../../context/host";
 
 
 export default function Checkout() {
   const qrRef = useRef(null)
   const db = getDatabase()
   const router = useRouter()
-  const { host } = useHost()
-
   const [amount, setAmount] = useState()
-  const [project, setProject] = useState()
   const [projectPublicKey, setProjectPublicKey] = useState()
-  const [ pay, setPay] = useState(true)
-  const [ stateSendEmail, setSendEmail] = useState(false)
+
 
   useEffect(() => {
-      router.query.prjID &&
+    router.query.prjID &&
       get(ref(db, `projects/${router.query.prjID}`))
         .then(res => {
-          if(res.exists()){
-            setProject(res.val())
+          if (res.exists()) {
             setProjectPublicKey(res.val().treasuryKey)
-            const amount =new BigNumber(res.val().totalBruto)
+            const amount = new BigNumber(res.val().totalBruto)
             setAmount(amount)
             // Solana Pay transfer params
+            const urlParams = {
+              recipient: new PublicKey(res?.val()?.treasuryKey),
+              amount,
+              label: "🧉 Protocol",
+              message: "Thanks for using the 🧉 Protocol",
+            }
 
+            // Encode the params into the format shown
+            const url = encodeURL(urlParams)
+            console.log({ url })
+            const qr = createQR(url, 512, 'transparent')
+            if (qrRef.current && amount.isGreaterThan(0)) {
+              qrRef.current.innerHTML = ''
+              qr.append(qrRef.current)
+            }
           }
         })
-    
+
   }, [db, router.query])
 
 
@@ -59,59 +67,34 @@ export default function Checkout() {
 
   // Check every 0.5s if the transaction is completed
   useEffect(() => {
-    if(projectPublicKey){
-      const interval = setInterval(async () => {
-        try {
-          const transactionList = await connection.getSignaturesForAddress(new PublicKey(projectPublicKey))
-          const signatureTransaction = transactionList.map(trs => trs?.signature)
-          signatureTransaction
-          const transactionDetails = await connection.getParsedTransactions(signatureTransaction)
-          console.log(transactionDetails)
-          setPay(!!transactionDetails.length)
-          // Check if there is any transaction for the reference
-          // const signatureInfo = await findTransactionSignature(connection, reference, {}, 'confirmed')
-          // // Validate that the transaction has the expected recipient, amount and SPL token
-          // await validateTransactionSignature(connection, signatureInfo.signature, shopAddress, amount, reference, 'confirmed')
-        } catch (e) {
-          console.error('Unknown error', e)
-        }
-      }, 500)
-      return () => {
-        clearInterval(interval)
-      }
-    }
-  }, [projectPublicKey])
+    const interval = setInterval(async () => {
+      try {
+        const transactionList = await connection.getSignaturesForAddress(new PublicKey(projectPublicKey))
+        const signatureTransaction = transactionList.map(trs => trs.signature)
+        signatureTransaction
+        const transactionDetails = await connection.getParsedTransactions(signatureTransaction)
 
-  useEffect(()=> {
-    // if(!pay){
-      if(projectPublicKey){
-        const urlParams = {
-          recipient: new PublicKey(projectPublicKey),
-          amount,
-          label: "🧉 Protocol",
-          message: "Thanks for using the 🧉 Protocol",
-        }
-    
-        // Encode the params into the format shown
-        const url = encodeURL(urlParams)
-        console.log({ url })
-        const qr = createQR(url, 512, 'transparent')
-        if (qrRef.current && amount.isGreaterThan(0)) {
-          qrRef.current.innerHTML = ''
-          qr.append(qrRef.current)
-        }
+        // Check if there is any transaction for the reference
+        // const signatureInfo = await findTransactionSignature(connection, reference, {}, 'confirmed')
+        // // Validate that the transaction has the expected recipient, amount and SPL token
+        // await validateTransactionSignature(connection, signatureInfo.signature, shopAddress, amount, reference, 'confirmed')
+
+
+      } catch (e) {
+        console.error('Unknown error', e)
       }
-    // } else {
-    //   qrRef.current.innerHTML = 'Canceled'
-      
-    // }
-  },[projectPublicKey])
+    }, 500)
+    return () => {
+      clearInterval(interval)
+    }
+
+  }, [])
 
   const handlerEmail = () => {
-    const email ={
+    const email = {
       from: {
-        name: Object.values(project.client).map(client=> client.clientName)[0],
-        email: Object.values(project.client).map(client=> client.email)[0]
+        name: Object.values(project.client).map(client => client.clientName)[0],
+        email: Object.values(project.client).map(client => client.email)[0]
       },
       to: {
         name: Object.values(project.projectHolder).map(prjHolder => prjHolder.fullName)[0],
@@ -130,7 +113,7 @@ export default function Checkout() {
       <p className="text-3xl font-semibold">Amount: ${amount?.toString()}</p>
 
       {/* div added to display the QR code */}
-      <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500"/>
+      <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500" />
       <ComponentButton
         buttonEvent={handlerEmail}
         buttonStyle="w-max"
