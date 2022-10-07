@@ -83,7 +83,7 @@ export default function Checkout() {
   }, [projectPublicKey])
 
   useEffect(()=> {
-    if(!pay){
+    // if(!pay){
       const urlParams = {
         recipient: new PublicKey(projectPublicKey),
         amount,
@@ -99,10 +99,10 @@ export default function Checkout() {
         qrRef.current.innerHTML = ''
         qr.append(qrRef.current)
       }
-    } else {
-      qrRef.current.innerHTML = 'Canceled'
+    // } else {
+    //   qrRef.current.innerHTML = 'Canceled'
       
-    }
+    // }
   },[pay])
 
   const handlerEmail = () => {
