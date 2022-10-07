@@ -156,7 +156,7 @@ const Organizations = () => {
                                                 href={{
                                                     pathname: "/organizations/[organization]",
                                                     query: {
-                                                        organization: infoOrganization.publicKey.toBase58()
+                                                        organization: infoOrganization?.publicKey?.toBase58()
                                                     }
                                                 }}
                                                 as="/organizations"
