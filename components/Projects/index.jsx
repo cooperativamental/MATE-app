@@ -76,11 +76,9 @@ const Projects = ({ projects, fnProjects, queryId }) => {
               >
                 <td className='border-y-2 border-slate-600 h-12 max-h-12'>{project?.nameProject}</td>
                 <td className='border-y-2 border-slate-600 h-12 max-h-12'>
-
                   <p className={`${selected === project?.id ? " text-[#cca9fd]" : " text-slate-100"}`}>
                     {project?.client && Object.values(project?.client).map(client => client.clientName)}
                   </p>
-
                 </td>
                 {
                   router.pathname !== "/wallet" &&

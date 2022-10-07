@@ -8,6 +8,7 @@ import {
   query,
   onValue,
   orderByValue,
+  update
 } from "firebase/database";
 
 // import { InvoiceOrder } from "./Invoicing/InvoiceOrder";
@@ -22,6 +23,7 @@ import ProjectSheets from "./ProjectSheets"
 import { CollectPending } from "./CollectCrypto/CollectPending";
 import { ConfirmCall } from "./CollectCrypto/CollectCall";
 import { useConnection } from '@solana/wallet-adapter-react'
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
 
 const AdminProjects = ({ prj }) => {
@@ -34,7 +36,7 @@ const AdminProjects = ({ prj }) => {
   const [isHolder, setIsHolder] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  
+
   const { connection } = useConnection()
 
   const objRender = {
@@ -150,31 +152,37 @@ const AdminProjects = ({ prj }) => {
 
   useEffect(() => {
     if (keyProject && user) {
-      let interval
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
           if (res.val()?.projectHolder?.[user.uid] || res.val()?.projectOwner?.[user.uid]) {
             setIsHolder(true)
           }
           setProject(res.val())
-          interval = setInterval(async () => {
-            try {
-              const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-              if(bal && res.val().status !== "LIQUIDATED"){
-                update(ref(db, `projects/${keyProject}`), { status: "LIQUIDATED"})
-              }
-            } catch (e) {
-              console.error('Unknown error', e)
-            }
-          }, 500)
+
+          return () => {
+            unsubscribe()
+
+          }
         }
       })
-      return () => {
-        unsubscribe()
-        clearInterval(interval)
-      }
     }
   }, [db, user, keyProject])
+
+  useEffect(() => {
+    if (keyProject && user) {
+      const interval = setInterval(async () => {
+        try {
+          const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
+          if (bal && project.status !== "LIQUIDATED") {
+            update(ref(db, `projects/${keyProject}`), { status: "LIQUIDATED" })
+          }
+        } catch (e) {
+          console.error('Unknown error', e)
+        }
+      }, 500)
+      return () => clearInterval(interval)
+    }
+  }, [project])
 
   const handleInfoProject = async (propProject) => {
     router.push(`${router.pathname}/${propProject.id}`)
