@@ -116,6 +116,8 @@ const AuthProvider = ({ children }) => {
   const signUp = async (
     { email, password, displayName, photoURL, regFis, userName, fullName, organization }
   ) => {
+
+    console.log({ email, password, displayName, photoURL, regFis, userName, fullName })
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(auth.currentUser, {
@@ -125,10 +127,8 @@ const AuthProvider = ({ children }) => {
       await setDoc(doc(dbFirestore, "users", auth.currentUser.uid),
         {
           regFis: regFis,
-          // priority: priority,
           userName: userName,
           fullName: fullName,
-          organization: organization,
           email: email
         }
       )
