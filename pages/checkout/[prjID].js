@@ -84,26 +84,28 @@ export default function Checkout() {
 
   useEffect(()=> {
     // if(!pay){
-      const urlParams = {
-        recipient: new PublicKey(projectPublicKey),
-        amount,
-        label: "🧉 Protocol",
-        message: "Thanks for using the 🧉 Protocol",
-      }
-  
-      // Encode the params into the format shown
-      const url = encodeURL(urlParams)
-      console.log({ url })
-      const qr = createQR(url, 512, 'transparent')
-      if (qrRef.current && amount.isGreaterThan(0)) {
-        qrRef.current.innerHTML = ''
-        qr.append(qrRef.current)
+      if(projectPublicKey){
+        const urlParams = {
+          recipient: new PublicKey(projectPublicKey),
+          amount,
+          label: "🧉 Protocol",
+          message: "Thanks for using the 🧉 Protocol",
+        }
+    
+        // Encode the params into the format shown
+        const url = encodeURL(urlParams)
+        console.log({ url })
+        const qr = createQR(url, 512, 'transparent')
+        if (qrRef.current && amount.isGreaterThan(0)) {
+          qrRef.current.innerHTML = ''
+          qr.append(qrRef.current)
+        }
       }
     // } else {
     //   qrRef.current.innerHTML = 'Canceled'
       
     // }
-  },[pay])
+  },[projectPublicKey])
 
   const handlerEmail = () => {
     const email ={
