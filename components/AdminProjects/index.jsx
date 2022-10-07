@@ -73,7 +73,6 @@ const AdminProjects = ({ prj }) => {
       <CollectPending
         project={project}
         keyProject={keyProject}
-
       />,
     awaiting_payment:
       <ProjectSheets
