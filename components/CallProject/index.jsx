@@ -152,12 +152,12 @@ const CallProject = ({ selected }) => {
                   name: project.projectHolder.fullName,
                   email: project.projectHolder.email
                 },
-                subject: `${user.fullName} Requests review`,
+                subject: `${user.fullName} solicita revisión`,
                 redirect: `${host}//adminprojects?prj=${selected}`,
                 text: [
-                  `The partner ${user.fullName}, `,
-                  `requests review on ${project.nameProject} for ${cliName}`,
-                  `to ${project.currency} ${revision}.`
+                  `El socio ${user.fullName}, `,
+                  `solicita la revision en ${project.nameProject} de ${cliName}`,
+                  `por el total de ${project.currency} ${revision}.`
                 ],
               }
             )
@@ -177,26 +177,26 @@ const CallProject = ({ selected }) => {
       <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
       <div className="flex text-xl w-full justify-between font-normal">
-        <p>Kickoff date: </p>
+        <p>Fecha de Inicio: </p>
         <p>{project?.start}</p>
       </div>
       <div className="">
-        <p>Project holder: </p>
+        <p>Titular del Proyecto: </p>
         <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
       </div>
       <div className="">
-        <h3>Called up team:</h3>
+        <h3>Equipo Convocado:</h3>
         {
           project && project?.partners &&
           <div className="flex flex-col w-full justify-between gap-4 bg-slate-700 p-8 rounded-md">
             <div className="flex justify-between w-full">
-              <h5>Partner: </h5>
+              <h5>Socio: </h5>
               <h5>{user.fullName}</h5>
             </div>
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
             <div className="flex justify-between w-full">
-              <p>Amount agreed: </p>
+              <p>Monto pactado: </p>
               <p>{project?.partners?.[user.uid]?.amount?.toLocaleString('es-ar', { style: 'currency', currency: project?.currency, minimumFractionDigits: 2 })}</p>
             </div>
             {/* {
@@ -233,7 +233,7 @@ const CallProject = ({ selected }) => {
                       </InputSelect>
                       <ComponentButton
                         buttonEvent={comfirmProject}
-                        buttonText="Confirm"
+                        buttonText="Confirmar Participación"
                       />
                     </>
                 }
@@ -241,7 +241,7 @@ const CallProject = ({ selected }) => {
                 <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
                 {/* <div className="flex flex-col items-center gap-4">
-                  <p>{'If the amount was not as agreed, please enter the amount it should be and press the Review button.'}</p>
+                  <p>{'Si el monto no fue el pactado por favor introduzca el monto que debería ser y presione el boton "Revision"'}</p>
                   <InputSelect
                     type="number"
                     value={revision.toString()}
@@ -249,7 +249,7 @@ const CallProject = ({ selected }) => {
                   />
                   <ComponentButton
                     buttonEvent={sendRevision}
-                    buttonText="Review"
+                    buttonText="Revision"
                   />
                 </div> */}
               </div>
@@ -259,15 +259,15 @@ const CallProject = ({ selected }) => {
         {
           project?.partners && Object.entries(project?.partners).length > 1 &&
           <div className="flex flex-col w-full justify-between gap-4  ">
-            <h3>Called up team:</h3>
+            <h3>Equipo Convocado:</h3>
             {
               project?.partners && Object.entries(project?.partners).map(([userId, value]) => {
                 if (userId !== user.uid) {
                   let status = ""
                   if (value.amount >= value.salarysettlement) {
-                    status = "Canceled"
-                  } else if (value.status === "CONFIRMED") {
-                    status = "Confirmed"
+                    status = "Liquidado"
+                  } else if (value.status === "CONFIRMADO") {
+                    status = "Confirmado"
                   } else if (value.status === "REVISION_PARTNER") {
                     status = "Revision"
                   } else {
@@ -275,7 +275,7 @@ const CallProject = ({ selected }) => {
                   }
                   return (
 
-                    <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-200 p-8 font-normal">
+                    <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-700 p-8 font-normal">
                       <p>{value.fullName}</p>
                       <p>
                         {status}
