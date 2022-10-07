@@ -66,7 +66,7 @@ export default function Checkout() {
           const signatureTransaction = transactionList.map(trs => trs?.signature)
           signatureTransaction
           const transactionDetails = await connection.getParsedTransactions(signatureTransaction)
-
+          console.log(transactionDetails)
           setPay(!!transactionDetails.length)
           // Check if there is any transaction for the reference
           // const signatureInfo = await findTransactionSignature(connection, reference, {}, 'confirmed')

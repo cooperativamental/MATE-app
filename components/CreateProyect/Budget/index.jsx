@@ -108,7 +108,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
             }
         })
-        console.log((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners )
+        console.log((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))), amountTotalPartners )
         setAvailable((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners)
         
         setErrors({

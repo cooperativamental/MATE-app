@@ -51,7 +51,7 @@ const CreateProject = () => {
   })
 
   useEffect(() => {
-    getDoc(doc(firestore, "users", user.uid))
+    getDoc(doc(firestore, "users", user?.uid))
       .then(res =>
         setProject(
           {
