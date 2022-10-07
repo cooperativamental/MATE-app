@@ -90,11 +90,11 @@ const CurrencyConversion = () => {
                           name: valueUser.fullName,
                           email: valueUser.email
                         },
-                        subject: "Pedido de Cambio",
+                        subject: "Requests currency exchange",
                         redirect: `${host}/admin/currencyconversion/${pushCurrencyconversion.key}?u=${user.uid}`,
                         text: [
-                          `El socio ${user.fullName}`,
-                          `Solicito el cambio de ${currencyConversion.currency} ${currencyConversion.amount}`,
+                          `The partner ${user.fullName}`,
+                          `Requests currency exchange for ${currencyConversion.currency} ${currencyConversion.amount}`,
                         ],
                       }
                     )

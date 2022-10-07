@@ -91,11 +91,11 @@ const RevisionPartners = ({ keyProject, project }) => {
                       name: project.partners[key].fullName,
                       email: project.partners[key].email
                     },
-                    subject: `El titular ${projOwn} confirma la revisión`,
+                    subject: `Project holder ${projOwn} confirmed the review.`,
                     redirect: `${host}/projects/${value.projectID}`,
                     text: [
                       `${project.partners[key].fullName}`,
-                      `Se realizo una nueva propuesta por ${revisionPartners?.[key]}`,
+                      `A new proposal was submitted by ${revisionPartners?.[key]}`,
                     ],
                   })
                 })
@@ -115,11 +115,11 @@ const RevisionPartners = ({ keyProject, project }) => {
         <p >{project?.client && Object.values(project?.client).map(res => res.clientName)}</p>
       </div>
       <div className="flex w-8/12 justify-between text-xl font-semibold">
-        <p >Total Neto: </p>
+        <p >Net Total: </p>
         <p>{project?.currency && project?.totalNeto.toLocaleString('es-ar', { style: 'currency', currency: project?.currency, minimumFractionDigits: 2 })}</p>
       </div>
       <div className="flex w-8/12 justify-between text-xl font-semibold">
-        <p>Pactado con Terceros:
+        <p>Third parties:
         </p>
         <p>
           {
@@ -128,7 +128,7 @@ const RevisionPartners = ({ keyProject, project }) => {
           }
         </p>
       </div>
-      <h4 className="text-lg font-bold">Socios y Asociados</h4>
+      <h4 className="text-lg font-bold">Partners</h4>
       <div className="flex flex-wrap gap-8">
         {
           project && project.partners &&
@@ -139,19 +139,19 @@ const RevisionPartners = ({ keyProject, project }) => {
                   <div className="flex flex-col w-full ">
                     <p className="font-bold text-2xl">{value.fullName}</p>
                     <div className="flex w-full gap-10 text-md font-semibold">
-                      <p>Monto pactado:</p>
+                      <p>Amount agreed:</p>
                       <p>{value.amount.toLocaleString('es-ar', { style: 'currency', currency: project?.currency, minimumFractionDigits: 2 })}</p>
                     </div>
                     <div className="flex w-full gap-10 text-md font-semibold">
-                      <p>Monto solicitado:</p>
+                      <p>Amount requested:</p>
                       <p>{value.revision.toLocaleString('es-ar', { style: 'currency', currency: project?.currency, minimumFractionDigits: 2 })}</p>
                     </div>
                     <div className="flex w-full gap-10 text-md font-semibold">
-                      <p>Estado del socio:</p>
-                      <p>Revisión</p>
+                      <p>Partner status:</p>
+                      <p>Review</p>
                     </div>
                   </div>
-                  <label className="text-xl font-semibold" htmlFor="totalNeto">Solicitud de Revisión: </label>
+                  <label className="text-xl font-semibold" htmlFor="totalNeto">Request for Review: </label>
                   <InputSelect
                     type="number"
                     name="totalNeto"
@@ -167,7 +167,7 @@ const RevisionPartners = ({ keyProject, project }) => {
         }
       </div>
       <ComponentButton
-        buttonText="Enviar Revisión"
+        buttonText="Send review"
         buttonEvent={confirmRevision}
       />
     </div>
