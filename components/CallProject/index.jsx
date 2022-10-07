@@ -9,7 +9,7 @@ import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { useConnection } from "@solana/wallet-adapter-react"
 import { useProgram } from "../../hooks/useProgram/index.ts"
 
-
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 const CallProject = ({ selected }) => {
   const db = getDatabase();
@@ -29,7 +29,7 @@ const CallProject = ({ selected }) => {
 
       const unsubscribe = onValue(ref(db, `wallet/${user?.uid}`),
         async (res) => {
-          const resOrganizationWeb3 = await program?.account?.group.all()
+          const resOrganizationWeb3 = await program?.account?.group?.all()
           const findOrganization = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === project?.organization)
           const convertWalletsInOrganization = findOrganization?.account?.members?.map(member => member.toBase58())
           const filterWalletInOrganization = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInOrganization?.includes(wallet.publicKey))
@@ -43,7 +43,7 @@ const CallProject = ({ selected }) => {
     }
 
 
-  }, [db, user, program?.account?.group, project])
+  }, [db, user, program?.account?.group, project, connection, wallet])
 
   useEffect(() => {
     if (selected && user) {
@@ -169,7 +169,7 @@ const CallProject = ({ selected }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-11/12">
+    <div className="flex flex-col gap-4 mt-12 w-8/12">
       <div className="flex text-xl w-full justify-between font-semibold">
         <h4 >{project?.client && Object.values(project?.client).map(res => res.clientName)}</h4>
         <h4>{project?.nameProject}</h4>
@@ -209,30 +209,35 @@ const CallProject = ({ selected }) => {
             {
               project?.partners && project?.partners[user.uid].status === "ANNOUNCEMENT" &&
               <div className="flex flex-col items-center gap-8">
+                {
+                  (!connection || !wallet) ?
+                    <WalletMultiButton />
+                    :
+                    <>
+                      <InputSelect
+                        select
+                        onChange={(e) => setSelectWallet(e.target.value)}
+                        optionDisabled="SelectWallet"
+                        name="wallet"
+                        title="Select your wallet"
+                      >
+                        {
+                          wallets && Object.entries(wallets).map(([keyWallet, wallet]) => {
+                            return (
+                              <option key={keyWallet}>
+                                {wallet.publicKey}
+                              </option>
+                            )
+                          })
+                        }
+                      </InputSelect>
+                      <ComponentButton
+                        buttonEvent={comfirmProject}
+                        buttonText="Confirmar Participación"
+                      />
+                    </>
+                }
 
-                <InputSelect
-                  select
-                  onChange={(e) => setSelectWallet(e.target.value)}
-                  optionDisabled="SelectWallet"
-                  name="wallet"
-                  title="Select your wallet"
-                >
-                  {
-                    wallets && Object.entries(wallets).map(([keyWallet, wallet]) => {
-
-                      return (
-                        <option key={keyWallet}>
-                          {wallet.publicKey}
-                        </option>
-                      )
-                    })
-                  }
-                </InputSelect>
-
-                <ComponentButton
-                  buttonEvent={comfirmProject}
-                  buttonText="Confirmar Participación"
-                />
                 <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
                 <div className="flex flex-col items-center gap-4">
@@ -284,7 +289,7 @@ const CallProject = ({ selected }) => {
           </div>
         }
       </div>
-    </div>
+    </div >
   );
 };
 
