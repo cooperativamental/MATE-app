@@ -91,22 +91,22 @@ export default function Checkout() {
 
   }, [])
 
-  const handlerEmail = () => {
-    const email = {
-      from: {
-        name: Object.values(project.client).map(client => client.clientName)[0],
-        email: Object.values(project.client).map(client => client.email)[0]
-      },
-      to: {
-        name: Object.values(project.projectHolder).map(prjHolder => prjHolder.fullName)[0],
-        email: Object.values(project.projectHolder).map(prjHolder => prjHolder.email)[0],
-      },
-      subject: "Payment Made",
-      text: "",
-      redirect: `${host}/adminprojects/${router.query.prjID}`
-    }
-    sendEmail(email)
-  }
+  // const handlerEmail = () => {
+  //   const email = {
+  //     from: {
+  //       name: Object.values(project.client).map(client => client.clientName)[0],
+  //       email: Object.values(project.client).map(client => client.email)[0]
+  //     },
+  //     to: {
+  //       name: Object.values(project.projectHolder).map(prjHolder => prjHolder.fullName)[0],
+  //       email: Object.values(project.projectHolder).map(prjHolder => prjHolder.email)[0],
+  //     },
+  //     subject: "Payment Made",
+  //     text: "",
+  //     redirect: `${host}/adminprojects/${router.query.prjID}`
+  //   }
+  //   sendEmail(email)
+  // }
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-full w-full">
@@ -115,11 +115,11 @@ export default function Checkout() {
 
       {/* div added to display the QR code */}
       <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500" />
-      <ComponentButton
+      {/* <ComponentButton
         buttonEvent={handlerEmail}
         buttonStyle="w-max"
         buttonText="Send Confirmation"
-      />
+      /> */}
     </div>
   )
 }

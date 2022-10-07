@@ -21,6 +21,8 @@ import Revision from "./Revision"
 import ProjectSheets from "./ProjectSheets"
 import { CollectPending } from "./CollectCrypto/CollectPending";
 import { ConfirmCall } from "./CollectCrypto/CollectCall";
+import { useConnection } from '@solana/wallet-adapter-react'
+
 
 const AdminProjects = ({ prj }) => {
   const db = getDatabase();
@@ -31,6 +33,10 @@ const AdminProjects = ({ prj }) => {
   const [projects, setProjects] = useState([]);
   const [isHolder, setIsHolder] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  
+  const { connection } = useConnection()
+
   const objRender = {
     announcement:
       <ConfirmProject
