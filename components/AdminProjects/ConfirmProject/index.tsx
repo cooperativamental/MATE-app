@@ -88,7 +88,7 @@ const ConfirmProject = ({ keyProject, project }) => {
       const respCreateProjectWeb3 = await createProject(projectWeb3)
       update(ref(db, `projects/${keyProject}`),
       {
-        status: "COLLECT_PENDING",
+        status: "INVOICE_PENDING", 
         treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
       })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)

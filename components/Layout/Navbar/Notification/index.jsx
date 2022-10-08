@@ -268,7 +268,7 @@ const Notification = () => {
           open={value.open}
           key={key}
         />,
-      liquidated:
+      PAID:
         <CardListNotification
           href={
             value.projectID ?

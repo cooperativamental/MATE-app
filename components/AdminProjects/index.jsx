@@ -8,6 +8,7 @@ import {
   query,
   onValue,
   orderByValue,
+  update
 } from "firebase/database";
 
 // import { InvoiceOrder } from "./Invoicing/InvoiceOrder";
@@ -21,6 +22,9 @@ import Revision from "./Revision"
 import ProjectSheets from "./ProjectSheets"
 import { CollectPending } from "./CollectCrypto/CollectPending";
 import { ConfirmCall } from "./CollectCrypto/CollectCall";
+import { useConnection } from '@solana/wallet-adapter-react'
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
+
 
 const AdminProjects = ({ prj }) => {
   const db = getDatabase();
@@ -31,6 +35,10 @@ const AdminProjects = ({ prj }) => {
   const [projects, setProjects] = useState([]);
   const [isHolder, setIsHolder] = useState(false)
   const [loading, setLoading] = useState(true)
+
+
+  const { connection } = useConnection()
+
   const objRender = {
     announcement:
       <ConfirmProject
@@ -69,7 +77,7 @@ const AdminProjects = ({ prj }) => {
     //     <ProjectSheets keyProject={keyProject} project={project} />
 
     // ,
-    collect_pending:
+    invoice_pending:
       <CollectPending
         project={project}
         keyProject={keyProject}
@@ -85,7 +93,7 @@ const AdminProjects = ({ prj }) => {
         keyProject={keyProject}
         project={project}
       />,
-    liquidated:
+    PAID:
       <ProjectSheets
         keyProject={keyProject}
         project={project}
@@ -150,11 +158,31 @@ const AdminProjects = ({ prj }) => {
             setIsHolder(true)
           }
           setProject(res.val())
+
+          return () => {
+            unsubscribe()
+
+          }
         }
       })
-      return () => unsubscribe()
     }
-  }, [keyProject])
+  }, [db, user, keyProject])
+
+  useEffect(() => {
+    if (keyProject && user) {
+      const interval = setInterval(async () => {
+        try {
+          const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
+          if (bal && project.status !== "PAID") {
+            update(ref(db, `projects/${keyProject}`), { status: "PAID" })
+          }
+        } catch (e) {
+          console.error('Unknown error', e)
+        }
+      }, 500)
+      return () => clearInterval(interval)
+    }
+  }, [project])
 
   const handleInfoProject = async (propProject) => {
     router.push(`${router.pathname}/${propProject.id}`)

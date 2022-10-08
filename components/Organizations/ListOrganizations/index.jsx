@@ -69,7 +69,7 @@ const Organizations = () => {
             }
             
         })()
-    }, [firestore, user, program?.account?.group])
+    }, [firestore, user, program?.account?.group, connection, wallet])
 
 
 

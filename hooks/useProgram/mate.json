@@ -117,6 +117,77 @@
           "type": "publicKey"
         }
       ]
+    },
+    {
+      "name": "payProject",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "member0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member3",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member4",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member5",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member6",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member7",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member8",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member9",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -229,7 +300,8 @@
       }
     }
   ],
+  
   "metadata": {
-    "address": "6VdcN2k1Fm2S5EpGxvXHggDoCwRCqt9XT8u8jNxJaNmw"
+    "address": "HYu4TWwt1AQjsRkhLyv1EpXYKYUVBnWGxmkixJq4QgVF"
   }
 }

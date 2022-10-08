@@ -52,7 +52,7 @@ const BalanceProvider = ({children}) => {
             if (res.hasChildren()) {
               const allAmountPrj = Object.entries(res.val()).map(async ([key, value]) => {
                 const getPrj = await get(ref(db, `projects/${key}`))
-                const status = ["ANNOUNCEMENT", "REVISION_PARTNER", "REVISION_CONFIRM", "LIQUIDATED"]
+                const status = ["ANNOUNCEMENT", "REVISION_PARTNER", "REVISION_CONFIRM", "PAID"]
                 if (!status.find(sts => sts === getPrj?.val()?.status)) {
                   if (value.amount > value.salarysettlement && value.salarysettlement) {
                     if (getPrj.val().currency === "USD") {

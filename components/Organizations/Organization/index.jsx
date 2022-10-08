@@ -170,13 +170,13 @@ const Organization = () => {
                     <button
                         className=" text-secondary-color font-semibold"
                     >
-                        Vote Review (in comming)
+                        Vote Review (incoming)
                     </button>
                 </div>
                 <button
                     className=" text-secondary-color font-semibold"
                 >
-                    Treasury Funds Proposal (in comming)
+                    Treasury Funds Proposal (incoming)
                 </button>
             </div>
             <div className="flex flex-col gap-4">
