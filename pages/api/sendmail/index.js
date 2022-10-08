@@ -57,7 +57,7 @@ const sendEmail = (req, res) => {
 
                 const mailOption = {
                     from: {
-                        name: from.name,
+                        name: "MATE",
                         address: from.email
                     },
                     to: to.email,
