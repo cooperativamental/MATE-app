@@ -4,7 +4,7 @@ import * as anchor from "@project-serum/anchor";
 
 import idl from "./mate.json"
 
-const MATE_PROGRAM = "6VdcN2k1Fm2S5EpGxvXHggDoCwRCqt9XT8u8jNxJaNmw";
+const MATE_PROGRAM = idl.metadata.address;
 const programID = new PublicKey(MATE_PROGRAM);
 
 export interface Wallet {
