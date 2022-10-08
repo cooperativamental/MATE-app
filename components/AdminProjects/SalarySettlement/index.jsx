@@ -157,7 +157,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
       newDate.getDate(),
     ].join("-");
 
-    update(ref(db, `projects/${keyPrj}`), { status: "LIQUIDATED" })
+    update(ref(db, `projects/${keyPrj}`), { status: "PAID" })
       .then(res => {
         if (!validation?.thirdParties) {
           update(
@@ -226,7 +226,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
                             Object.values(project.client).forEach(client => cliName = client.clientName)
                             set(pushNoti,
                               {
-                                type: "LIQUIDATED",
+                                type: "PAID",
                                 projectID: keyPrj,
                                 projectHolder: projOwn,
                                 salarysettlement: valuePartner.amount,

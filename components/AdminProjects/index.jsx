@@ -77,7 +77,7 @@ const AdminProjects = ({ prj }) => {
     //     <ProjectSheets keyProject={keyProject} project={project} />
 
     // ,
-    collect_pending:
+    invoice_pending:
       <CollectPending
         project={project}
         keyProject={keyProject}
@@ -93,7 +93,7 @@ const AdminProjects = ({ prj }) => {
         keyProject={keyProject}
         project={project}
       />,
-    liquidated:
+    PAID:
       <ProjectSheets
         keyProject={keyProject}
         project={project}
@@ -173,8 +173,8 @@ const AdminProjects = ({ prj }) => {
       const interval = setInterval(async () => {
         try {
           const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
-          if (bal && project.status !== "LIQUIDATED") {
-            update(ref(db, `projects/${keyProject}`), { status: "LIQUIDATED" })
+          if (bal && project.status !== "PAID") {
+            update(ref(db, `projects/${keyProject}`), { status: "PAID" })
           }
         } catch (e) {
           console.error('Unknown error', e)

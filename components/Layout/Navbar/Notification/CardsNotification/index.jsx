@@ -143,7 +143,7 @@ export const CardsNotification = () => {
                                     project "${value.nameProject}" was paid by ${value.client}`}
                                 />
                             )
-                        case "LIQUIDATED":
+                        case "PAID":
                             return (
                                 <CardNotification
                                     value={value}

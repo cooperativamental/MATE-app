@@ -65,7 +65,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
 
                                 let status = ""
                                 if (value.amount <= value.salarysettlement) {
-                                    status = "Liquidated"
+                                    status = "PAID"
                                 } else if (value.status === "CONFIRMED") {
                                     status = "Confirmed"
                                 } else if (value.status === "REVISION_PARTNER") {
