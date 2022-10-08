@@ -125,7 +125,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
             <p className="whitespace-nowrap flex items-start text-lg font-semibold pl-4">Welcome  {`${user?.displayName}`}</p>
             <div className="flex  items-end">
 
-              <SettingsIcon onClick={() => { router.push("/updateUser") }} alt="menu open" color="disabled" />
+              <SettingsIcon onClick={() => { router.push("/updateUser") }} alt="menu open" color="white" />
             </div>
           </div>
         }
