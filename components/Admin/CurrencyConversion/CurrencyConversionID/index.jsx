@@ -96,7 +96,6 @@ const CurrencyConversionID = () => {
                         subject: "Confirmación de cambio",
                         redirect: `${host}/wallet`,
                         text: [
-                            `${partner?.data?.fullName}`,
                             `El cambio de ${selectedCurrencyConversion.currency} ${selectedCurrencyConversion.amount} ha sido confirmado`,
                         ],
                     })
@@ -136,7 +135,6 @@ const CurrencyConversionID = () => {
                         subject: "Rechazo de cambio",
                         redirect: `${host}/wallet`,
                         text: [
-                            `${partner?.data?.fullName}`,
                             `El cambio de ${selectedCurrencyConversion.currency} ${selectedCurrencyConversion.amount} no ha sido confirmado`,
                         ],
                     })
