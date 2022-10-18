@@ -10,8 +10,10 @@ import {
 } from "firebase/database";
 import { useAuth } from "../../../context/auth"
 import ComponentButton from "../../Elements/ComponentButton";
+
+import * as anchor from "@project-serum/anchor";
 import { useCreateWeb3 } from "../../../functions/createWeb3"
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { usePopUp } from "../../../context/PopUp"
@@ -68,7 +70,16 @@ const ConfirmProject = ({ keyProject, project }) => {
     // if(!errors?.confirm){
     //   if(project.fiatOrCrypto === "CRYPTO"){
     if (project.projectHolder[user.uid].wallet === publicKey.toBase58()) {
-      const walletsPartners = Object.values(project.partners).map((partner: any) => new PublicKey(partner.wallet))
+      const walletsPartners = Object.values(project.partners).map((partner: any) => {
+        console.log(partner)
+        return(
+        {
+          member: new PublicKey(partner.wallet), 
+          amount: new anchor.BN((partner.amount * LAMPORTS_PER_SOL))
+        }
+        )
+        }
+      )
       const client = Object.values(project.client).map((client: any) => {
         return new PublicKey(client?.wallet)
       })[0]
@@ -78,14 +89,15 @@ const ConfirmProject = ({ keyProject, project }) => {
         projectType: "COMMON",
         reserve: project.ratio,
         payments: walletsPartners,
-        currency: "SOL",
-        amount: project.totalBruto,
+        currency: "LAMPORT",
+        amount: project.totalBruto * LAMPORTS_PER_SOL,
         startDate: new Date(project.start).getTime(),
         endDate: new Date(project.end).getTime(),
         client: client
       }
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
+      console.log(respCreateProjectWeb3)
       update(ref(db, `projects/${keyProject}`),
       {
         status: "INVOICE_PENDING", 

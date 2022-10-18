@@ -100,7 +100,7 @@ export const ConfirmCall = ({ project, organization, keyProject }) => {
                 <p>{project?.nameProject}</p>
             </div>
             <div className="flex justify-between text-lg w-full">
-                <p>Project wallet address: </p>
+                <p>Project wallet: </p>
                 <p>{balance}</p>
             </div>
 

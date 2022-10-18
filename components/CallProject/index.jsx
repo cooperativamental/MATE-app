@@ -11,7 +11,10 @@ import { useProgram } from "../../hooks/useProgram/index.ts"
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
-const CallProject = ({ selected }) => {
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
+
+
+const CallProject = ({ keyProject }) => {
   const db = getDatabase();
   const { user } = useAuth();
   const [project, setProject] = useState();
@@ -23,6 +26,7 @@ const CallProject = ({ selected }) => {
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
   const { program } = useProgram({ connection, wallet });
+  const [balance, setBalance] = useState()
 
   useEffect(() => {
     if (program?.account?.group) {
@@ -46,24 +50,42 @@ const CallProject = ({ selected }) => {
   }, [db, user, program?.account?.group, project, connection, wallet])
 
   useEffect(() => {
-    if (selected && user) {
-      const unsubscribe = onValue(ref(db, `projects/${selected}`), res => {
+    get(ref(db, `projects/${keyProject}`))
+        .then(async res => {
+            const interval = setInterval(async () => {
+                try {
+                    const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
+                    setBalance(bal)
+                } catch (e) {
+                    console.error('Unknown error', e)
+                }
+            }, 500)
+            return () => {
+                clearInterval(interval)
+            }
+        })
+}, [])
+
+
+  useEffect(() => {
+    if (keyProject && user) {
+      const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         setProject(res.val())
       })
       return () => {
         unsubscribe()
       }
     }
-  }, [selected])
+  }, [keyProject])
 
 
   const comfirmProject = () => {
-    update(ref(db, `projects/${selected}/partners/${user.uid}`), {
+    update(ref(db, `projects/${keyProject}/partners/${user.uid}`), {
       status: "CONFIRMED",
       wallet: selectWallet
     })
       .then((res) => {
-        update(ref(db, `users/${user.uid}/projects/${selected}`), {
+        update(ref(db, `users/${user.uid}/projects/${keyProject}`), {
           status: "CONFIRMED",
           wallet: selectWallet
         }).then(res => {
@@ -75,7 +97,7 @@ const CallProject = ({ selected }) => {
             {
               type: "CONFIRM_PARTNER",
               namePartner: user.displayName,
-              projectID: selected,
+              projectID: keyProject,
               client: cliName,
               nameProject: project.nameProject,
               viewed: false,
@@ -98,7 +120,7 @@ const CallProject = ({ selected }) => {
                       }))[0]
                   },
                   subject: `${user.fullName} confirma participación`,
-                  redirect: `${host}/adminprojects?prj=${selected}`,
+                  redirect: `${host}/adminprojects?prj=${keyProject}`,
                   text: [
                     `El socio ${user.fullName}`,
                     `Confimó su participación en ${project.nameProject}, de ${cliName}`
@@ -113,15 +135,15 @@ const CallProject = ({ selected }) => {
   };
 
   const sendRevision = () => {
-    update(ref(db, `projects/${selected}`), {
+    update(ref(db, `projects/${keyProject}`), {
       status: "REVISION_PARTNER",
     }).then(res => {
-      update(ref(db, `projects/${selected}/partners/${user.uid}`), {
+      update(ref(db, `projects/${keyProject}/partners/${user.uid}`), {
         status: "REVISION_PARTNER",
         revision: revision
       })
         .then((res) => {
-          update(ref(db, `users/${user.uid}/projects/${selected}`), {
+          update(ref(db, `users/${user.uid}/projects/${keyProject}`), {
             status: "REVISION_PARTNER",
             revision: revision
           }).then(res => {
@@ -133,7 +155,7 @@ const CallProject = ({ selected }) => {
               {
                 type: "REVISION_PARTNER",
                 petitioner: user.displayName,
-                projectID: selected,
+                projectID: keyProject,
                 client: cliName,
                 nameProject: project.nameProject,
                 viewed: false,
@@ -153,7 +175,7 @@ const CallProject = ({ selected }) => {
                   email: project.projectHolder.email
                 },
                 subject: `${user.fullName} Requests review`,
-                redirect: `${host}//adminprojects?prj=${selected}`,
+                redirect: `${host}//adminprojects?prj=${keyProject}`,
                 text: [
                   `The partner ${user.fullName}, `,
                   `requests review on ${project.nameProject} for ${cliName}`,
@@ -183,6 +205,10 @@ const CallProject = ({ selected }) => {
       <div className="">
         <p>Project holder: </p>
         <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
+      </div>
+      <div className="">
+        <p>Treasury project: </p>
+        <p>{balance}</p>
       </div>
       <div className="">
         <h3>Called up team:</h3>

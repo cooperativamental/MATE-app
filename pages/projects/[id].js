@@ -17,7 +17,7 @@ const PageHomeProjects = () => {
       </div>
       <div className="flex h-full justify-evenly px-4 mt-8 w-8/12">
 
-        <CallProject selected={id} />
+        <CallProject keyProject={id} />
       </div>
 
     </>

@@ -27,7 +27,7 @@ const CreateOrganizations = () => {
     const { program } = useProgram({ connection, wallet });
     const { publicKey } = useWallet()
 
-    const [errors, setErrors] = useState()
+    const [errors, setErrors] = useState({})
     const [listPartners, setListPartners] = useState()
     const [listMate, setListMate] = useState()
     const [organization, setOrganization] = useState({
@@ -212,7 +212,7 @@ const CreateOrganizations = () => {
                         // className="flex h-12 w-max bg-[#5A31E1] rounded-xl text-3xl text-white font-medium items-center p-6 "
                         buttonEvent={createOrganization}
                         buttonText="Create Team"
-                        conditionDisabled={Object.values(errors).find(prop => !!prop)}
+                        conditionDisabled={errors && Object.values(errors).find(prop => !!prop)}
                     />
                 </>
             }

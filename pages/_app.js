@@ -18,7 +18,7 @@ const MyApp = ({ Component, pageProps }) => {
     <WalletContextProvider>
       <AuthProvider>
         <RulesProvider>
-          <BalanceProvider>
+          {/* <BalanceProvider> */}
             <NotiProvider>
               <DollarProvider>
                 <HostProvider>
@@ -35,7 +35,7 @@ const MyApp = ({ Component, pageProps }) => {
                 </HostProvider>
               </DollarProvider>
             </NotiProvider>
-          </BalanceProvider>
+          {/* </BalanceProvider> */}
         </RulesProvider>
       </AuthProvider>
     </WalletContextProvider>

@@ -159,17 +159,17 @@ const AdminProjects = ({ prj }) => {
           }
           setProject(res.val())
 
-          return () => {
-            unsubscribe()
-
-          }
         }
       })
+      return () => {
+        unsubscribe()
+
+      }
     }
   }, [db, user, keyProject])
 
   useEffect(() => {
-    if (keyProject && user) {
+    if (keyProject && user && project.treasuryKey) {
       const interval = setInterval(async () => {
         try {
           const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
