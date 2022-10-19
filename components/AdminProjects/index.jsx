@@ -21,7 +21,7 @@ import ConfirmProject from "./ConfirmProject";
 import Revision from "./Revision"
 import ProjectSheets from "./ProjectSheets"
 import { CollectPending } from "./CollectCrypto/CollectPending";
-import { ConfirmCall } from "./CollectCrypto/CollectCall";
+import { CollectCall } from "./CollectCrypto/CollectCall";
 import { useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
@@ -93,8 +93,8 @@ const AdminProjects = ({ prj }) => {
         keyProject={keyProject}
         project={project}
       />,
-    PAID:
-      <ProjectSheets
+    paid:
+      <CollectCall
         keyProject={keyProject}
         project={project}
       />
@@ -159,17 +159,17 @@ const AdminProjects = ({ prj }) => {
           }
           setProject(res.val())
 
-          return () => {
-            unsubscribe()
-
-          }
         }
       })
+      return () => {
+        unsubscribe()
+
+      }
     }
   }, [db, user, keyProject])
 
   useEffect(() => {
-    if (keyProject && user) {
+    if (keyProject && user && project.treasuryKey) {
       const interval = setInterval(async () => {
         try {
           const bal = await connection.getBalance(new PublicKey(project.treasuryKey));

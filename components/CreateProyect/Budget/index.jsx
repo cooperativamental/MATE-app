@@ -72,10 +72,12 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     get(query(ref(db, `wallet/${user?.uid}`)))
                         .then(res => {
                             const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
-                            console.log(findOrganization, convertWalletsInOrganization)
-                            const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => convertWalletsInOrganization.includes(wallet.publicKey))
+                            const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => 
+                            {
+                               return convertWalletsInOrganization.includes(wallet.publicKey)
+                            }
+                            )
                             // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
-                            console.log(filterWalletInOrganization[0]?.publicKey)
                             setProject({
                                 ...project,
                                 partners: {
@@ -108,8 +110,8 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
             }
         })
-        console.log((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))), amountTotalPartners )
-        setAvailable((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners)
+
+        setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners)
         
         setErrors({
             thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
@@ -141,7 +143,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 })
             }
             if (e.target.name === "percentage") {
-                console.log((value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100)
                 setProject({
                     ...project,
                     partners: {

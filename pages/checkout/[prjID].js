@@ -34,8 +34,8 @@ export default function Checkout() {
             const urlParams = {
               recipient: new PublicKey(res?.val()?.treasuryKey),
               amount,
-              label: "🧉 Protocol",
-              message: "Thanks for using the 🧉 Protocol",
+              label: "Mate Protocol",
+              message: "Thanks for using the Mate Protocol",
             }
 
             // Encode the params into the format shown

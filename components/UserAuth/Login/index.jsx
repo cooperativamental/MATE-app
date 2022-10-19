@@ -69,7 +69,7 @@ const LogIn = () => {
             inputStyle={`ring-1 rounded-full caret-slate-100 ${errors.email ? "border-red-500" : "border-black"}`}
           />
           {
-            errors.password &&
+            errors?.password &&
             <p>Wrong Email</p>
           }
         </div>
@@ -97,7 +97,7 @@ const LogIn = () => {
             </button>
           </div>
           {
-            errors.password &&
+            errors?.password &&
             <p>Wrong Password</p>
           }
         </div>

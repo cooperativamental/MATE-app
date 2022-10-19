@@ -73,9 +73,6 @@ const CreateClient = () => {
         return !value
       }).length
     ) {
-      console.log(Object.entries(clientReg).filter(([prop, value]) => {
-        return !value
-      }))
       setErrors({
         
       })

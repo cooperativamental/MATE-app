@@ -41,7 +41,7 @@ export const RouteGuard = ({ children }) => {
 
       } 
       else {
-        console.log(url)
+        
         setAuthorized(false);
         router.push({
           pathname: "/login",

@@ -194,7 +194,7 @@ const Notification = () => {
         <CardListNotification
           href={{
             pathname: "/adminprojects",
-            lquery: {
+            query: {
               prj: value.projectID
             }
           }}

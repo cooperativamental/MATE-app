@@ -30,10 +30,12 @@ const PageHomeProjects = () => {
           const listProject = Object.keys(res.val()).map((key) =>
             get(ref(db, "projects/" + key))
               .then((res) => res.val())
-              .then((prj) => ({
+              .then((prj) => {
+              return({
                 ...prj,
                 id: key,
-              })),
+              })
+              }),
           );
           Promise.all(listProject).then((res) => {
             allProject = res.reverse();
