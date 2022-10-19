@@ -71,7 +71,6 @@ const ConfirmProject = ({ keyProject, project }) => {
     //   if(project.fiatOrCrypto === "CRYPTO"){
     if (project.projectHolder[user.uid].wallet === publicKey.toBase58()) {
       const walletsPartners = Object.values(project.partners).map((partner: any) => {
-        console.log(partner)
         return(
         {
           member: new PublicKey(partner.wallet), 
@@ -97,7 +96,6 @@ const ConfirmProject = ({ keyProject, project }) => {
       }
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
-      console.log(respCreateProjectWeb3)
       update(ref(db, `projects/${keyProject}`),
       {
         status: "INVOICE_PENDING", 

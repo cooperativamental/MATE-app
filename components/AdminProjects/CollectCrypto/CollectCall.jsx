@@ -17,7 +17,7 @@ import ComponentButton from "../../Elements/ComponentButton"
 import { useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
-export const ConfirmCall = ({ project, organization, keyProject }) => {
+export const CollectCall = ({ project, organization, keyProject }) => {
     const db = getDatabase()
 
     const { connection } = useConnection()
@@ -95,11 +95,11 @@ export const ConfirmCall = ({ project, organization, keyProject }) => {
                 <p>{project?.totalBruto?.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
             </div>
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
-            <div className="flex justify-between text-lg w-full">
+            <div className="flex w-full justify-between text-lg">
                 <p>Project name: </p>
                 <p>{project?.nameProject}</p>
             </div>
-            <div className="flex justify-between text-lg w-full">
+            <div className="flex w-full justify-between text-lg">
                 <p>Project wallet: </p>
                 <p>{balance}</p>
             </div>

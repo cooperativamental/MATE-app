@@ -117,7 +117,6 @@ const AuthProvider = ({ children }) => {
     { email, password, displayName, photoURL, regFis, userName, fullName, organization }
   ) => {
 
-    console.log({ email, password, displayName, photoURL, regFis, userName, fullName })
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(auth.currentUser, {

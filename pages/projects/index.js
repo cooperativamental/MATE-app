@@ -31,7 +31,6 @@ const PageHomeProjects = () => {
             get(ref(db, "projects/" + key))
               .then((res) => res.val())
               .then((prj) => {
-                console.log(prj)
               return({
                 ...prj,
                 id: key,
@@ -39,7 +38,6 @@ const PageHomeProjects = () => {
               }),
           );
           Promise.all(listProject).then((res) => {
-            console.log(res)
             allProject = res.reverse();
             setListProjects(allProject);
           });

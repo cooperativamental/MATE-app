@@ -11,7 +11,6 @@ export const CardListNotification = ({ Icon, title, text, keyNoti, href, open, a
         update(ref(db, `notifications/${user.uid}/${keyNoti}`), { open: true });
     }
 
-    console.log(href)
     return (
         <Link
             key={keyNoti}

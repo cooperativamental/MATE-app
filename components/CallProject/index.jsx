@@ -55,7 +55,7 @@ const CallProject = ({ keyProject }) => {
             const interval = setInterval(async () => {
                 try {
                     const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-                    setBalance(bal)
+                    setBalance(bal / LAMPORTS_PER_SOL)
                 } catch (e) {
                     console.error('Unknown error', e)
                 }
@@ -202,15 +202,15 @@ const CallProject = ({ keyProject }) => {
         <p>Kickoff date: </p>
         <p>{project?.start}</p>
       </div>
-      <div className="">
+      <div className="flex text-xl w-full justify-between font-normal">
         <p>Project holder: </p>
         <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
       </div>
-      <div className="">
+      <div className="flex text-xl w-full justify-between font-normal">
         <p>Treasury project: </p>
         <p>{balance}</p>
       </div>
-      <div className="">
+      <div>
         <h3>Called up team:</h3>
         {
           project && project?.partners &&
