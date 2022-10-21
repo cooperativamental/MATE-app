@@ -79,14 +79,12 @@ const Teams = () => {
                 Promise.all(getInfoTeamCreator)
                     .then((res) => {
                         const dataTeamCreator = Object.fromEntries(res.reverse())
-                        // console.log(dataTeamCreator)
                         setTeamPendingToConfirm(dataTeamCreator)
                     })
             }
 
             const getTeamsInvite = await get(query(ref(db, `users/${user?.uid}/teamInvite`)))
             if (getTeamsInvite.hasChildren()) {
-                console.log(getTeamsInvite)
                 const getInfoTeamInvite = Object.keys(getTeamsInvite.val()).map(async (keyTeamInvite) => {
                     return [keyTeamInvite, await (await get(ref(db, `team/${keyTeamInvite}`))).val()]
                 })
@@ -150,7 +148,6 @@ const Teams = () => {
     const render = (status) => {
 
         const renderToDatabase = (arr) => {
-            console.log(arr)
             return arr.map(([keyTeam, infoTeam]) => {
                 return (
                     <Link

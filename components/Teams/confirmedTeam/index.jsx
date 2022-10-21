@@ -62,8 +62,8 @@ const ConfirmTeam = () => {
                 ...team,
                 guests: {
                     ...team?.guests,
-                    [user.uid]: {
-                        ...team.guests[user.uid],
+                    [user?.uid]: {
+                        ...team?.guests[user.uid],
                         wallet: publicKey.toBase58()
                     }
                 }
@@ -80,7 +80,6 @@ const ConfirmTeam = () => {
                 .map(partner => {
                     return new PublicKey(partner?.wallet)
                 })
-            console.log(partnersConfirmed)
             const keyTeam = anchor.web3.Keypair.generate();
             const keyTreasury = anchor.web3.Keypair.generate();
             const tx = await program.rpc
