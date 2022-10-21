@@ -84,7 +84,7 @@ export const CardsNotification = () => {
                                         pathname: "/admin/project",
                                         query: {
                                             prj: value.projectID,
-                                            organization: value.organization
+                                            team: value.team
                                         }
                                     }}
                                     as="/admin/project"
@@ -110,7 +110,7 @@ export const CardsNotification = () => {
                                         pathname: "/adminprojects",
                                         query: {
                                             prj: value.projectID,
-                                            organization: value.organization
+                                            team: value.team
                                         }
                                     }}
                                     as="/adminprojects"

@@ -114,7 +114,7 @@ const AuthProvider = ({ children }) => {
   // }
 
   const signUp = async (
-    { email, password, displayName, photoURL, regFis, userName, fullName, organization }
+    { email, password, displayName, photoURL, regFis, userName, fullName, team }
   ) => {
 
     try {

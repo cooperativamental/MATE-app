@@ -24,8 +24,8 @@ const CreateClient = () => {
     email: "", 
     taxes: false
   });
-  const [organization, setOrganization] = useState()
-  const [selectOrganization, setSelectOrganization] = useState()
+  const [team, setTeam] = useState()
+  const [selectTeam, setSelectTeam] = useState()
 
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
@@ -35,17 +35,17 @@ const CreateClient = () => {
   useEffect(() => {
     if(program?.account?.group){
       (async()=>{
-        const resOrganizationsWeb3 = await program?.account?.group.all()
-        const forEntries = resOrganizationsWeb3.map((organization)=> {
+        const resTeamsWeb3 = await program?.account?.group.all()
+        const forEntries = resTeamsWeb3.map((team)=> {
           return [
-            organization.publicKey.toBase58(),
+            team.publicKey.toBase58(),
             {
-              ...organization.account
+              ...team.account
             }
           ]
         })
-        const objOrganizations = Object.fromEntries(forEntries)
-        setOrganization(objOrganizations)
+        const objTeams = Object.fromEntries(forEntries)
+        setTeam(objTeams)
       })()
     }
   }, [program?.account?.group])
@@ -65,11 +65,11 @@ const CreateClient = () => {
   };
 
   const createClient = async () => {
-    const keysOrganizations = Object.keys(selectOrganization).map(key=>key)
+    const keysTeams = Object.keys(selectTeam).map(key=>key)
 
     await addDoc(collection(firestore, "clients"), {
       ...clientReg,
-      organizations: keysOrganizations
+      teams: keysTeams
     });
 
     const clientRef = ref(db, "clients");
@@ -132,9 +132,9 @@ const CreateClient = () => {
       </InputSelect>
       <MultiSelect
         label="Grupos"
-        options={organization}
-        setSelectState={setSelectOrganization}
-        selectState={selectOrganization}
+        options={team}
+        setSelectState={setSelectTeam}
+        selectState={selectTeam}
         placeholder="Seleccione los grupos"
       />
       <InputSelect

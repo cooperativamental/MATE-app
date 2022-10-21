@@ -25,7 +25,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
   const router = useRouter()
   const { user } = useAuth();
   const { host } = useHost()
-  const [organizations, setOrganizations] = useState()
+  const [teams, setTeams] = useState()
   const [partners, setPartners] = useState({
     state: false,
     data: {}
@@ -37,9 +37,9 @@ const SalarySettlement = ({ keyPrj, project }) => {
 
   useEffect(() => {
     if (user) {
-      get(ref(db, "organizations"))
+      get(ref(db, "teams"))
         .then(res => {
-          setOrganizations(res.val())
+          setTeams(res.val())
         })
     }
   }, [db, user])
@@ -293,8 +293,8 @@ const SalarySettlement = ({ keyPrj, project }) => {
     setSelectPartners(restPartners)
   }
 
-  const getPartners = (organization) => {
-    get(query(ref(db, 'users'), orderByChild("organization"), equalTo(organization)))
+  const getPartners = (team) => {
+    get(query(ref(db, 'users'), orderByChild("team"), equalTo(team)))
       .then(res => {
         if(res.hasChildren){
           let listPartnersSelect = {}
@@ -459,10 +459,10 @@ const SalarySettlement = ({ keyPrj, project }) => {
         <select defaultValue={0} onChange={(e) => getPartners(e.target.value)}>
           <option value={0} disabled>Seleccione el grupo a elegir</option>
           {
-            organizations && Object.entries(organizations).map(([key, organization]) => {
+            teams && Object.entries(teams).map(([key, team]) => {
               return (
                 <option key={key} value={key}>
-                  {organization.businessName}
+                  {team.businessName}
                 </option>
               )
             })

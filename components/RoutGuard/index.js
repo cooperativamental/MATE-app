@@ -28,6 +28,7 @@ export const RouteGuard = ({ children }) => {
   }, [user, router]);
 
   const authCheck = (url) => {
+    console.log(router)
     // redirect to login page if accessing a private page and not logged in
     const publicPaths = ["/login", "/register", "/", "/resetPass", "/example", "/checkout/[prjID]", "/ejemplo-pago/qr"];
     // const privatesPaths = ["/admin/transferences", "/admin/project", "/admin/createclient",  "/admin/currencyconversion"];
@@ -52,7 +53,7 @@ export const RouteGuard = ({ children }) => {
       if (path?.split("/")[1] === "login" || path?.split("/")[1] === "register") {
         setAuthorized(false);
         router.push({
-          pathname: "/organizations",
+          pathname: "/teams",
         });
       }
       // else if (path.split("/")[1] === "admin") {

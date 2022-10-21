@@ -33,12 +33,12 @@ const CallProject = ({ keyProject }) => {
 
       const unsubscribe = onValue(ref(db, `wallet/${user?.uid}`),
         async (res) => {
-          const resOrganizationWeb3 = await program?.account?.group?.all()
-          const findOrganization = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === project?.organization)
-          const convertWalletsInOrganization = findOrganization?.account?.members?.map(member => member.toBase58())
-          const filterWalletInOrganization = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInOrganization?.includes(wallet.publicKey))
-          const objWalletsInOrganization = Object.fromEntries(filterWalletInOrganization)
-          setWallets(objWalletsInOrganization)
+          const resTeamWeb3 = await program?.account?.group?.all()
+          const findTeam = resTeamWeb3?.find(team => team.publicKey.toBase58() === project?.team)
+          const convertWalletsInTeam = findTeam?.account?.members?.map(member => member.toBase58())
+          const filterWalletInTeam = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInTeam?.includes(wallet.publicKey))
+          const objWalletsInTeam = Object.fromEntries(filterWalletInTeam)
+          setWallets(objWalletsInTeam)
         }
       )
       return () => {

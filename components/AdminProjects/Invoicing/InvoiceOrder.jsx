@@ -13,7 +13,7 @@ import {
 
 import ComponentButton from "../../Elements/ComponentButton"
 
-export const InvoiceOrder = ({ project, organization, keyProject }) => {
+export const InvoiceOrder = ({ project, team, keyProject }) => {
     const db = getDatabase()
     const [dateState, setDateState] = useState()
     const [dateInvoiceOrder, setDateInvoiceOrder] = useState({
@@ -103,7 +103,7 @@ export const InvoiceOrder = ({ project, organization, keyProject }) => {
                                     nameProject: project.nameProject,
                                     percentage: project.percentage,
                                     viewed: false,
-                                    organization: organization,
+                                    team: team,
                                     open: false,
                                     showCard: false,
                                     createdAt: serverTimestamp()
@@ -130,7 +130,7 @@ export const InvoiceOrder = ({ project, organization, keyProject }) => {
                                     router.push({
                                         pathname: router.pathname,
                                         query: {
-                                            organization: organization
+                                            team: team
                                         }
                                     })
                                 })

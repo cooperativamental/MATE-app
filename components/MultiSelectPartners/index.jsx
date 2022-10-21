@@ -38,9 +38,14 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                 type="text"
                 name="address"
                 id="address"
+                onKeyDown={(e)=>{
+                  if(e.key === 'Enter'){
+                    searchFunction(fieldSearch)
+                  }
+                }}
                 onChange={(e) => setFieldSearch(e.target.value)}
                 className="block w-full rounded-md border-gray-300 text-black focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Enter an address"
+                placeholder="Enail or address"
               />
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <span className="h-4 w-px bg-gray-200" aria-hidden="true" />

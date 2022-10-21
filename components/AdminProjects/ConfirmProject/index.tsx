@@ -84,7 +84,7 @@ const ConfirmProject = ({ keyProject, project }) => {
       })[0]
       const projectWeb3 = {
         name: project.nameProject,
-        group: project.organization,
+        group: project.team,
         projectType: "COMMON",
         reserve: project.ratio,
         payments: walletsPartners,

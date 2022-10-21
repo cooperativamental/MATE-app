@@ -12,13 +12,13 @@ import {
 const Projects = () => {
     const db = getDatabase()
     const router = useRouter()
-    const [organizations, setOrganizations] = useState()
-    const [selectOrganization, setSelectOrganization] = useState()
+    const [teams, setTeams] = useState()
+    const [selectTeam, setSelectTeam] = useState()
 
     useEffect(() => {
-        get(ref(db, "organizations"))
+        get(ref(db, "teams"))
             .then(res => {
-                setOrganizations(res.val())
+                setTeams(res.val())
             })
     }, [])
 
@@ -40,15 +40,15 @@ const Projects = () => {
                     <select
                         defaultValue={0}
                         className={`flex border rounded-xl h-16 p-4 text-xl shadow-sm `}
-                        onChange={(e) => setSelectOrganization(e.target.value)}
+                        onChange={(e) => setSelectTeam(e.target.value)}
                     >
                         <option value={0} disabled>Seleccionar Grupo</option>
                         {
-                            organizations &&
-                            Object.entries(organizations).map(([key, organization]) => {
+                            teams &&
+                            Object.entries(teams).map(([key, team]) => {
                                 return (
                                     <option key={key} value={key}>
-                                        {organization.businessName}
+                                        {team.businessName}
                                     </option>
                                 )
                             })
@@ -56,8 +56,8 @@ const Projects = () => {
                     </select>
                 }
                 {
-                    (selectOrganization || router.query.organization) &&
-                    <AdminProjects organization={selectOrganization || router.query.organization} prj={router.query.prj} />
+                    (selectTeam || router.query.team) &&
+                    <AdminProjects team={selectTeam || router.query.team} prj={router.query.prj} />
                 }
             </div>
         </Admin>

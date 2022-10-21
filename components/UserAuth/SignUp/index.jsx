@@ -22,7 +22,7 @@ const SignUp = () => {
         fullName: "",
     });
 
-    const [organization, setOrganization] = useState({
+    const [team, setTeam] = useState({
         businessName: "",
         activity: "",
         treasury: "",
@@ -43,10 +43,10 @@ const SignUp = () => {
     // };
 
     const userChange = (e) => {
-        if (e.target.name === "organization") {
+        if (e.target.name === "team") {
             setUser({
                 ...user,
-                organization: e.target.value
+                team: e.target.value
             })
         } else {
             setUser({

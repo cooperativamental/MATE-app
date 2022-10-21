@@ -160,7 +160,7 @@ const CurrencyConversionID = () => {
                         router.push({
                             pathname: "/admin/currencyconversion",
                             query: {
-                                organization: partner.data.organization,
+                                team: partner.data.team,
                                 partner: partnerID
                             }
                         });

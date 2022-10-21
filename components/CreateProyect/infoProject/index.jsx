@@ -5,7 +5,7 @@ import { useAuth } from "../../../context/auth";
 import InputSelect from "../../Elements/InputSelect";
 import ComponentButton from "../../Elements/ComponentButton"
 
-const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, organization }) => {
+const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, team }) => {
   const { user, firestore } = useAuth()
   // const [project, setProject] = useState({
   //   start: "",
@@ -26,8 +26,8 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
   const router = useRouter()
 
   useEffect(() => {
-    if (user && organization) {
-      getDocs(query(collection(firestore, "clients"), where("organizations", "==", organization)))
+    if (user && team) {
+      getDocs(query(collection(firestore, "clients"), where("teams", "==", team)))
         .then(querySnapshot => {
           let dataClient = null
           querySnapshot.forEach((doc) => {
@@ -40,7 +40,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
           setClients(dataClient)
         })
     }
-  }, [user, organization])
+  }, [user, team])
 
   const dateEnd = (propDate) => {
     const newDate = propDate ? new Date(propDate) : new Date();
@@ -202,7 +202,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, or
                 router.push({
                   pathname: "/createclient",
                   query: {
-                    organization: organization
+                    team: team
                   }
                 },
                   "/createclient",

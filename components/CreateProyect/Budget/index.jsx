@@ -32,7 +32,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
     const [available, setAvailable] = useState(0)
     const [assembleTeam, setAssembleTeam] = useState()
     const [selectPartners, setSelectPartners] = useState()
-    const [organizations, setOrganizations] = useState()
+    const [teams, setTeams] = useState()
     const [walletsHolder, setWalletHolder] = useState()
     const [selectWalletHolder, setSelectWalletHolder] = useState()
 
@@ -44,10 +44,10 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
         if (program?.account?.group && user) {
             (async () => {
 
-                const resOrganizationsWeb3 = await program?.account?.group.all()
-                const findOrganization = resOrganizationsWeb3?.find(organization => organization.publicKey.toBase58() === router.query.organization)
-                setOrganizations(findOrganization.account)
-                getDocs(queryFirestore(collection(firestore, 'users'), where("organization", "array-contains", router.query.organization)))
+                const resTeamsWeb3 = await program?.account?.group.all()
+                const findTeam = resTeamsWeb3?.find(team => team.publicKey.toBase58() === router.query.team)
+                setTeams(findTeam.account)
+                getDocs(queryFirestore(collection(firestore, 'users'), where("team", "array-contains", router.query.team)))
                     .then((resUsers) => {
                         let listUsers = {}
                         resUsers.forEach(user => {
@@ -71,27 +71,27 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                     // )
                     get(query(ref(db, `wallet/${user?.uid}`)))
                         .then(res => {
-                            const convertWalletsInOrganization = findOrganization.account.members.map(member => member.toBase58())
-                            const filterWalletInOrganization = Object.values(res.val()).filter((wallet) => 
+                            const convertWalletsInTeam = findTeam.account.members.map(member => member.toBase58())
+                            const filterWalletInTeam = Object.values(res.val()).filter((wallet) => 
                             {
-                               return convertWalletsInOrganization.includes(wallet.publicKey)
+                               return convertWalletsInTeam.includes(wallet.publicKey)
                             }
                             )
-                            // const walletsInOrganization = Object.fromEntries(filterWalletInOrganization)
+                            // const walletsInTeam = Object.fromEntries(filterWalletInTeam)
                             setProject({
                                 ...project,
                                 partners: {
                                     ...project.partners,
                                     [user.uid]: {
                                         ...project.partners[user.uid],
-                                        wallet: filterWalletInOrganization[0]?.publicKey
+                                        wallet: filterWalletInTeam[0]?.publicKey
                                     }
                                 },
                                 projectHolder: {
                                     ...project.projectHolder,
                                     [user.uid]: {
                                         ...project.projectHolder[user.uid],
-                                        wallet: filterWalletInOrganization[0]?.publicKey
+                                        wallet: filterWalletInTeam[0]?.publicKey
                                     }
                                 }
                             })
@@ -99,7 +99,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 }
             })()
         }
-    }, [db, user, firestore, program?.account?.group, router.query.organization, project.fiatOrCrypto])
+    }, [db, user, firestore, program?.account?.group, router.query.team, project.fiatOrCrypto])
 
     useEffect(() => {
         let amountTotalPartners = 0
@@ -183,13 +183,13 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalBruto: (value + value * ((organizations.ratio) / 10000))
+                totalBruto: (value + value * ((teams.ratio) / 10000))
             })
         } else if (e.target.name === "totalBruto") {
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalNeto: (value - value * ((organizations.ratio) / 10000))
+                totalNeto: (value - value * ((teams.ratio) / 10000))
             })
         } else if (e.target.name === "ratio") {
             setProject({

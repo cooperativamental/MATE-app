@@ -37,18 +37,18 @@ const CreateClient = () => {
   // useEffect(() => {
   //   if(program?.account?.group){
   //     (async()=>{
-  //       const resOrganizationsWeb3 = await program?.account?.group.all()
-  //       const forEntries = resOrganizationsWeb3.map((organization)=> {
+  //       const resTeamsWeb3 = await program?.account?.group.all()
+  //       const forEntries = resTeamsWeb3.map((team)=> {
   //         return [
-  //           organization.publicKey.toBase58(),
+  //           team.publicKey.toBase58(),
   //           {
-  //             ...organization.account
+  //             ...team.account
   //           }
   //         ]
   //       })
 
-  //       const objOrganizations = Object.fromEntries(forEntries)
-  //       setOrganization(objOrganizations)
+  //       const objTeams = Object.fromEntries(forEntries)
+  //       setTeam(objTeams)
   //     })()
   //   }
   // }, [program?.account?.group])
@@ -83,7 +83,7 @@ const CreateClient = () => {
   const createClient = async () => {
     await addDoc(collection(firestore, "clients"), {
       ...clientReg,
-      organizations: router.query.organization
+      teams: router.query.team
     });
 
     const clientRef = ref(db, "clients");
@@ -106,8 +106,8 @@ const CreateClient = () => {
       <h1 className="text-2xl font-bold">Crear Cliente</h1>
       <p>Introduzca los datos para poder crear el cliente.</p>
       <div className="flex w-full justify-between text-2xl font-medium">
-        <p>Organization:</p>
-        <p>{router?.query?.organization}</p>
+        <p>Team:</p>
+        <p>{router?.query?.team}</p>
       </div>
       <InputSelect
         placeholder="Nombre de Cliente"

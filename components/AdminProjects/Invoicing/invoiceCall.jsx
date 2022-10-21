@@ -84,7 +84,7 @@ export const InvoiceCall = ({ project, keyProject }) => {
                                             petitioner: user.displayName,
                                             projectHolder: prjOwn[0],
                                             client: cliName[0],
-                                            organization: project.organization,
+                                            team: project.team,
                                             nameProject: project.nameProject,
                                             percentage: percentage ? Number(percentage) : project.percentage,
                                             viewed: false,

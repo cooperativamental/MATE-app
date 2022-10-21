@@ -32,7 +32,7 @@ const Navbar = () => {
       <Sidebar />
       <div className="flex relative items-center justify-between w-full px-[3.5rem] h-[3rem] z-10">
         <div className='flex ml-4 gap-2'>
-          <Link href="/organizations" >
+          <Link href="/teams" >
             <a
               className='flex justify-center items-center'
               title="Teams"

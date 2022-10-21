@@ -22,25 +22,25 @@ const Transferences = () => {
     const router = useRouter()
     const [handleDropdown, setHandleDropdown] = useState()
     const [selectPartner, setSelectPartner] = useState()
-    const [organizations, setOrganizations] = useState()
-    const [selectOrganization, setSelectOrganization] = useState()
+    const [teams, setTeams] = useState()
+    const [selectTeam, setSelectTeam] = useState()
 
 
     useEffect(() => {
         if (user) {
-            get(ref(db, "organizations"))
+            get(ref(db, "teams"))
                 .then(res => {
-                    setOrganizations(res.val())
+                    setTeams(res.val())
                 })
-            if (router.query.organization && router.query.partner) {
-                getPartners(router.query.organization, router.query.partner)
+            if (router.query.team && router.query.partner) {
+                getPartners(router.query.team, router.query.partner)
             }
         }
     }, [])
 
-    const getPartners = async (organization, partner) => {
+    const getPartners = async (team, partner) => {
 
-        const users = await getDocs(queryFirestore(collection(firestore, "users"), where("organization", "array-contains", organization)))
+        const users = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team)))
         let listPartners = {}
         users.forEach(user => {
             listPartners = {
@@ -63,7 +63,7 @@ const Transferences = () => {
         Promise.all(listPartnerWithdrawals)
             .then(res => {
                 setSelectPartner(partner || false)
-                setSelectOrganization(organization)
+                setSelectTeam(team)
                 setPartners(...res)
             })
     }
@@ -74,8 +74,8 @@ const Transferences = () => {
             <h2 className="row-start-1 row-end-2 col-start-2 col-end-3 font-bold">Socios</h2>
             <ul className="flex flex-col row-start-2 row-end-3 col-start-1 col-end-2 gap-4 w-48s">
                 {
-                    organizations &&
-                    Object.entries(organizations).map(([key, organization]) => {
+                    teams &&
+                    Object.entries(teams).map(([key, team]) => {
 
                         return (
                             <li
@@ -83,9 +83,9 @@ const Transferences = () => {
                                 onClick={() => getPartners(key)}
                                 className=" flex w-full items-center justify-between first:border-t-0 border-t-2 border-gray"
                             >
-                                <p className=" w-11/12 text-xl font-semibold ">{organization.businessName}</p>
+                                <p className=" w-11/12 text-xl font-semibold ">{team.businessName}</p>
                                 {
-                                    selectOrganization === key ?
+                                    selectTeam === key ?
                                         <div className=" -rotate-45 border-r-2 border-b-2 border-black h-2 w-2"></div>
                                         :
                                         undefined

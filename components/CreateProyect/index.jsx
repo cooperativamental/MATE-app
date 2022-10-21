@@ -46,7 +46,7 @@ const CreateProject = () => {
     currency: "SOL",
     invoiceDate: false,
     fiatOrCrypto: "CRYPTO",
-    organization: router?.query?.organization,
+    team: router?.query?.team,
     ratio: 0
   })
 
@@ -233,7 +233,7 @@ const CreateProject = () => {
       <InfoProject
         confirmInfoProject={confirmInfoProject}
         confirmation={confirmation}
-        organization={project.organization}
+        team={project.team}
         setProject={setProject}
         project={project}
       />
