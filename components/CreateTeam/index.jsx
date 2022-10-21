@@ -155,8 +155,6 @@ const CreateTeams = () => {
         }
     };
 
-    console.log(listPartners)
-
     const sendProposal = (keyTeam) => {
         return new Promise((resolve, reject) => {
           const proposalPartner = Object.entries(listPartners).map(([key, valuePartner]) => {
