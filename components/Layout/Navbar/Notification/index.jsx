@@ -24,6 +24,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import Favicon from "../../../Favicon"
 
 
 const Notification = () => {
@@ -391,9 +392,6 @@ const Notification = () => {
 
   return (
     <>
-      {/* <Head>
-        <link rel="icon" href="favicon.svg" />
-      </Head> */}
       {
         router.asPath !== "/" &&
         <CardsNotification />
