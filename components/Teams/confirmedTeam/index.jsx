@@ -162,7 +162,6 @@ const ConfirmTeam = () => {
                 <div className="flex flex-col gap-8">
                     {
                         team?.guests && Object.entries(team?.guests).map(([keyUser, userTeam]) => {
-                            console.log(userTeam.status === "INVITED", (keyUser === user.uid), "asfasf")
                             return (
                                 <div
                                     key={keyUser}
