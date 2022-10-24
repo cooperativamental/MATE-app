@@ -17,7 +17,6 @@ import { doc, updateDoc, collection, arrayUnion, getDocs, getDoc, where, query a
 import { useAuth } from "../../context/auth";
 
 import InputSelect from "../Elements/InputSelect"
-import { MultiSelectPartner } from "../MultiSelect"
 import ComponentButton from "../Elements/ComponentButton";
 import { MultiSelectPartners } from "../MultiSelectPartners";
 import { sendEmail } from "../../functions/sendMail";
