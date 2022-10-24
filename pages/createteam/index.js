@@ -1,4 +1,4 @@
-import CreateTeam from "../../components/CreateTeam";
+import CreateTeam from "../../components/Teams/CreateTeam";
 
 
 const PageCreateClient = () => {

@@ -1,4 +1,4 @@
-import ConfirmTeam from "../../../components/Teams/confirmedTeam";
+import ConfirmTeam from "../../../components/Teams/ConfirmedTeam";
 
 const PageConfirmTeam = () => {
     return(
