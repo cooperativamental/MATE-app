@@ -18,7 +18,7 @@ import { useAuth } from "../../context/auth";
 
 import InputSelect from "../Elements/InputSelect"
 import ComponentButton from "../Elements/ComponentButton";
-import { MultiSelectPartners } from "../MultiSelectPartners";
+import { MultiSelectPartners } from "../../MultiSelectPartners";
 import { sendEmail } from "../../functions/sendMail";
 
 const CreateTeams = () => {
