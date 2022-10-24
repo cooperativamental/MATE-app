@@ -68,13 +68,11 @@ cmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII=" />
             { type: 'image/svg+xml;utf8' }
         )
         const img = URL.createObjectURL(blob)
-            console.log(svgGenerator)
         setFavicon(img)
     }
 
     useEffect(() => {
         const count = Object.values(notification).filter(noti => noti.viewed === false)
-        console.log(count)
         setCount(count.length)
         GenereateBlob(count.length)
     }, [notification])
