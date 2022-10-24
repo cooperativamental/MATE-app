@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-import { get, getDatabase, ref, query } from "firebase/database"
+import { get, getDatabase, ref, query, equalTo, orderByChild } from "firebase/database"
 import { getDocs, getDoc, doc, collection, where, query as queryFirestore } from "firebase/firestore"
 
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
@@ -70,7 +70,7 @@ const Teams = () => {
                         })
                 }
             }
-            const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`)))
+            const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE") ))
             if (teamCreatorUserLog.hasChildren()) {
                 const getInfoTeamCreator = Object.keys(teamCreatorUserLog.val()).map(async (keyTeamCreators) => {
                     return [keyTeamCreators, await (await get(ref(db, `team/${keyTeamCreators}`))).val()]
@@ -170,7 +170,7 @@ const Teams = () => {
                                 <div
                                     className="flex flex-col justify-between"
                                 >
-                                    <h1 className="w-max text-xl font-bold"> {infoTeam.name} </h1>
+                                    <h1 className="w-max text-xl font-bold"> {infoTeam?.name} </h1>
 
                                 </div>
                                 <p className=" self-center">

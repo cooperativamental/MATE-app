@@ -232,6 +232,7 @@ const CreateTeams = () => {
           .then((snapshot) => {
             set(ref(db, "users/" + user.uid + "/teamCreator/" + pushTeam.key), {
               name: team.name,
+              status: "INVITE"
             })
             sendProposal(pushTeam.key)
               .then(res => {

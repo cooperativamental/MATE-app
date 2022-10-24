@@ -26,7 +26,6 @@ const ConfirmTeam = () => {
     const [team, setTeam] = useState()
     const [addPartner, setAddPartner] = useState()
     const [projects, setProjects] = useState([])
-    const [listPartners, setListPartners] = useState()
     const [listMate, setListMate] = useState()
     const [blockOption, setBlockOptions] = useState()
 
@@ -105,11 +104,20 @@ const ConfirmTeam = () => {
             //     ...group,
             //     treasury: group.treasury / 100
             // })
-            updateDoc(doc(firestore, "users", user.uid), {
+            await updateDoc(doc(firestore, "users", user.uid), {
                 team: arrayUnion(keyTeam.publicKey.toBase58())
             })
-            Object.keys(listPartners).map((keyPartner) => {
-                updateDoc(doc(firestore, "users", keyPartner), {
+            await update(ref(db, `team/${router.query.team}/`),
+            {
+                status: "CREATED",
+                wallet: publicKey.toBase58()
+            })
+            await update(ref(db, `users/${user.uid}/teamCreator/${router.query.team}`),
+            {
+                status: "CREATED",
+            })
+            Object.keys(team?.guests).map(async (keyPartner) => {
+                await updateDoc(doc(firestore, "users", keyPartner), {
                     team: arrayUnion(keyTeam.publicKey.toBase58())
                 })
             })
