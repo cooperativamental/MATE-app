@@ -5,7 +5,7 @@ import { Program } from "@project-serum/anchor";
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { useProgram } from "../../hooks/useProgram/index.ts"
+import { useProgram } from "../../../hooks/useProgram/index.ts"
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 import {
@@ -14,12 +14,12 @@ import {
   } from "firebase/database";
 import { doc, updateDoc, collection, arrayUnion, getDocs, getDoc, where, query as queryFirestore } from "firebase/firestore"
 
-import { useAuth } from "../../context/auth";
+import { useAuth } from "../../../context/auth";
 
-import InputSelect from "../Elements/InputSelect"
-import ComponentButton from "../Elements/ComponentButton";
-import { MultiSelectPartners } from "../../MultiSelectPartners";
-import { sendEmail } from "../../functions/sendMail";
+import InputSelect from "../../Elements/InputSelect"
+import ComponentButton from "../../Elements/ComponentButton";
+import { MultiSelectPartners } from "../../../MultiSelectPartners";
+import { sendEmail } from "../../../functions/sendMail";
 
 const CreateTeams = () => {
     const db = getDatabase()
