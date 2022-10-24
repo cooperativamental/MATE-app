@@ -11,6 +11,7 @@ import ComponentButton from "../../Elements/ComponentButton"
 const SignUp = () => {
     const db = getDatabase()
     const { signUp } = useAuth();
+    const router = useRouter()
     const [visiblePass, setVisible] = useState(false)
 
     const [user, setUser] = useState({
@@ -64,7 +65,10 @@ const SignUp = () => {
             })
         if (response?.error) {
             if (response.error.code === "auth/email-already-exists") {
-                alert("Email already exists")
+                handlePopUp({
+                    text: "Email already exists.",
+                    title: `Error`,
+                  })
             }
         }
     }

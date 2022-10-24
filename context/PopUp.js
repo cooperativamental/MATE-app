@@ -32,8 +32,6 @@ const PopUpProvider = ({ children }) => {
         setPopUp(config)
     }
 
-    console.log(popUp)
-
     return (
         <PopUpContext.Provider value={{ popUp, handlePopUp }}>
             {

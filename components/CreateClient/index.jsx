@@ -11,12 +11,14 @@ import { useProgram } from "../../hooks/useProgram/index.ts"
 
 import InputSelect from "../Elements/InputSelect"
 import ComponentButton from "../Elements/ComponentButton"
+import { usePopUp } from "../../context/PopUp";
 
 
 const CreateClient = () => {
   const router = useRouter()
   const db = getDatabase()
   const { firestore } = useAuth()
+  const { handlePopUp } = usePopUp()
   const [clientReg, setClient] = useState({
     clientName: "",
     wallet: "",
@@ -93,7 +95,14 @@ const CreateClient = () => {
       // taxes: clientReg.taxes
     })
       .then((res) => {
-        alert("success")
+        handlePopUp({
+          text: "Client is created"
+          ,
+          title: `New Client`,
+          onClick: () => {
+            router.back()
+          }
+        })
       })
       .catch((error) => {
         // The write failed...

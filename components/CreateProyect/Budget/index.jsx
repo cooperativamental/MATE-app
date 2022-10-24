@@ -107,7 +107,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 amountTotalPartners += (partner?.amount || 0)
         })
 
-        console.log(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)))
         setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)))
         
         setErrors({
@@ -117,8 +116,6 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
     }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
-
-    console.log(errors)
 
     const handleBudgetProject = (e, data) => {
         const value = Number(e.target.value)

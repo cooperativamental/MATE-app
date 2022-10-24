@@ -4,11 +4,15 @@ import { useAuth } from "../../../context/auth";
 import { get, getDatabase, ref, set } from "firebase/database";
 
 import styles from "./singup.module.scss";
+import { usePopUp } from "../../../context/PopUp";
+import { useRouter } from "next/router";
 
 
 const CreateUser = () => {
   const db = getDatabase()
   const { signup } = useAuth();
+  const { handlePopUp } = usePopUp()
+  const router = useRouter()
   const [errors, setErrors] = useState()
   const [user, setUser] = useState({
     userName: "",
@@ -54,7 +58,10 @@ const CreateUser = () => {
       })
       if(response?.error){
         if(response.error.code === "auth/email-already-exists"){
-          alert("El mail ya esta en uso. No pueden haber usuarios con el mismo mail.")
+          handlePopUp({
+            text: "The mail is already in use. There cannot be users with the same email.",
+            title: `Error`,
+          })
         }
       }
   }

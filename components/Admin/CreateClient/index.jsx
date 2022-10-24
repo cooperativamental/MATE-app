@@ -11,11 +11,15 @@ import { useProgram } from "../../../hooks/useProgram/index.ts"
 import InputSelect from "../../Elements/InputSelect"
 import ComponentButton from "../../Elements/ComponentButton"
 import { MultiSelect } from "../../MultiSelect";
+import { usePopUp } from "../../../context/PopUp";
+import { useRouter } from "next/router";
 
 
 const CreateClient = () => {
   const db = getDatabase()
   const { firestore } = useAuth()
+  const router = useRouter()
+  const { handlePopUp } = usePopUp()
   const [clientReg, setClient] = useState({
     clientName: "",
     businessName: "",
@@ -79,7 +83,14 @@ const CreateClient = () => {
       taxes: clientReg.taxes
     })
       .then((res) => {
-        alert("success")
+        handlePopUp({
+          text: "Client is created"
+          ,
+          title: `New Client`,
+          onClick: () => {
+            router.back()
+          }
+        })
       })
       .catch((error) => {
         // The write failed...
