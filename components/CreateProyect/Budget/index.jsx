@@ -104,19 +104,19 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
     useEffect(() => {
         let amountTotalPartners = 0
         project?.partners && Object.values(project?.partners).forEach(partner => {
-            if (!partner.amount) {
-                amountTotalPartners += ((partner.percentage || 0) * (project.totalNeto - project?.thirdParties?.amount)) / 100
-            } else {
+                console.log(partner?.amount)
                 amountTotalPartners += (partner?.amount || 0)
-            }
         })
+        console.log(1.564 + 1.156+1.36+2.72)
+        console.log(project?.totalNeto -project?.thirdParties?.amount, project.ratio / 100)
 
+        console.log(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))), amountTotalPartners)
         setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners)
         
         setErrors({
             thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
-            available: ((project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100))) - amountTotalPartners) < 0,
-            totalPartners: (project?.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)) - amountTotalPartners) != 0,
+            available: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners < 0,
+            totalPartners: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners != 0,
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
     }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
@@ -152,13 +152,13 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             fullName: data.partner.fullName,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             percentage: value,
-                            amount: (value * (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) / 100,
+                            amount: (value * ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))) / 100,
                             email: data.partner.email,
                         }
                     },
                 })
             }
-            if (e.target.name === "partners") {
+            if (e.target.name === "amountPartners") {
                 setProject({
                     ...project,
                     partners: {
@@ -167,7 +167,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                             ...project.partners[data.uid],
                             fullName: data.partner.fullName,
                             amount: value,
-                            percentage: (value / (project.totalNeto - project?.thirdParties?.amount - ((project?.totalNeto - project?.thirdParties?.amount) * (project.ratio / 100)))) * 100,
+                            percentage: (value / ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))) * 100,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             email: data.partner.email,
                         }
@@ -396,7 +396,7 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                                                                 <InputSelect
                                                                     inputStyle=" border shadow-none rounded-xl w-full h-16 text-xl p-4"
                                                                     type="number"
-                                                                    name="partners"
+                                                                    name="amountPartners"
                                                                     value={project?.partners?.[key]?.amount?.toString()}
                                                                     onChange={(e) => handleBudgetProject(e, { uid: key, partner: select })}
                                                                     min={0}

@@ -7,6 +7,7 @@ import { useAuth } from "../../../context/auth"
 import { equalTo, get, getDatabase, ref, orderByChild, query, onValue, update } from "firebase/database"
 import { getDocs, collection, getDoc, updateDoc, doc, where, query as queryFirestore, arrayUnion, onSnapshot } from "firebase/firestore"
 
+import * as anchor from "@project-serum/anchor";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
