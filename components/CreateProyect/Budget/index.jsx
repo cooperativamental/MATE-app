@@ -104,22 +104,21 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
     useEffect(() => {
         let amountTotalPartners = 0
         project?.partners && Object.values(project?.partners).forEach(partner => {
-                console.log(partner?.amount)
                 amountTotalPartners += (partner?.amount || 0)
         })
-        console.log(1.564 + 1.156+1.36+2.72)
-        console.log(project?.totalNeto -project?.thirdParties?.amount, project.ratio / 100)
 
-        console.log(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))), amountTotalPartners)
-        setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners)
+        console.log(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)))
+        setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)))
         
         setErrors({
             thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
-            available: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners < 0,
-            totalPartners: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - amountTotalPartners != 0,
+            available: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)) < 0,
+            totalPartners: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)) != 0,
             partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
         })
     }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
+
+    console.log(errors)
 
     const handleBudgetProject = (e, data) => {
         const value = Number(e.target.value)
@@ -143,6 +142,8 @@ const Budget = ({ setProject, project, confirmInfoProject, confirmation }) => {
                 })
             }
             if (e.target.name === "percentage") {
+                console.log((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))
+                console.log((value * ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))) / 100)
                 setProject({
                     ...project,
                     partners: {

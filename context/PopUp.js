@@ -5,8 +5,9 @@ const PopUpContext = createContext({
     config: {
         title: "",
         text: "",
+        onClick: null
     },
-    handlePopUp: (config)=>{}
+    handlePopUp: (config) => { }
 });
 
 const PopUpProvider = ({ children }) => {
@@ -14,6 +15,7 @@ const PopUpProvider = ({ children }) => {
     const [popUp, setPopUp] = useState({
         title: "",
         text: "",
+        onClick: null,
     });
 
     // useEffect(() => {
@@ -25,10 +27,12 @@ const PopUpProvider = ({ children }) => {
     //     }, 4000);
     // }, []);
 
-    const handlePopUp = ( config ) => {
+    const handlePopUp = (config) => {
         setOpen(true)
         setPopUp(config)
     }
+
+    console.log(popUp)
 
     return (
         <PopUpContext.Provider value={{ popUp, handlePopUp }}>
@@ -44,9 +48,10 @@ const PopUpProvider = ({ children }) => {
                         </div>
                         <ComponentButton
                             buttonText="Close"
-                            buttonEvent={() => setOpen(false)}
+                            buttonEvent={() => popUp?.onClick ? popUp.onClick() : setOpen(false) }
                             buttonStyle="w-min"
                         />
+
                     </div>
                 </div>
             }

@@ -16,6 +16,7 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { useProgram } from "../../../hooks/useProgram/index.ts"
 
 import ComponentButton from "../../Elements/ComponentButton"
+import { usePopUp } from "../../../context/PopUp"
 import { MultiSelectPartners } from "../../MultiSelectPartners"
 
 
@@ -23,6 +24,7 @@ const ConfirmTeam = () => {
     const db = getDatabase()
     const router = useRouter()
     const { firestore, user } = useAuth()
+    const { handlePopUp } = usePopUp()
     const [team, setTeam] = useState()
     const [addPartner, setAddPartner] = useState()
     const [projects, setProjects] = useState([])
@@ -108,21 +110,44 @@ const ConfirmTeam = () => {
                 team: arrayUnion(keyTeam.publicKey.toBase58())
             })
             await update(ref(db, `team/${router.query.team}/`),
-            {
-                status: "CREATED",
-                wallet: publicKey.toBase58()
-            })
+                {
+                    status: "CREATED",
+                    wallet: publicKey.toBase58()
+                })
             await update(ref(db, `users/${user.uid}/teamCreator/${router.query.team}`),
-            {
-                status: "CREATED",
-            })
+                {
+                    status: "CREATED",
+                })
             Object.keys(team?.guests).map(async (keyPartner) => {
                 await updateDoc(doc(firestore, "users", keyPartner), {
                     team: arrayUnion(keyTeam.publicKey.toBase58())
                 })
             })
             console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`);
-            alert("success")
+            handlePopUp({
+                text:
+                    <div className="">
+                        <p>View on Explorer</p>
+                        <Link
+                            href={`https://explorer.solana.com/tx/${tx}?cluster=devnet`}
+                        >
+                            <a
+                                target="_blank"
+                                className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
+                                {`https://explorer.solana.com/tx/${tx}?cluster=devnet`}
+                            </a>
+                        </Link>
+                    </div>,
+                title: `New Team`,
+                onClick: () => {
+                    router.push({
+                        pathname: "/teams/[team]",
+                        query: {
+                            team: keyTeam.publicKey.toBase58()
+                        }
+                    })
+                }
+            })
         }
     }
 
