@@ -96,7 +96,7 @@ const Teams = () => {
             }
 
         })()
-    }, [firestore, user, program?.account?.group, connection, wallet])
+    }, [db, firestore, user, program?.account?.group, connection, wallet])
 
 
     // useEffect(() => {

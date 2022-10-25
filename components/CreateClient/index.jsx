@@ -85,7 +85,7 @@ const CreateClient = () => {
   const createClient = async () => {
     await addDoc(collection(firestore, "clients"), {
       ...clientReg,
-      teams: router.query.team
+      team: router.query.team
     });
 
     const clientRef = ref(db, "clients");
