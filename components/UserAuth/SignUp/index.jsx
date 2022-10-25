@@ -7,6 +7,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import InputSelect from "../../Elements/InputSelect"
 import ComponentButton from "../../Elements/ComponentButton"
+import { useRouter } from "next/router";
 
 const SignUp = () => {
     const db = getDatabase()

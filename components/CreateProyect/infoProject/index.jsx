@@ -40,7 +40,7 @@ const InfoProject = ({ setProject, project, confirmInfoProject, confirmation, te
           setClients(dataClient)
         })
     }
-  }, [user, team])
+  }, [firestore, user, team])
 
   const dateEnd = (propDate) => {
     const newDate = propDate ? new Date(propDate) : new Date();

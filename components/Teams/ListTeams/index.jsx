@@ -33,7 +33,7 @@ const Teams = () => {
             const resTeamsWeb3 = await program?.account?.group?.all()
             if (resTeamsWeb3?.length) {
                 const listTeams = resTeamsWeb3?.map(async team => {
-                    const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey.toBase58())))
+                    const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
                     let users = {}
                     resUsers.forEach(user => {
                         users = {
@@ -49,7 +49,7 @@ const Teams = () => {
                 if (listTeams) {
                     Promise.all(listTeams)
                         .then(res => {
-                            res.sort((a, b) => {
+                            res.sort((a) => {
                                 if (user?.team?.includes(a.publicKey.toBase58())) {
                                     return -1
                                 } else {
