@@ -182,13 +182,13 @@ const ConfirmTeam = () => {
                     <button
                         className=" text-secondary-color font-semibold"
                     >
-                        Vote Review (incoming)
+                        Vote Review (ComingUp)
                     </button>
                 </div>
                 <button
                     className=" text-secondary-color font-semibold"
                 >
-                    Treasury Funds Proposal (incoming)
+                    Treasury Funds Proposal (ComingUp)
                 </button>
             </div>
             <div className="flex flex-col gap-4">
@@ -242,7 +242,7 @@ const ConfirmTeam = () => {
                         />
                         :
                         <div className="flex flex-col w-full items-center">
-                            <p>Select wallet to connect with the team</p>
+                            <p>Sign Team Smart Contract on Solana</p>
                             <WalletMultiButton />
                         </div>
                 )

@@ -12,6 +12,7 @@ import { useProgram } from "../../../hooks/useProgram/index.ts"
 
 import { useAuth } from "../../../context/auth"
 import ComponentButton from "../../Elements/ComponentButton"
+import HeadBar from "../../Elements/HeadTab"
 
 const Teams = () => {
     const db = getDatabase()
@@ -19,9 +20,15 @@ const Teams = () => {
     const { user, firestore } = useAuth()
     const [teamPendingToConfirm, setTeamPendingToConfirm] = useState()
     const [teamsInvite, setTeamsInvite] = useState()
-    const [showTeam, setShowTeams] = useState("GLOBAL_TEAMS")
+    const [showTeam, setShowTeams] = useState("ALL_TEAMS")
     const [gloablTeams, setTeams] = useState()
     const [infoUser, setInfoUser] = useState()
+    const [tabs, setTabs] = useState([
+        { name: 'All Teams', current: true, value: "ALL_TEAMS" },
+        { name: 'Contracts received', current: false, value: "CONTRACT_RECEIVED" },
+        { name: 'Sent Contracts', current: false, value: "SEND_CONTRACTS" },
+
+    ])
     const [loading, setLoading] = useState(true)
 
     const { connection } = useConnection()
@@ -71,7 +78,7 @@ const Teams = () => {
                         })
                 }
             }
-            const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE") ))
+            const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE")))
             if (teamCreatorUserLog.hasChildren()) {
                 const getInfoTeamCreator = Object.keys(teamCreatorUserLog.val()).map(async (keyTeamCreators) => {
                     return [keyTeamCreators, await (await get(ref(db, `team/${keyTeamCreators}`))).val()]
@@ -187,7 +194,7 @@ const Teams = () => {
         }
 
         const renders = {
-            GLOBAL_TEAMS: gloablTeams?.map((infoTeam) => {
+            ALL_TEAMS: gloablTeams?.map((infoTeam) => {
                 const team = infoTeam.account
                 return (
                     <div
@@ -283,8 +290,8 @@ const Teams = () => {
                     </div>
                 )
             }),
-            TO_CONFIRM: teamPendingToConfirm && renderToDatabase(Object.entries(teamPendingToConfirm)),
-            INVITED: teamsInvite && renderToDatabase(Object.entries(teamsInvite))
+            CONTRACT_RECEIVED: teamsInvite && renderToDatabase(Object.entries(teamsInvite)),
+            SEND_CONTRACTS: teamPendingToConfirm && renderToDatabase(Object.entries(teamPendingToConfirm)),
         }
         return renders[status]
     }
@@ -306,23 +313,23 @@ const Teams = () => {
                     )
                 }}
             />
-            <div className="flex w-8/12 justify-between">
-                <ComponentButton
-                    buttonText="All Teams"
-                    buttonEvent={() => setShowTeams("GLOBAL_TEAMS")}
-                // buttonStyle="w-max"
-                />
-                <ComponentButton
-                    buttonText="Contracts received"
-                    buttonEvent={() => setShowTeams("INVITED")}
-                // buttonStyle="w-max"
-                />
-                <ComponentButton
-                    buttonText="Sent Contracts"
-                    buttonEvent={() => setShowTeams("TO_CONFIRM")}
-                // buttonStyle="w-max"
-                />
-            </div>
+            <HeadBar
+                event={(value) => {
+                    console.log(value)
+                    setShowTeams(value)
+                    const setTab = tabs.map(tab => {
+                        if (tab.value === value) {
+                            tab.current = true
+                        } else {
+                            tab.current = false
+                        }
+                        return tab
+                    })
+                    setTabs(setTab)
+                }}
+                tabs={tabs}
+            />
+
             <div className="flex flex-col py-4 items-center h-full w-full gap-8 overflow-y-auto scrollbar">
 
                 {
