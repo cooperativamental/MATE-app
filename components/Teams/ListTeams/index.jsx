@@ -58,7 +58,7 @@ const Teams = () => {
                                 }
                             })
                             const teamsIsOrNotMember = res.map(team => {
-                                if (user?.team?.includes(team.publicKey.toBase58())) {
+                                if (team?.users?.[user.uid]) {
                                     return {
                                         ...team,
                                         isMember: true
