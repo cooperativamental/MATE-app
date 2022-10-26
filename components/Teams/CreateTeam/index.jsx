@@ -40,7 +40,7 @@ const CreateTeams = () => {
   const [team, setTeam] = useState({
     status: "INVITE",
     name: "",
-    activity: "",
+    // activity: "",
     treasury: 0,
   });
   const [retrySendProposal, setRetrySendProporsal] = useState({
@@ -243,7 +243,7 @@ const CreateTeams = () => {
             setTeam({
               ...team,
               name: "",
-              activity: "",
+              // activity: "", 
               treasury: 0,
             })
             setRetrySendProporsal({
@@ -294,7 +294,7 @@ const CreateTeams = () => {
         onChange={teamChange}
         inputStyle="text-center"
       />
-      <InputSelect
+      {/* <InputSelect
         id="activity"
         placeholder="Activity"
         type="text"
@@ -302,7 +302,7 @@ const CreateTeams = () => {
         value={team.activity}
         onChange={teamChange}
         inputStyle="text-center"
-      />
+      /> */}
       <InputSelect
         id="treasury"
         placeholder="Team treasury %"

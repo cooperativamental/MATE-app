@@ -30,9 +30,6 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
         <div className="flex w-full">
 
           <div className="flex w-full">
-            <label htmlFor="address" className="sr-only">
-              Email addresses
-            </label>
             <div className="relative rounded-md shadow-sm w-full">
               <input
                 type="text"
@@ -45,7 +42,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                 }}
                 onChange={(e) => setFieldSearch(e.target.value)}
                 className="block w-full rounded-md border-gray-300 text-black focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Enail or address"
+                placeholder="Email or Phantom Wallet Address"
               />
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <span className="h-4 w-px bg-gray-200" aria-hidden="true" />
@@ -67,7 +64,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
 
       </div>
       <div className="mt-10">
-        <h3 className="text-sm font-medium text-gray-500">Recommended team members</h3>
+        <h3 className="text-sm font-medium text-gray-500">Team Admin [Up next delegate admin to your MultiSign or DAO]</h3>
         <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {
             options &&

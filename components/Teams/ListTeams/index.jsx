@@ -47,8 +47,10 @@ const Teams = () => {
                     }
                 })
                 if (listTeams) {
+                    console.log("hola")
                     Promise.all(listTeams)
                         .then(res => {
+                            console.log(res)
                             res.sort((a) => {
                                 if (user?.team?.includes(a.publicKey.toBase58())) {
                                     return -1
@@ -57,6 +59,7 @@ const Teams = () => {
                                 }
                             })
                             const teamsIsOrNotMember = res.map(team => {
+                                console.log(team.account.name,user?.team, team.publicKey.toBase58())
                                 if (user?.team?.includes(team.publicKey.toBase58())) {
                                     return {
                                         ...team,
@@ -65,6 +68,7 @@ const Teams = () => {
                                 }
                                 return team
                             })
+                            console.log(teamsIsOrNotMember)
                             setTeams(teamsIsOrNotMember)
                             setLoading(false)
                         })
@@ -307,17 +311,17 @@ const Teams = () => {
             />
             <div className="flex w-8/12 justify-between">
                 <ComponentButton
-                    buttonText="Global Teams"
+                    buttonText="All Teams"
                     buttonEvent={() => setShowTeams("GLOBAL_TEAMS")}
                 // buttonStyle="w-max"
                 />
                 <ComponentButton
-                    buttonText="Invited to Team"
+                    buttonText="Contracts received"
                     buttonEvent={() => setShowTeams("INVITED")}
                 // buttonStyle="w-max"
                 />
                 <ComponentButton
-                    buttonText="Team to Confirm"
+                    buttonText="Sent Contracts"
                     buttonEvent={() => setShowTeams("TO_CONFIRM")}
                 // buttonStyle="w-max"
                 />
