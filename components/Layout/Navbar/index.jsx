@@ -25,7 +25,7 @@ const Navbar = () => {
   const { handleOpeners } = useBalance()
   const { user } = useAuth()
 
-
+console.log(user)
 
   return (
     <>
@@ -133,7 +133,7 @@ const Navbar = () => {
               <p
                 className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
               >
-                gm, {user?.displayName}
+                gm, {user?.userName}
               </p>
         }
 

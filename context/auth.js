@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { getDatabase, ref, child, get, set } from "firebase/database";
-import { setDoc, doc, getDoc } from "firebase/firestore"
+import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore"
 import { auth, registerAuth, deleteAppAuth, dbFirestore } from "../firebase/client";
 
 const AuthContext = createContext({
@@ -28,25 +28,27 @@ const AuthProvider = ({ children }) => {
       setFirestore(dbFirestore)
       const unsubscribe = onAuthStateChanged(auth, (resUser) => {
         if (resUser && dbFirestore) {
-          getDoc(doc(dbFirestore, "users", resUser.uid))
-            .then(async (res) => {
+          const unSubscribeSnapshot = onSnapshot(doc(dbFirestore, "users", resUser.uid),
+            async (res) => {
+              console.log(res.data().userName)
               await updateProfile(auth.currentUser, {
-                displayName: res.userName,
+                displayName: res.data().userName,
               });
               let addProperties = {};
               if (res.exists()) {
+                // console.log(res.data())
                 Object.entries(res.data()).forEach(([key, value]) => {
+                  console.log(key)
                   {
-                    (key !== "email" && key !== "projects" && key !== "userName") &&
+                    (key !== "email" && key !== "projects") &&
                       (addProperties = { ...resUser, ...addProperties, [key]: value });
                   }
                 },
                 );
               }
-              return addProperties;
+              setUser(addProperties);
             })
-            .then((res) => setUser(res))
-            .catch((error) => alert(error));
+            return ()=> unSubscribeSnapshot()
         } else {
           setUser(null);
         }

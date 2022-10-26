@@ -47,18 +47,17 @@ const Teams = () => {
                     }
                 })
                 if (listTeams) {
-                    // console.log("hola")
                     Promise.all(listTeams)
                         .then(res => {
                             res.sort((a) => {
-                                if (a?.users?.[user.uid]) {
+                                if (user?.team?.includes(a.publicKey.toBase58())) {
                                     return -1
                                 } else {
                                     return 1
                                 }
                             })
                             const teamsIsOrNotMember = res.map(team => {
-                                if (team?.users?.[user.uid]) {
+                                if (user?.team?.includes(team.publicKey.toBase58())) {
                                     return {
                                         ...team,
                                         isMember: true
@@ -66,7 +65,7 @@ const Teams = () => {
                                 }
                                 return team
                             })
-                            // console.log(teamsIsOrNotMember)
+                            console.log(teamsIsOrNotMember)
                             setTeams(teamsIsOrNotMember)
                             setLoading(false)
                         })
