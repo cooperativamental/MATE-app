@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Image } from "next/image"
 import { PlusIcon, MinusIcon } from '@heroicons/react/20/solid'
 
-export const MultiSelectPartners = ({ options, selectState, searchFunction, setSelectState, blockOption }) => {
+export const MultiSelectPartners = ({ options, selectState, searchFunction, setOptions,  setSelectState, blockOption }) => {
 
   const [fieldSearch, setFieldSearch] = useState()
 
@@ -35,8 +35,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                 type="text"
                 name="address"
                 id="address"
-                onKeyDown={(e)=>{
-                  if(e.key === 'Enter'){
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
                     searchFunction(fieldSearch)
                   }
                 }}
@@ -72,7 +72,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
               <li key={partnerKey}>
                 <button
                   type="button"
-                  className={`group flex w-full items-center justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
+                  className={`group flex w-full items-center h-12 justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
                 >
                   <span className="flex min-w-0 flex-1 items-center space-x-3">
                     <span className="block flex-shrink-0">
@@ -91,12 +91,48 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                     <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center">
                       <PlusIcon
                         onClick={() => {
+                          const { [partnerKey]: _, ...resOption } = options
+                          setOptions(resOption)
                           setSelectState({
                             ...selectState,
                             [partnerKey]: partner
                           })
                         }}
                         className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+
+                    </span>
+                  }
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div className="mt-10">
+        <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {
+            options &&
+            Object.entries(selectState).map(([partnerKey, partner]) => (
+              <li key={partnerKey}>
+                <button
+                  type="button"
+                  className={`group flex w-full h-12 items-center justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
+                >
+                  <span className="flex min-w-0 flex-1 items-center space-x-3">
+                    <span className="block flex-shrink-0">
+                      {
+                        partner.imageUrl &&
+                        <Image className="h-10 w-10 rounded-full" src={partner.imageUrl} alt="" />
+                      }
+                    </span>
+                    <span className="block min-w-0 flex-1">
+                      <span className="block truncate text-sm font-medium ">{partner.name}</span>
+                      <span className="block truncate text-sm font-medium text-gray-500">{partner.role}</span>
+                    </span>
+                  </span>
+                  {
+                    !blockOption?.includes(partnerKey) &&
+                    <span className="inline-flex w-10 flex-shrink-0 items-center justify-center">
                       <MinusIcon
                         onClick={() => {
                           const { [partnerKey]: _, ...resPartners } = selectState
@@ -104,8 +140,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                             ...resPartners
                           })
                         }}
-                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" 
-                        />
+                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true"
+                      />
                     </span>
                   }
                 </button>

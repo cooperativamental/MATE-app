@@ -61,14 +61,14 @@ const CreateTeams = () => {
       const creatorUser = await getDoc(doc(firestore, "users", user.uid))
       const { userName, ...resUser } = creatorUser.data()
 
-      setListMate({
-        ...listMate,
-        [user.uid]: {
-          email: creatorUser.data().email,
-          name: creatorUser.data().userName,
-          status: "CONFIRMED"
-        }
-      })
+      // setListMate({
+      //   ...listMate,
+      //   [user.uid]: {
+      //     email: creatorUser.data().email,
+      //     name: creatorUser.data().userName,
+      //     status: "CONFIRMED"
+      //   }
+      // })
       setListPartners({
         ...listPartners,
         [user.uid]: {
@@ -103,28 +103,33 @@ const CreateTeams = () => {
         where('email', '>=', searchMate),
         where('email', '<=', searchMate + '\uf8ff')
       ))
-    let resPartners = {}
+    let resMates = {}
 
     if (!usersWallet.empty) {
       usersWallet.forEach(user => {
-        resPartners = {
-          ...resPartners,
-          [user.id]: {
-            email: user.data().email,
-            name: user.data().userName,
-            status: "INVITED"
+
+        if (!listPartners[user.id]) {
+          resMates = {
+            ...resMates,
+            [user.id]: {
+              email: user.data().email,
+              name: user.data().userName,
+              status: "INVITED"
+            }
           }
         }
       })
     }
     if (!usersEmail.empty) {
       usersEmail.forEach(user => {
-        resPartners = {
-          ...resPartners,
-          [user.id]: {
-            email: user.data().email,
-            name: user.data().userName,
-            status: "INVITED"
+        if (!listPartners[user.id]) {
+          resMates = {
+            ...resMates,
+            [user.id]: {
+              email: user.data().email,
+              name: user.data().userName,
+              status: "INVITED"
+            }
           }
         }
       })
@@ -133,12 +138,12 @@ const CreateTeams = () => {
 
     if (listPartners && Object.keys(listPartners).length) {
       setListMate({
-        ...listPartners,
-        ...resPartners
+        // ...listPartners,
+        ...resMates
       })
     } else {
       setListMate({
-        ...resPartners
+        ...resMates
       })
     }
   }
@@ -250,12 +255,11 @@ const CreateTeams = () => {
               status: false,
             })
             handlePopUp({
-              text: "Send Invtitatios",
-              title: `New Team`,
+              text: "Invitations Sent",
               onClick: () => {
                 router.push({
                   pathname: "/teams/confirmteam/[team]",
-                  query: { 
+                  query: {
                     team: pushTeam.key
                   }
                 })
@@ -275,9 +279,6 @@ const CreateTeams = () => {
         console.error(error);
       });
   }
-
-
-
 
 
   return (
@@ -326,6 +327,7 @@ const CreateTeams = () => {
                 <> */}
       <MultiSelectPartners
         options={listMate}
+        setOptions={setListMate}
         blockOption={user?.uid}
         searchFunction={searchMates}
         selectState={listPartners}
