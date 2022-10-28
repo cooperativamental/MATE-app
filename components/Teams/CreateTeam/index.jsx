@@ -291,6 +291,7 @@ const CreateTeams = () => {
         placeholder="Team Name"
         type="text"
         name="name"
+        title="Choose a name for your team."
         value={team.name}
         onChange={teamChange}
         inputStyle="text-center"
@@ -311,7 +312,8 @@ const CreateTeams = () => {
         name="treasury"
         value={team.treasury.toString()}
         onChange={teamChange}
-        title="Fund the Treasury. Set aside a slice (%) of the project’s budget for later rewards and bonuses"
+        title="Select treasury rate"
+        subtitle="Set a slice of the projects budget for later rewards and bonuses."
         inputStyle="text-center"
       />
       {/* <MultiSelect
@@ -325,6 +327,8 @@ const CreateTeams = () => {
             {
                 (!!connection && !!publicKey) &&
                 <> */}
+      <h2 className="mt-1 text-xl text-white font-bold">Invite Mate Protocol users to join your team.</h2>
+
       <MultiSelectPartners
         options={listMate}
         setOptions={setListMate}
@@ -336,7 +340,7 @@ const CreateTeams = () => {
       <ComponentButton
         // className="flex h-12 w-max bg-[#5A31E1] rounded-xl text-3xl text-white font-medium items-center p-6 "
         buttonEvent={createTeam}
-        buttonText="Invite Team"
+        buttonText="Send Invites"
         conditionDisabled={errors && Object.values(errors).find(prop => !!prop)}
       />
       {/* </>

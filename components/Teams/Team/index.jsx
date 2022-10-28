@@ -168,13 +168,13 @@ const Team = () => {
                     <button
                         className=" text-secondary-color font-semibold"
                     >
-                        Vote Review (incoming)
+                        Vote Review (Coming Up)
                     </button>
                 </div>
                 <button
                     className=" text-secondary-color font-semibold"
                 >
-                    Treasury Funds Proposal (incoming)
+                    Treasury Poll  (Coming Up)
                 </button>
             </div>
             <div className="flex flex-col gap-4">

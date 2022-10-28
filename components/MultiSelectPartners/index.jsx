@@ -25,7 +25,6 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
             />
           </svg>
           <h2 className="mt-2 text-lg font-medium text-gray-900">Add team members</h2>
-          <p className="mt-1 text-sm text-gray-500">You haven’t added any team members to your project yet.</p>
         </div>
         <div className="flex w-full">
 
@@ -42,7 +41,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
                 }}
                 onChange={(e) => setFieldSearch(e.target.value)}
                 className="block w-full rounded-md border-gray-300 text-black focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Email or Phantom Wallet Address"
+                placeholder="Enter email or Phantom wallet address."
               />
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <span className="h-4 w-px bg-gray-200" aria-hidden="true" />

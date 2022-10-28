@@ -24,9 +24,9 @@ const Teams = () => {
     const [gloablTeams, setTeams] = useState()
     const [infoUser, setInfoUser] = useState()
     const [tabs, setTabs] = useState([
-        { name: 'All Teams', current: true, value: "ALL_TEAMS" },
-        { name: 'Contracts received', current: false, value: "CONTRACT_RECEIVED" },
-        { name: 'Sent Contracts', current: false, value: "SEND_CONTRACTS" },
+        { name: 'All Contracts', current: true, value: "ALL_TEAMS" },
+        { name: 'Received', current: false, value: "CONTRACT_RECEIVED" },
+        { name: 'Sent', current: false, value: "SEND_CONTRACTS" },
 
     ])
     const [loading, setLoading] = useState(true)
@@ -37,46 +37,50 @@ const Teams = () => {
 
     useEffect(() => {
         (async () => {
-            const resTeamsWeb3 = await program?.account?.group?.all()
-            if (resTeamsWeb3?.length) {
-                const listTeams = resTeamsWeb3?.map(async team => {
-                    const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
-                    let users = {}
-                    resUsers.forEach(user => {
-                        users = {
-                            ...users,
-                            [user.id]: user.data()
+            try {
+                const resTeamsWeb3 = await program?.account?.group?.all()
+                if (resTeamsWeb3?.length) {
+                    const listTeams = resTeamsWeb3?.map(async team => {
+                        const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
+                        let users = {}
+                        resUsers.forEach(user => {
+                            users = {
+                                ...users,
+                                [user.id]: user.data()
+                            }
+                        })
+                        return {
+                            ...team,
+                            users
                         }
                     })
-                    return {
-                        ...team,
-                        users
-                    }
-                })
-                if (listTeams) {
-                    Promise.all(listTeams)
-                        .then(res => {
-                            res.sort((a) => {
-                                if (user?.team?.includes(a.publicKey.toBase58())) {
-                                    return -1
-                                } else {
-                                    return 1
-                                }
-                            })
-                            const teamsIsOrNotMember = res.map(team => {
-                                if (user?.team?.includes(team.publicKey.toBase58())) {
-                                    return {
-                                        ...team,
-                                        isMember: true
+                    if (listTeams) {
+                        Promise.all(listTeams)
+                            .then(res => {
+                                res.sort((a) => {
+                                    if (user?.team?.includes(a.publicKey.toBase58())) {
+                                        return -1
+                                    } else {
+                                        return 1
                                     }
-                                }
-                                return team
+                                })
+                                const teamsIsOrNotMember = res.map(team => {
+                                    if (user?.team?.includes(team.publicKey.toBase58())) {
+                                        return {
+                                            ...team,
+                                            isMember: true
+                                        }
+                                    }
+                                    return team
+                                })
+                                console.log(teamsIsOrNotMember)
+                                setTeams(teamsIsOrNotMember)
+                                setLoading(false)
                             })
-                            console.log(teamsIsOrNotMember)
-                            setTeams(teamsIsOrNotMember)
-                            setLoading(false)
-                        })
+                    }
                 }
+            } catch (error) {
+                console.log(error)
             }
             const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE")))
             if (teamCreatorUserLog.hasChildren()) {
@@ -88,6 +92,7 @@ const Teams = () => {
                     .then((res) => {
                         const dataTeamCreator = Object.fromEntries(res.reverse())
                         setTeamPendingToConfirm(dataTeamCreator)
+                        setLoading(false)
                     })
             }
 
@@ -100,59 +105,13 @@ const Teams = () => {
                     .then((res) => {
                         const dataTeamInvite = Object.fromEntries(res.reverse())
                         setTeamsInvite(dataTeamInvite)
+                        setLoading(false)
                     })
             }
 
         })()
     }, [db, firestore, user, program?.account?.group, connection, wallet])
 
-
-    // useEffect(() => {
-    //     if (user) {
-
-    //         getDoc(doc(firestore, "users", user.uid))
-    //             .then(res => {
-    //                 if (res.exists()) {
-    //                     const resUserAdmin = res.data()
-    //                     if (resUserAdmin.group) {
-    //                         const usersByGroups = resUserAdmin.group.map(async keyGroup => {
-    //                             const groups = await get(ref(db, `groups/${keyGroup}`))
-    //                             const resUsers = await getDocs(query(collection(firestore, "users"), where("group", "array-contains", keyGroup)))
-    //                             let users = {}
-    //                             resUsers.forEach(user => {
-    //                                 users = {
-    //                                     ...users,
-    //                                     [user.id]: user.data()
-    //                                 }
-    //                             })
-    //                             return ({
-    //                                 [keyGroup]: {
-    //                                     ...groups.val(),
-    //                                     users: users
-    //                                 }
-    //                             })
-    //                         })
-    //                         Promise.all(usersByGroups)
-    //                             .then(infoGroup => {
-    //                                 let groups = {}
-    //                                 infoGroup.map(group => {
-    //                                     groups = {
-    //                                         ...groups,
-    //                                         ...group
-    //                                     }
-    //                                 })
-
-    //                                 setLoading(false)
-    //                                 setGroups(groups)
-    //                             })
-    //                     } else {
-    //                         setLoading(false)
-    //                     }
-    //                 }
-
-    //             })
-    //     }
-    // }, [db, user, firestore])
     const render = (status) => {
 
         const renderToDatabase = (arr) => {
@@ -269,7 +228,7 @@ const Teams = () => {
                         {
                             infoTeam.isMember &&
                             <ComponentButton
-                                buttonText="Start a Project"
+                                buttonText="Start Project"
                                 buttonStyle="w-max h-full ring-1 hover:ring-2 hover:bg-slate-800 ring-slate-400"
                                 buttonEvent={() => {
                                     router.push(
@@ -305,7 +264,7 @@ const Teams = () => {
     return (
         <div className="flex flex-col py-8 items-center w-full gap-8">
             <ComponentButton
-                buttonText="Add new team"
+                buttonText="Create New Team"
                 buttonStyle="w-48 h-14 ring-1 hover:ring-2 ring-slate-400"
                 buttonEvent={() => {
                     router.push(

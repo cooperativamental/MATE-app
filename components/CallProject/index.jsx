@@ -26,7 +26,7 @@ const CallProject = ({ keyProject }) => {
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
   const { program } = useProgram({ connection, wallet });
-  const [balance, setBalance] = useState()
+  // const [balance, setBalance] = useState()
 
   useEffect(() => {
     if (program?.account?.group) {
@@ -49,22 +49,23 @@ const CallProject = ({ keyProject }) => {
 
   }, [db, user, program?.account?.group, project, connection, wallet])
 
-  useEffect(() => {
-    get(ref(db, `projects/${keyProject}`))
-        .then(async res => {
-            const interval = setInterval(async () => {
-                try {
-                    const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-                    setBalance(bal / LAMPORTS_PER_SOL)
-                } catch (e) {
-                    console.error('Unknown error', e)
-                }
-            }, 500)
-            return () => {
-                clearInterval(interval)
-            }
-        })
-}, [])
+//   useEffect(() => {
+//     get(ref(db, `projects/${keyProject}`))
+//         .then(async res => {
+//             const interval = setInterval(async () => {
+//                 try {
+//                   console.log(res.val())
+//                     const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
+//                     setBalance(bal / LAMPORTS_PER_SOL)
+//                 } catch (e) {
+//                     console.error('Unknown error', e)
+//                 }
+//             }, 500)
+//             return () => {
+//                 clearInterval(interval)
+//             }
+//         })
+// }, [])
 
 
   useEffect(() => {
@@ -206,10 +207,10 @@ const CallProject = ({ keyProject }) => {
         <p>Project holder: </p>
         <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
       </div>
-      <div className="flex text-xl w-full justify-between font-normal">
+      {/* <div className="flex text-xl w-full justify-between font-normal">
         <p>Treasury project: </p>
         <p>{balance}</p>
-      </div>
+      </div> */}
       <div>
         <h3>Called up team:</h3>
         {
