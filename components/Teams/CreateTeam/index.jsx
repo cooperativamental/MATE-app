@@ -323,7 +323,8 @@ const CreateTeams = () => {
                 selectState={listPartners}
                 setSelectState={setListPartners}
             /> */}
-      {/* <WalletMultiButton />
+      {/*           <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
             {
                 (!!connection && !!publicKey) &&
                 <> */}

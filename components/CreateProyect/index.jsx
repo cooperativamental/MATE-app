@@ -15,6 +15,8 @@ import { useHost } from "../../context/host";
 import { sendEmail } from "../../functions/sendMail"
 import ComponentButton from "../Elements/ComponentButton";
 import { getDoc, doc, serverTimestamp as serverTimestampFS } from "firebase/firestore";
+import AssembleTeam from "./AssembleTeam";
+import PreviewProject from "./Preview";
 
 
 const CreateProject = () => {
@@ -23,13 +25,22 @@ const CreateProject = () => {
   const refContainer = useRef()
   const { user, firestore } = useAuth()
   const { host } = useHost()
+
+  const [errors, setErrors] = useState({})
+  const [available, setAvailable] = useState(0)
+  const [reserve, setReserve] = useState(0)
+
+
+  const [confirmation, setConfirmation] = useState({
+    INFO_PROJECT: false,
+    BUDGET: false,
+    ASSEMBLE_TEAM: false
+  })
   const [retrySendProposal, setRetrySendProporsal] = useState({
     status: false,
   })
-  const [confirmation, setConfirmation] = useState({
-    infoProject: false,
-    budget: false
-  })
+  const [showSection, setShowSection] = useState("INFO_PROJECT")
+  const [preview, setPreview] = useState(false)
   const [project, setProject] = useState({
     projectHolder: {},
     nameProject: "",
@@ -67,207 +78,138 @@ const CreateProject = () => {
       )
   }, [db, user])
 
-  const confirmInfoProject = (confirm) => {
-    confirm && setConfirmation(confirm)
-    refContainer.current.scrollTo(0, 0)
-  }
-
-
-  const sendProposal = (keyProject) => {
-    return new Promise((resolve, reject) => {
-      const proposalPartner = Object.entries(project.partners).map(([key, valuePartner]) => {
-        return new Promise((resolve, reject) => {
-          set(ref(db, "users/" + key + "/projects/" + keyProject), {
-            amount: valuePartner?.amount,
-            status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMED",
-            createdAt: serverTimestamp(),
-          })
-            .then((snapshot) => {
-              if (key !== user?.uid) {
-                const pushNoti = push(ref(db, `notifications/${key}`))
-                let cliName = ""
-                Object.values(project.client).forEach(client => cliName = client.clientName)
-                set(pushNoti,
-                  {
-                    type: "NEW_PROJECT",
-                    projectID: keyProject,
-                    projectHolder: user?.displayName,
-                    client: cliName,
-                    nameProject: project.nameProject,
-                    viewed: false,
-                    open: false,
-                    showCard: false,
-                    statusProject: "ANNOUNCEMENT",
-                    createdAt: serverTimestamp()
-                  }
-                )
-                  .then(res => {
-                    sendEmail(
-                      {
-                        from: {
-                          name: user.fullName,
-                          email: user.email
-                        },
-                        to: {
-                          name: valuePartner.fullName,
-                          email: valuePartner.email
-                        },
-                        subject: "New project invitation",
-                        redirect: `${host}/projects/${keyProject}`,
-                        text: [
-                          `Member: ${user.fullName},`,
-                          `Invites you to join ${project.nameProject} for ${cliName}.`
-                        ],
-                      }
-                    )
-                  })
-                  .catch(err => {
-                    console.log(err)
-                  })
-              }
-              resolve("Proposal Sent")
-            })
-            .catch((error) => {
-              // The write failed...
-              console.log(error);
-              reject(error)
-            });
-        })
-      })
-      Promise.all(proposalPartner)
-        .then(res => {
-          resolve("All proposals were successfully submitted")
-        })
-        .catch(err => {
-          reject(`Sorry, there was an error, please try again, ${err}`)
-        })
+  const confirmInfoProject = (confirm, status) => {
+    setConfirmation({
+      ...confirmation,
+      [confirm]: status
     })
   }
 
-
-  const confirmProject = async () => {
-    const projectRef = ref(db, "projects/");
-    const pushProject = push(projectRef);
-    set(pushProject, {
-      ...project,
-      createdAt: serverTimestamp(),
+  useEffect(() => {
+    let amountTotalPartners = 0
+    project?.partners && Object.values(project?.partners).forEach(partner => {
+      amountTotalPartners += (partner?.amount || 0)
     })
-      .then((snapshot) => {
-        set(ref(db, "users/" + user.uid + "/projectsOwner/" + pushProject.key), {
-          nameProject: project.nameProject,
-        })
-        sendProposal(pushProject.key)
-          .then(res => {
-            setProject({
-              ...project,
-              nameProject: "",
-              client: {},
-              start: "",
-              end: "",
-              totalNeto: 0,
-              thirdParties: { amount: 0 },
-              partners: []
-            })
-            setConfirmation({
-              budget: true,
-              infoProject: true
-            })
-            setRetrySendProporsal({
-              status: false,
-            })
-            router.push({
-              pathname: "/adminprojects",
-              query: { type: "NEW_PROJECT", key: pushProject.key }
-            })
-          })
-          .catch(err => {
-            console.log(err)
-            setRetrySendProporsal({
-              status: true,
-              key: pushProject.key
-            })
-          })
-      })
-      .catch((error) => {
-        // The write failed...
-        console.error(error);
-      });
-  }
+
+    setAvailable(((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)))
+    setReserve((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100)
+
+    setErrors({
+      thirdParties: (project?.totalNeto - project?.thirdParties?.amount) < 0,
+      available: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)) < 0,
+      totalPartners: ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100))) - Number((amountTotalPartners).toFixed(3)) != 0,
+      partners: !Object.keys(project?.partners).length || !!Object.entries(project?.partners).find(([keyPartner, partner]) => !partner.amount || (keyPartner === user.uid && !partner.wallet))
+    })
+  }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
   return (
-    <div 
+    <div
       className="flex flex-col items-center gap-4 h-full w-full overflow-y-auto scrollbar"
       ref={refContainer}
     >
-      <div className="sticky flex top-0 p-1 bg-slate-900 z-20 w-8/12 justify-center">
-        {
-          confirmation.infoProject &&
-          <ComponentButton
-            buttonText="Edit Info Project"
-            buttonEvent={() => {
-              confirmInfoProject({
-                ...confirmation,
-                infoProject: false
-              })
-            }}
-          />
-        }
-        {
-          confirmation.budget &&
-          <ComponentButton
-            buttonText="Edit Budget"
-            buttonEvent={() => {
-              confirmInfoProject({
-                ...confirmation,
-                budget: false
-              })
-            }}
-          />
-        }
-      </div>
-      <div className="flex w-6/12 justify-between font-bold text-xl">
-        <p>Project Holder:</p>
-        <p> {`${Object.values(project.projectHolder).map(val => val.fullName)} `}</p>
-      </div>
-        <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
-      <InfoProject
-        confirmInfoProject={confirmInfoProject}
-        confirmation={confirmation}
-        team={project.team}
-        setProject={setProject}
-        project={project}
-      />
-      {
-        confirmation.infoProject &&
-        <Budget
-          confirmInfoProject={confirmInfoProject}
-          confirmation={confirmation}
-          currency={project?.currency}
-          setProject={setProject}
-          project={project}
-          // taxesClient={Object.values(project.client).map(res => res.taxes)[0]}
-        />
-      }
-      {
-        confirmation.budget && confirmation.infoProject &&
-        <div className="flex flex-col items-center gap-4 m-4">
-          <p className="text-base font-normal">Send proposals to your partners</p>
-          {
-            retrySendProposal.status ?
-              <ComponentButton
-                buttonEvent={() => sendProposal(retrySendProposal.key)}
-                buttonText="Retry sending to Partners"
-              />
-              :
-              <ComponentButton
-                buttonEvent={confirmProject}
-                buttonText="Gather Team"
-              />
 
-          }
-        </div>
-      }
+      {
 
+        preview ?
+          <PreviewProject project={project} setProject={setProject} setPreview={setPreview} />
+          :
+          <>
+            <div className="flex w-6/12 justify-between font-bold text-xl">
+              <p>Project Holder:</p>
+              <p> {`${Object.values(project.projectHolder).map(val => val.fullName)} `}</p>
+            </div>
+            <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
+            <div className="sticky w-8/12 top-0 mt-1 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col items-center font-bold gap-4 p-4 rounded-lg text-xl">
+              <div className="flex p-1 bg-slate-900 z-20 w-8/12 ">
+                <ComponentButton
+                  buttonStyle={confirmation.INFO_PROJECT && "bg-green-500"}
+                  buttonText="Edit Info Project"
+                  buttonEvent={() => setShowSection("INFO_PROJECT")}
+                />
+                <ComponentButton
+                  buttonStyle={confirmation.BUDGET && "bg-green-500"}
+                  buttonText="Edit Budget"
+                  buttonEvent={() => setShowSection("BUDGET")}
+                />
+                <ComponentButton
+                  buttonStyle={confirmation.ASSEMBLE_TEAM && "bg-green-500"}
+                  buttonText="Edit Team"
+                  buttonEvent={() => setShowSection("ASSEMBLE_TEAM")}
+                />
+              </div>
+              {
+                (!!project.totalNeto && !!project.totalBruto) &&
+                <div className=" bg-slate-900 w-full  border-[1px] border-x-slate-300 flex flex-col font-bold gap-4 p-4 rounded-lg text-xl">
+                  <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
+                    <h3>
+                      Available Budget ◎:
+                    </h3>
+                    <h3>
+                      {`${available.toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                    </h3>
+                  </div>
+                  <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
+                    <h3>
+                      Reserve ◎:
+                    </h3>
+                    <h3>
+                      {reserve.toLocaleString('es-ar', { minimumFractionDigits: 2 })}
+                    </h3>
+                  </div>
+                  {
+                    errors?.available &&
+                    <p className=" text-sm font-medium">You cannot exceed the budget available for your team.</p>
+                  }
+                </div>
+              }
+            </div>
+
+
+
+            {
+              showSection === "INFO_PROJECT" &&
+              <InfoProject
+                confirmation={confirmInfoProject}
+                team={project.team}
+                setProject={setProject}
+                project={project}
+              />
+            }
+            {
+              showSection === "BUDGET" &&
+              <Budget
+                available={available}
+                confirmation={confirmInfoProject}
+                currency={project?.currency}
+                setProject={setProject}
+                project={project}
+                errors={errors}
+              />
+            }
+            {
+              showSection === "ASSEMBLE_TEAM" &&
+              <AssembleTeam
+                available={available}
+                errors={errors}
+                confirmation={confirmInfoProject}
+                currency={project?.currency}
+                setProject={setProject}
+                project={project}
+              />
+            }
+
+            <div className="w-8/12">
+              <ComponentButton
+                buttonText="Preview"
+                buttonEvent={() => { setPreview(true) }}
+                conditionDisabled={Object.entries(confirmation).find(([key, conf]) => {
+                  return !conf
+                }) || !!Object.values(errors).find(error => !!error)}
+              />
+            </div>
+          </>
+
+      }
     </div>
   )
 }

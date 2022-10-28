@@ -93,7 +93,8 @@ export default function Checkout() {
     return (
       <div className='flex flex-col gap-8 items-center'>
 
-        <WalletMultiButton />
+                  <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
 
         <p>You need to connect your wallet to make transactions</p>
       </div>
@@ -103,7 +104,8 @@ export default function Checkout() {
   return (
     <div className='flex flex-col gap-8 items-center'>
 
-      <WalletMultiButton />
+                <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
 
       {message ?
         <p>{message} Please approve the transaction using your wallet</p> :

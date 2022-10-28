@@ -128,7 +128,7 @@ const Team = () => {
                     team?.users?.[user?.uid] &&
                     <div className="flex gap-8 h-full">
                         <ComponentButton
-                            buttonText="Start a Project"
+                            buttonText="Start Project"
                             buttonStyle="w-max"
                             buttonEvent={() => {
                                 router.push(

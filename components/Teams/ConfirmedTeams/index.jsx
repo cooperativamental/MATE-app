@@ -220,7 +220,8 @@ const ConfirmTeam = () => {
                                                         buttonStyle="ring-white"
                                                     />
                                                     :
-                                                    <WalletMultiButton />
+                                                              <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
                                             )
 
                                         }
@@ -243,7 +244,8 @@ const ConfirmTeam = () => {
                         :
                         <div className="flex flex-col w-full items-center">
                             <p>Sign Team Smart Contract on Solana</p>
-                            <WalletMultiButton />
+                                      <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
                         </div>
                 )
             }

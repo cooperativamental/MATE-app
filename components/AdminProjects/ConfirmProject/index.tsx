@@ -170,7 +170,8 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       {
         !connection || !publicKey ?
-          <WalletMultiButton />
+                    <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
           :
           <>
             <ComponentButton
