@@ -77,7 +77,7 @@ const CallProject = ({ keyProject }) => {
         unsubscribe()
       }
     }
-  }, [keyProject])
+  }, [db, user, keyProject])
 
 
   const comfirmProject = () => {
