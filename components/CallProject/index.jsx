@@ -52,7 +52,6 @@ const CallProject = ({ keyProject }) => {
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         setProject(res.val())
       })
-
       return () => {
         unsubscribe()
       }

@@ -79,34 +79,34 @@ const Teams = () => {
                             })
                     }
                 }
+                const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE")))
+                if (teamCreatorUserLog.hasChildren()) {
+                    const getInfoTeamCreator = Object.keys(teamCreatorUserLog.val()).map(async (keyTeamCreators) => {
+                        return [keyTeamCreators, await (await get(ref(db, `team/${keyTeamCreators}`))).val()]
+                    })
+    
+                    Promise.all(getInfoTeamCreator)
+                        .then((res) => {
+                            const dataTeamCreator = Object.fromEntries(res.reverse())
+                            setTeamPendingToConfirm(dataTeamCreator)
+                            setLoading(false)
+                        })
+                }
+    
+                const getTeamsInvite = await get(query(ref(db, `users/${user?.uid}/teamInvite`)))
+                if (getTeamsInvite.hasChildren()) {
+                    const getInfoTeamInvite = Object.keys(getTeamsInvite.val()).map(async (keyTeamInvite) => {
+                        return [keyTeamInvite, await (await get(ref(db, `team/${keyTeamInvite}`))).val()]
+                    })
+                    Promise.all(getInfoTeamInvite)
+                        .then((res) => {
+                            const dataTeamInvite = Object.fromEntries(res.reverse())
+                            setTeamsInvite(dataTeamInvite)
+                            setLoading(false)
+                        })
+                }
             } catch (error) {
                 console.log(error)
-            }
-            const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE")))
-            if (teamCreatorUserLog.hasChildren()) {
-                const getInfoTeamCreator = Object.keys(teamCreatorUserLog.val()).map(async (keyTeamCreators) => {
-                    return [keyTeamCreators, await (await get(ref(db, `team/${keyTeamCreators}`))).val()]
-                })
-
-                Promise.all(getInfoTeamCreator)
-                    .then((res) => {
-                        const dataTeamCreator = Object.fromEntries(res.reverse())
-                        setTeamPendingToConfirm(dataTeamCreator)
-                        setLoading(false)
-                    })
-            }
-
-            const getTeamsInvite = await get(query(ref(db, `users/${user?.uid}/teamInvite`)))
-            if (getTeamsInvite.hasChildren()) {
-                const getInfoTeamInvite = Object.keys(getTeamsInvite.val()).map(async (keyTeamInvite) => {
-                    return [keyTeamInvite, await (await get(ref(db, `team/${keyTeamInvite}`))).val()]
-                })
-                Promise.all(getInfoTeamInvite)
-                    .then((res) => {
-                        const dataTeamInvite = Object.fromEntries(res.reverse())
-                        setTeamsInvite(dataTeamInvite)
-                        setLoading(false)
-                    })
             }
 
         })()
