@@ -45,39 +45,19 @@ const CallProject = ({ keyProject }) => {
         unsubscribe()
       }
     }
-
-
   }, [db, user, program?.account?.group, project, connection, wallet])
-
-//   useEffect(() => {
-//     get(ref(db, `projects/${keyProject}`))
-//         .then(async res => {
-//             const interval = setInterval(async () => {
-//                 try {
-//                   console.log(res.val())
-//                     const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-//                     setBalance(bal / LAMPORTS_PER_SOL)
-//                 } catch (e) {
-//                     console.error('Unknown error', e)
-//                 }
-//             }, 500)
-//             return () => {
-//                 clearInterval(interval)
-//             }
-//         })
-// }, [])
-
 
   useEffect(() => {
     if (keyProject && user) {
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         setProject(res.val())
       })
+
       return () => {
         unsubscribe()
       }
     }
-  }, [db, user, keyProject])
+  }, [db, user, keyProject ])
 
 
   const comfirmProject = () => {
