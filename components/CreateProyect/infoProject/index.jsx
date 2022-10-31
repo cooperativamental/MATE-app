@@ -5,7 +5,7 @@ import { useAuth } from "../../../context/auth";
 import InputSelect from "../../Elements/InputSelect";
 import ComponentButton from "../../Elements/ComponentButton"
 
-const InfoProject = ({ setProject, project, team, confirmation }) => {
+const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmation }) => {
   const { user, firestore } = useAuth()
   // const [project, setProject] = useState({
   //   start: "",
@@ -75,7 +75,6 @@ const InfoProject = ({ setProject, project, team, confirmation }) => {
   // }
 
   const handlerProject = (e) => {
-    confirmation("INFO_PROJECT", false)
     if (e.target.type === "date") {
       const end = dateEnd(e.target.value);
       if (e.target.name === "start") {
@@ -119,11 +118,19 @@ const InfoProject = ({ setProject, project, team, confirmation }) => {
         [e.target.name]: e.target.value,
       });
     }
-    setErrors({
-      ...errors,
-      [e.target.name]: !e.target.value
-    })
   };
+
+  useEffect(()=>{ 
+    let err = {}
+    Object.keys(errors).map(prop=> {
+      err = {
+        ...err,
+        [prop]: !project[prop]
+      }
+    })
+    setErrors(err)
+  }, [project])
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -139,6 +146,12 @@ const InfoProject = ({ setProject, project, team, confirmation }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [refDateStart, refDateEnd]);
+
+  const handlerConfirm = () => {
+    if (!Object.values(errors).find(error => !!error)) {
+      confirmInfoProject("INFO_PROJECT", true, "BUDGET")
+    }
+  };
 
 
   return (
@@ -214,7 +227,7 @@ const InfoProject = ({ setProject, project, team, confirmation }) => {
             name="start"
             placeholder="Starting Date"
             onChange={handlerProject}
-            value={undefined}
+            value={ project.start || undefined}
             inputStyle="date relative"
             onMouseOverCapture={() => { refDateStart.current.type = "date" }}
             min={`${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10
@@ -255,9 +268,9 @@ const InfoProject = ({ setProject, project, team, confirmation }) => {
 
         <ComponentButton
           conditionDisabled={Object.values(errors).find(error => !!error)}
-          buttonStyle={`${Object.values(errors).find(error => !!error) ? "bg-gray-400" : ""} font-medium text-xl text-white ring-1 hover:ring-2 ring-slate-400`}
+          // buttonStyle={`${Object.values(errors).find(error => !!error) ? "bg-gray-400" : ""} font-medium text-xl text-white ring-1 hover:ring-2 ring-slate-400`}
           buttonText="Confirm Information Project"
-          buttonEvent={()=>confirmation("INFO_PROJECT", true)}
+          buttonEvent={handlerConfirm}
         />
         {
           Object.keys(errors).length > 0 &&

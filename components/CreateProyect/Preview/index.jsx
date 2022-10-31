@@ -11,7 +11,7 @@ import {
     ref, set, push, get
   } from "firebase/database";
 
-const PreviewProject = ({ project, setProject, setPreview }) => {
+const PreviewProject = ({ project, setProject, setConfirmation }) => {
     const db = getDatabase();
 
     const router = useRouter()
@@ -100,13 +100,11 @@ const PreviewProject = ({ project, setProject, setPreview }) => {
             createdAt: serverTimestamp(),
         })
             .then((snapshot) => {
-                console.log("falla000", user?.uid)
                 set(ref(db, "users/" + user.uid + "/projectsOwner/" + pushProject.key), {
                     nameProject: project.nameProject,
                 })
                 sendProposal(pushProject.key)
                     .then(res => {
-                        console.log("falla1")
                         setProject({
                             ...project,
                             nameProject: "",
@@ -199,17 +197,19 @@ const PreviewProject = ({ project, setProject, setPreview }) => {
             {
                 renderInfo(project.partners)
             }
-
-
             <div className="flex flex-col items-center gap-4 m-4">
 
                 <p className="text-base font-normal">Send proposals to your partners</p>
-                <div className="w-8/12">
+                {/* <div className="w-8/12">
                     <ComponentButton
                         buttonText="Edit"
-                        buttonEvent={() => { setPreview(false) }}
+                        buttonEvent={() => { setConfirmation({
+                            INFO_PROJECT: false,
+                            BUDGET: false,
+                            ASSEMBLE_TEAM: false
+                          })}}
                     />
-                </div>
+                </div> */}
                 {
                     retrySendProposal.status ?
                         <ComponentButton

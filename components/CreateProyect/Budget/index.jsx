@@ -17,7 +17,7 @@ import { useProgram } from "../../../hooks/useProgram/index.ts"
 import { PublicKey } from "@solana/web3.js";
 
 
-const Budget = ({ setProject, project, confirmation, available, errors }) => {
+const Budget = ({ setProject, project, confirmInfoProject, available, errors, confirmation }) => {
     const db = getDatabase()
     const router = useRouter()
     const { user, firestore } = useAuth()
@@ -36,7 +36,6 @@ const Budget = ({ setProject, project, confirmation, available, errors }) => {
     useEffect(() => {
         if (program?.account?.group && user) {
             (async () => {
-                console.log(router.query.team)
                 const resTeamsWeb3 = await program?.account?.group.all()
                 const findTeam = resTeamsWeb3?.find(team => team.publicKey.toBase58() === router.query.team)
                 setTeams(findTeam.account)
@@ -46,7 +45,6 @@ const Budget = ({ setProject, project, confirmation, available, errors }) => {
 
 
     const handleBudgetProject = (e, data) => {
-        confirmation("BUDGET", false)
         const value = Number(e.target.value)
         if (e.target.name === "thirdParties") {
             setProject({
@@ -106,7 +104,7 @@ const Budget = ({ setProject, project, confirmation, available, errors }) => {
                 })
             } else {
 
-            confirmation("ASSEMBLE_TEAM", false)
+            confirmInfoProject("ASSEMBLE_TEAM", false)
                 setProject({
                     ...project,
                     [e.target.name]: value,
@@ -125,7 +123,7 @@ const Budget = ({ setProject, project, confirmation, available, errors }) => {
     }
 
     const handleConfirm = () => {
-        confirmation("BUDGET", true)
+        confirmInfoProject("BUDGET", true)
     }
 
     return (

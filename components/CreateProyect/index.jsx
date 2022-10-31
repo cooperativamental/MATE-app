@@ -78,7 +78,8 @@ const CreateProject = () => {
       )
   }, [db, user])
 
-  const confirmInfoProject = (confirm, status) => {
+  const confirmInfoProject = (confirm, status, next) => {
+    setShowSection(next)
     setConfirmation({
       ...confirmation,
       [confirm]: status
@@ -102,113 +103,124 @@ const CreateProject = () => {
     })
   }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
+  console.log(confirmation)
+
   return (
     <div
       className="flex flex-col items-center gap-4 h-full w-full overflow-y-auto scrollbar"
       ref={refContainer}
     >
 
+      <div className="flex w-6/12 justify-between font-bold text-xl">
+        <p>Project Holder:</p>
+        <p> {`${Object.values(project.projectHolder).map(val => val.fullName)} `}</p>
+      </div>
+      <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
       {
-
-        preview ?
-          <PreviewProject project={project} setProject={setProject} setPreview={setPreview} />
-          :
-          <>
-            <div className="flex w-6/12 justify-between font-bold text-xl">
-              <p>Project Holder:</p>
-              <p> {`${Object.values(project.projectHolder).map(val => val.fullName)} `}</p>
-            </div>
-            <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
-            <div className="sticky w-8/12 top-0 mt-1 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col items-center font-bold gap-4 p-4 rounded-lg text-xl">
-              <div className="flex p-1 bg-slate-900 z-20 w-8/12 ">
+        (confirmation.INFO_PROJECT || confirmation.BUDGET || confirmation.ASSEMBLE_TEAM) &&
+        <div className="sticky w-8/12 top-0 mt-1 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col items-center font-bold gap-4 p-4 rounded-lg text-xl">
+          <div className="flex p-1 bg-slate-900 z-20 w-8/12 ">
+            <>
+              {
+                confirmation.INFO_PROJECT &&
                 <ComponentButton
-                  buttonStyle={confirmation.INFO_PROJECT && "bg-green-500"}
                   buttonText="Edit Info Project"
-                  buttonEvent={() => setShowSection("INFO_PROJECT")}
+                  buttonEvent={() => setConfirmation({
+                    ...confirmation,
+                    INFO_PROJECT: false,
+                    BUDGET: false,
+                  })}
                 />
+              }
+              {
+                confirmation.BUDGET &&
                 <ComponentButton
-                  buttonStyle={confirmation.BUDGET && "bg-green-500"}
                   buttonText="Edit Budget"
-                  buttonEvent={() => setShowSection("BUDGET")}
-                />
+                  buttonEvent={() => setConfirmation({
+                    ...confirmation,
+                    BUDGET: false,
+                  })} 
+                  />
+              }
+              {
+                confirmation.ASSEMBLE_TEAM &&
                 <ComponentButton
-                  buttonStyle={confirmation.ASSEMBLE_TEAM && "bg-green-500"}
                   buttonText="Edit Team"
-                  buttonEvent={() => setShowSection("ASSEMBLE_TEAM")}
+                  buttonEvent={() => setConfirmation({
+                    ...confirmation,
+                    ASSEMBLE_TEAM: false
+                  })}
                 />
+              }
+            </>
+          </div>
+
+          {
+            (!!project.totalNeto && !!project.totalBruto) &&
+            <div className=" bg-slate-900 w-full  border-[1px] border-x-slate-300 flex flex-col font-bold gap-4 p-4 rounded-lg text-xl">
+              <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
+                <h3>
+                  Available Budget ◎:
+                </h3>
+                <h3>
+                  {`${available.toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
+                </h3>
+              </div>
+              <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
+                <h3>
+                  Reserve ◎:
+                </h3>
+                <h3>
+                  {reserve.toLocaleString('es-ar', { minimumFractionDigits: 2 })}
+                </h3>
               </div>
               {
-                (!!project.totalNeto && !!project.totalBruto) &&
-                <div className=" bg-slate-900 w-full  border-[1px] border-x-slate-300 flex flex-col font-bold gap-4 p-4 rounded-lg text-xl">
-                  <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
-                    <h3>
-                      Available Budget ◎:
-                    </h3>
-                    <h3>
-                      {`${available.toLocaleString('es-ar', { minimumFractionDigits: 2 })}`}
-                    </h3>
-                  </div>
-                  <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
-                    <h3>
-                      Reserve ◎:
-                    </h3>
-                    <h3>
-                      {reserve.toLocaleString('es-ar', { minimumFractionDigits: 2 })}
-                    </h3>
-                  </div>
-                  {
-                    errors?.available &&
-                    <p className=" text-sm font-medium">You cannot exceed the budget available for your team.</p>
-                  }
-                </div>
+                errors?.available &&
+                <p className=" text-sm font-medium">You cannot exceed the budget available for your team.</p>
               }
             </div>
+          }
+        </div>
+      }
 
 
-
-            {
-              showSection === "INFO_PROJECT" &&
-              <InfoProject
-                confirmation={confirmInfoProject}
-                team={project.team}
-                setProject={setProject}
-                project={project}
-              />
-            }
-            {
-              showSection === "BUDGET" &&
-              <Budget
-                available={available}
-                confirmation={confirmInfoProject}
-                currency={project?.currency}
-                setProject={setProject}
-                project={project}
-                errors={errors}
-              />
-            }
-            {
-              showSection === "ASSEMBLE_TEAM" &&
-              <AssembleTeam
-                available={available}
-                errors={errors}
-                confirmation={confirmInfoProject}
-                currency={project?.currency}
-                setProject={setProject}
-                project={project}
-              />
-            }
-
-            <div className="w-8/12">
-              <ComponentButton
-                buttonText="Preview"
-                buttonEvent={() => { setPreview(true) }}
-                conditionDisabled={Object.entries(confirmation).find(([key, conf]) => {
-                  return !conf
-                }) || !!Object.values(errors).find(error => !!error)}
-              />
-            </div>
-          </>
-
+      {
+        !confirmation.INFO_PROJECT &&
+        <InfoProject
+          confirmInfoProject={confirmInfoProject}
+          confirmation={confirmation}
+          team={project.team}
+          setProject={setProject}
+          project={project}
+        />
+      }
+      {
+        (confirmation.INFO_PROJECT && !confirmation.BUDGET) &&
+        <Budget
+          available={available}
+          confirmInfoProject={confirmInfoProject}
+          currency={project?.currency}
+          confirmation={confirmation}
+          setProject={setProject}
+          project={project}
+          errors={errors}
+        />
+      }
+      {
+        (confirmation.INFO_PROJECT && confirmation.BUDGET && !confirmation.ASSEMBLE_TEAM) &&
+        <AssembleTeam
+          available={available}
+          errors={errors}
+          confirmInfoProject={confirmInfoProject}
+          confirmation={confirmation}
+          currency={project?.currency}
+          setProject={setProject}
+          project={project}
+        />
+      }
+      {
+        confirmation.INFO_PROJECT && confirmation.BUDGET && confirmation.ASSEMBLE_TEAM &&
+        <PreviewProject setConfirmation={setConfirmation} project={project} setProject={setProject} setPreview={setPreview} />
       }
     </div>
   )

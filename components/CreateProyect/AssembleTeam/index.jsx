@@ -15,7 +15,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "../../../hooks/useProgram/index.ts"
 
-const AssembleTeam = ({ project, setProject, confirmation, available, errors }) => {
+const AssembleTeam = ({ project, setProject, confirmInfoProject, available, errors, confirmation }) => {
     const db = getDatabase()
     const router = useRouter()
     const { user, firestore } = useAuth()
@@ -84,7 +84,6 @@ const AssembleTeam = ({ project, setProject, confirmation, available, errors }) 
 
 
     const handleBudgetProject = (e, data) => {
-        confirmation("ASSEMBLE_TEAM", false)
         const value = Number(e.target.value)
         if (e.target.name === "amountPartners" || e.target.name === "percentage" || e.target.name === "wallet") {
             if (e.target.name === "wallet") {
@@ -122,7 +121,6 @@ const AssembleTeam = ({ project, setProject, confirmation, available, errors }) 
                 })
             }
             if (e.target.name === "amountPartners") {
-                console.log(value)
                 setProject({
                     ...project,
                     partners: {
@@ -179,7 +177,7 @@ const AssembleTeam = ({ project, setProject, confirmation, available, errors }) 
     }
 
     const handleConfirm = () => {
-        confirmation("ASSEMBLE_TEAM", true)
+        confirmInfoProject("ASSEMBLE_TEAM", true)
     }
 
     return (

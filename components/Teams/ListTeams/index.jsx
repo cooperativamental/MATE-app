@@ -40,6 +40,11 @@ const Teams = () => {
             try {
                 const resTeamsWeb3 = await program?.account?.group?.all()
                 if (resTeamsWeb3?.length) {
+                    resTeamsWeb3.map(group=> {
+                        if(group.publicKey.toBase58() === "8zdivw3XhMcmzBVCSkGf7aert1ZEcxCcf1qzxoZyJpnn"){
+                            group.account.members.map(m=> console.log(m.toBase58()))
+                        }
+                    })
                     const listTeams = resTeamsWeb3?.map(async team => {
                         const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
                         let users = {}
@@ -73,7 +78,6 @@ const Teams = () => {
                                     }
                                     return team
                                 })
-                                console.log(teamsIsOrNotMember)
                                 setTeams(teamsIsOrNotMember)
                                 setLoading(false)
                             })
