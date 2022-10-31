@@ -269,7 +269,7 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
         <ComponentButton
           conditionDisabled={Object.values(errors).find(error => !!error)}
           // buttonStyle={`${Object.values(errors).find(error => !!error) ? "bg-gray-400" : ""} font-medium text-xl text-white ring-1 hover:ring-2 ring-slate-400`}
-          buttonText="Confirm Information Project"
+          buttonText="Confirm"
           buttonEvent={handlerConfirm}
         />
         {

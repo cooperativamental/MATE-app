@@ -119,11 +119,12 @@ const CreateProject = () => {
       {
         (confirmation.INFO_PROJECT || confirmation.BUDGET || confirmation.ASSEMBLE_TEAM) &&
         <div className="sticky w-8/12 top-0 mt-1 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col items-center font-bold gap-4 p-4 rounded-lg text-xl">
-          <div className="flex p-1 bg-slate-900 z-20 w-8/12 ">
+          <div className="flex flex-wrap p-1 bg-slate-900 z-20 gap-4 justify-center">
             <>
               {
                 confirmation.INFO_PROJECT &&
                 <ComponentButton
+                  buttonStyle="w-min"
                   buttonText="Edit Info Project"
                   buttonEvent={() => setConfirmation({
                     ...confirmation,
@@ -135,16 +136,18 @@ const CreateProject = () => {
               {
                 confirmation.BUDGET &&
                 <ComponentButton
+                  buttonStyle="w-min"
                   buttonText="Edit Budget"
                   buttonEvent={() => setConfirmation({
                     ...confirmation,
                     BUDGET: false,
-                  })} 
-                  />
+                  })}
+                />
               }
               {
                 confirmation.ASSEMBLE_TEAM &&
                 <ComponentButton
+                  buttonStyle="w-min"
                   buttonText="Edit Team"
                   buttonEvent={() => setConfirmation({
                     ...confirmation,
