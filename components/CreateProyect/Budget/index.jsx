@@ -183,6 +183,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
                 </div>
                 <p className=" text-xs text-gray-100 text-center">Third party expenses, not members of your team.</p>
             </div>
+            
             <hr className="flex bg-slate-300 border-[1px] w-full" />
             <div className="flex flex-col w-full" >
                 <div className=" flex flex-row gap-2 items-center w-full">
