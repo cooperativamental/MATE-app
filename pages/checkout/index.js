@@ -50,7 +50,6 @@ export default function Checkout() {
     const transaction = Transaction.from(Buffer.from(json.transaction, 'base64'));
     setTransaction(transaction);
     setMessage(json.message);
-    console.log(transaction);
   }
 
   useEffect(() => {

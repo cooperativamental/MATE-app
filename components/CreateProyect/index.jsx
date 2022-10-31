@@ -103,8 +103,6 @@ const CreateProject = () => {
     })
   }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
-  console.log(confirmation)
-
   return (
     <div
       className="flex flex-col items-center gap-4 h-full w-full overflow-y-auto scrollbar"

@@ -30,15 +30,12 @@ const AuthProvider = ({ children }) => {
         if (resUser && dbFirestore) {
           const unSubscribeSnapshot = onSnapshot(doc(dbFirestore, "users", resUser.uid),
             async (res) => {
-              console.log(res.data().userName)
               await updateProfile(auth.currentUser, {
                 displayName: res.data().userName,
               });
               let addProperties = {};
               if (res.exists()) {
-                // console.log(res.data())
                 Object.entries(res.data()).forEach(([key, value]) => {
-                  console.log(key)
                   {
                     (key !== "email" && key !== "projects") &&
                       (addProperties = { ...resUser, ...addProperties, [key]: value });

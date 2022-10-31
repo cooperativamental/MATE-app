@@ -33,8 +33,6 @@ const Layout = ({ children }) => {
   const { connection } = useConnection()
   const { publicKey } = useWallet()
 
-  console.log(user)
-
   useEffect(() => {
     if (!connection || !publicKey) return
     (

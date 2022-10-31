@@ -25,8 +25,6 @@ const Navbar = () => {
   const { handleOpeners } = useBalance()
   const { user } = useAuth()
 
-console.log(user)
-
   return (
     <>
       <Sidebar />
