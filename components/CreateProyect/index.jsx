@@ -115,7 +115,7 @@ const CreateProject = () => {
       </div>
       <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
       {
-        (confirmation.INFO_PROJECT || confirmation.BUDGET || confirmation.ASSEMBLE_TEAM) &&
+        (confirmation.INFO_PROJECT && confirmation.BUDGET && !confirmation.ASSEMBLE_TEAM) &&
         <div className="sticky w-8/12 top-0 mt-1 z-20 bg-slate-900  border-[1px] border-x-slate-300 flex flex-col items-center font-bold gap-4 p-4 rounded-lg text-xl">
           <div className="flex flex-wrap p-1 bg-slate-900 z-20 gap-4 justify-center">
             <>
@@ -157,7 +157,7 @@ const CreateProject = () => {
           </div>
 
           {
-            (!!project.totalNeto && !!project.totalBruto) &&
+            !(confirmation.INFO_PROJECT && confirmation.BUDGET && confirmation.ASSEMBLE_TEAM) &&
             <div className=" bg-slate-900 w-full  border-[1px] border-x-slate-300 flex flex-col font-bold gap-4 p-4 rounded-lg text-xl">
               <div className={`flex justify-between ${errors?.available ? " text-red-600" : ""}`}>
                 <h3>

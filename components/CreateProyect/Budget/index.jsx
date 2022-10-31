@@ -21,6 +21,8 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
     const db = getDatabase()
     const router = useRouter()
     const { user, firestore } = useAuth()
+    const [reserve, setReserve] = useState(0)
+
     // const [project, setProject] = useState({
     //     totalNeto: 0,
     //     totalBruto: 0,
@@ -42,6 +44,10 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
             })()
         }
     }, [db, user, firestore, program?.account?.group, router.query.team, project.fiatOrCrypto])
+
+    useEffect(() => {
+        setReserve((project?.ratio * (project?.totalNeto - project?.thirdParties?.amount)) / 100)
+    }, [project.totalNeto, project.thirdParties, project.partners, project.ratio])
 
 
     const handleBudgetProject = (e, data) => {
@@ -104,7 +110,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
                 })
             } else {
 
-            confirmInfoProject("ASSEMBLE_TEAM", false)
+                confirmInfoProject("ASSEMBLE_TEAM", false)
                 setProject({
                     ...project,
                     [e.target.name]: value,
@@ -190,6 +196,15 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
                         type="number"
                         min={0}
                         max={100}
+                    />
+                </div>
+                <div className=" flex flex-row gap-2 items-center w-full">
+                    <InputSelect
+                        inputStyle={`flex appearance-none border rounded-xl text-center w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
+                        placeholder={`Reserve %`}
+                        title="Reserve %"
+                        value={!!reserve && reserve}
+                        disabled
                     />
                 </div>
                 <p className=" text-xs text-gray-100 text-center">Reserve for extraordinary expenses, final clearing, budget deviations, etc.</p>
