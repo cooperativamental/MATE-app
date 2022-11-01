@@ -24,9 +24,9 @@ const Teams = () => {
     const [gloablTeams, setTeams] = useState()
     const [infoUser, setInfoUser] = useState()
     const [tabs, setTabs] = useState([
-        { name: 'All Contracts', current: true, value: "ALL_TEAMS" },
-        { name: 'Received', current: false, value: "CONTRACT_RECEIVED" },
-        { name: 'Sent', current: false, value: "SEND_CONTRACTS" },
+        { name: 'All Teams', current: true, value: "ALL_TEAMS" },
+        { name: 'Hosting', current: false, value: "CONTRACT_RECEIVED" },
+        { name: 'Invited', current: false, value: "SEND_CONTRACTS" },
 
     ])
     const [loading, setLoading] = useState(true)
