@@ -51,7 +51,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             setError(prevState => {
               const newState = {
                 ...prevState,
-                wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58(),
+                wallet: project?.projectHolder?.[user.uid]?.wallet !== publicKey?.toBase58(),
                 confirm
               }
               return newState
@@ -184,7 +184,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             />
             {
               errors?.wallet &&
-              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project.projectHolder[user.uid].wallet}</p>
+              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project?.projectHolder?.[user.uid]?.wallet}</p>
             }
           </>
       }

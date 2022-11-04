@@ -9,29 +9,33 @@ import ComponentButton from "../../Elements/ComponentButton";
 import {
     getDatabase, serverTimestamp,
     ref, set, push, get
-  } from "firebase/database";
+} from "firebase/database";
+import { useHost } from "../../../context/host";
 
 const PreviewProject = ({ project, setProject, setConfirmation }) => {
     const db = getDatabase();
 
+    const { host } = useHost()
     const router = useRouter()
 
     const { user } = useAuth()
     const [retrySendProposal, setRetrySendProporsal] = useState({
         status: false,
-      })
+    })
 
     const sendProposal = (keyProject) => {
+        console.log("ingresa?")
         return new Promise((resolve, reject) => {
             const proposalPartner = Object.entries(project.partners).map(([key, valuePartner]) => {
                 return new Promise((resolve, reject) => {
-                    set(ref(db, "users/" + key + "/projects/" + keyProject), {
-                        amount: valuePartner?.amount,
-                        status: key !== user?.uid ? "ANNOUNCEMENT" : "CONFIRMED",
-                        createdAt: serverTimestamp(),
-                    })
-                        .then((snapshot) => {
-                            if (key !== user?.uid) {
+                    if (key !== user?.uid) {
+                        set(ref(db, `users/${key}/projects/${keyProject}`), {
+                            amount: valuePartner?.amount,
+                            status: "ANNOUNCEMENT",
+                            createdAt: serverTimestamp(),
+                        })
+                            .then((snapshot) => {
+                                console.log("notifications")
                                 const pushNoti = push(ref(db, `notifications/${key}`))
                                 let cliName = ""
                                 Object.values(project.client).forEach(client => cliName = client.clientName)
@@ -50,6 +54,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                                     }
                                 )
                                     .then(res => {
+                                        console.log("send emailzsd")
                                         sendEmail(
                                             {
                                                 from: {
@@ -72,21 +77,28 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                                     .catch(err => {
                                         console.log(err)
                                     })
-                            }
-                            resolve("Proposal Sent")
-                        })
-                        .catch((error) => {
-                            // The write failed...
-                            console.log(error);
-                            reject(error)
-                        });
+
+                                resolve("Proposal Sent")
+                            })
+                            .catch((error) => {
+                                // The write failed...
+                                console.log(error);
+                                reject(error)
+                            });
+                    } else {
+                        resolve("Project owner")
+                    }
+
                 })
             })
+            console.log(proposalPartner)
             Promise.all(proposalPartner)
                 .then(res => {
+                    console.log(res)
                     resolve("All proposals were successfully submitted")
                 })
                 .catch(err => {
+                    console.log(err)
                     reject(`Sorry, there was an error, please try again, ${err}`)
                 })
         })
@@ -105,6 +117,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                 })
                 sendProposal(pushProject.key)
                     .then(res => {
+                        console.log("no avanza")
                         setProject({
                             ...project,
                             nameProject: "",
@@ -200,7 +213,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
             <div className="flex flex-col items-center gap-4 m-4">
 
                 <p className="text-base font-normal">Send proposals to your partners</p>
-                {/* <div className="w-8/12">
+                <div className="w-8/12">
                     <ComponentButton
                         buttonText="Edit"
                         buttonEvent={() => { setConfirmation({
@@ -209,7 +222,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                             ASSEMBLE_TEAM: false
                           })}}
                     />
-                </div> */}
+                </div>
                 {
                     retrySendProposal.status ?
                         <ComponentButton

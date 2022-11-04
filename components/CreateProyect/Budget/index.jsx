@@ -204,7 +204,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
                         inputStyle={`flex appearance-none border rounded-xl text-center w-full h-16 text-xl pl-4 placeholder-slate-100 ${errors?.thirdParties ? " border border-red-600 " : null} `}
                         placeholder={`Reserve %`}
                         title="Reserve %"
-                        value={!!reserve && reserve}
+                        value={reserve}
                         disabled
                     />
                 </div>

@@ -1,6 +1,10 @@
 module.exports = {
   reactStrictMode: true,
   experimental: { nftTracing: true },
+  images: {
+    domains: ['images.unsplash.com'],
+    formats: ["image/webp"],
+},
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

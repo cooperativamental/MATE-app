@@ -24,7 +24,6 @@ const CreateProject = () => {
   const db = getDatabase();
   const refContainer = useRef()
   const { user, firestore } = useAuth()
-  const { host } = useHost()
 
   const [errors, setErrors] = useState({})
   const [available, setAvailable] = useState(0)
@@ -36,11 +35,6 @@ const CreateProject = () => {
     BUDGET: false,
     ASSEMBLE_TEAM: false
   })
-  const [retrySendProposal, setRetrySendProporsal] = useState({
-    status: false,
-  })
-  const [showSection, setShowSection] = useState("INFO_PROJECT")
-  const [preview, setPreview] = useState(false)
   const [project, setProject] = useState({
     projectHolder: {},
     nameProject: "",
@@ -79,7 +73,6 @@ const CreateProject = () => {
   }, [db, user])
 
   const confirmInfoProject = (confirm, status, next) => {
-    setShowSection(next)
     setConfirmation({
       ...confirmation,
       [confirm]: status
@@ -221,7 +214,7 @@ const CreateProject = () => {
       }
       {
         confirmation.INFO_PROJECT && confirmation.BUDGET && confirmation.ASSEMBLE_TEAM &&
-        <PreviewProject setConfirmation={setConfirmation} project={project} setProject={setProject} setPreview={setPreview} />
+        <PreviewProject setConfirmation={setConfirmation} project={project} setProject={setProject} />
       }
     </div>
   )

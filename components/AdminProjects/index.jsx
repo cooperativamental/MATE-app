@@ -102,8 +102,8 @@ const AdminProjects = ({ prj }) => {
 
   useEffect(() => {
     if (user) {
-      if (router.query.prj) {
-        setKeyProject(router.query.prj)
+      if (router.query.id) {
+        setKeyProject(router.query.id)
       }
       const unsubscribe = onValue(
         query(ref(db, `users/${user.uid}/projectsOwner`), orderByValue("createdAt"))
@@ -154,11 +154,7 @@ const AdminProjects = ({ prj }) => {
     if (keyProject && user) {
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
-          if (res.val()?.projectHolder?.[user.uid] || res.val()?.projectOwner?.[user.uid]) {
-            setIsHolder(true)
-          }
           setProject(res.val())
-
         }
       })
       return () => {
@@ -185,9 +181,18 @@ const AdminProjects = ({ prj }) => {
   }, [project])
 
   const handleInfoProject = async (propProject) => {
-    router.push(`${router.pathname}/${propProject.id}`)
+    router.push({
+      pathname: `${router.pathname}/[id]`,
+      query: {
+        id: propProject.id
+      }
+    },
+      `/${router.pathname}`,
+      {
+        shallow: true
+      }
+    );
   }
-
 
   if (loading) {
     return (
@@ -195,29 +200,9 @@ const AdminProjects = ({ prj }) => {
         <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
       </div>
     )
-  }
-
-  if (!objRender[project?.status?.toLowerCase()] && !router.query.prj) {
-
-    return (
-      (
-        projects ?
-          <Projects
-            showModel={true}
-            projects={projects}
-            fnProjects={handleInfoProject}
-            queryId={prj}
-          />
-          :
-          <h1>No projects</h1>
-      )
-    )
   } else {
     return (
-      isHolder ?
         objRender[project?.status?.toLowerCase()]
-        :
-        <ProjectSheets keyProject={keyProject} project={project} />
     )
   }
 };
