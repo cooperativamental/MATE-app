@@ -52,7 +52,7 @@ export const RouteGuard = ({ children }) => {
       if (path?.split("/")[1] === "login" || path?.split("/")[1] === "register") {
         setAuthorized(false);
         router.push({
-          pathname: "/organizations",
+          pathname: "/teams",
         });
       }
       // else if (path.split("/")[1] === "admin") {

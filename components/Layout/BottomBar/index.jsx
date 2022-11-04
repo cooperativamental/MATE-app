@@ -21,12 +21,12 @@ const BottomBar = () => {
         >
             <Link href="/groups" >
                 <a
-                    className={selected(router?.asPath === "/organization" && !openers.withdraw)}
+                    className={selected(router?.asPath === "/team" && !openers.withdraw)}
                 >
 
                     <GroupWorkIcon
                         sx={{ fontSize: 30 }}
-                        alt="Organizations"
+                        alt="Teams"
                     />
                     <p>Teams</p>
                 </a>

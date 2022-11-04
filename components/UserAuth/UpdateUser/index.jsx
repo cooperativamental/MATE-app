@@ -13,13 +13,15 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import styles from "./updateuser.module.scss"
 import ComponentButton from "../../Elements/ComponentButton";
+import { usePopUp } from "../../../context/PopUp";
 
 const UpdateUser = (props) => {
     // const [email, setEmail] = useState()
-    const router = useRouter()
+    const db = getDatabase()
     const auth = getAuth();
     const { user } = useAuth()
-    const db = getDatabase()
+    const router = useRouter()
+    const { handlePopUp } = usePopUp()
     const [stateUser, setStateUser] = useState()
     const [visiblePass, setVisible] = useState()
     const [error, setError] = useState({
@@ -54,14 +56,23 @@ const UpdateUser = (props) => {
         reauthenticateWithCredential(auth.currentUser, credential).then(res => {
             setError({ password: false })
             updatePassword(auth.currentUser, stateUser.newPassword).then(() => {
-                alert("Actualizacion satisfactoria.")
+                handlePopUp({
+                    text: "Successful update",
+                    title: `Update User`,
+                  })
             }).catch((error) => {
-                alert("El cambio no pudo ser efectuado.")
+                handlePopUp({
+                    text: "the change could not be made",
+                    title: `Update User`,
+                  })
             });
         })
             .catch(error => {
                 setError({ password: true })
-                alert("La contraseña actual no corresponde con la registrada", error)
+                handlePopUp({
+                    text: "The current password does not match the one registered",
+                    title: `Update User`,
+                  })
             })
     }
 

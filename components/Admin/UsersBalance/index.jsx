@@ -24,7 +24,7 @@ const UsersBalance = () => {
     const { user, firestore } = useAuth()
     const { host } = useHost()
     const [users, setUsers] = useState()
-    const [organizations, setOrganizations] = useState()
+    const [teams, setTeams] = useState()
     const [loading, setLoading] = useState({
         user: false,
         listUsers: false
@@ -39,16 +39,16 @@ const UsersBalance = () => {
 
     useEffect(() => {
         if (user) {
-            get(ref(db, "organizations"))
+            get(ref(db, "teams"))
                 .then(res => {
-                    setOrganizations(res.val())
+                    setTeams(res.val())
                     setUsers(undefined)
                 })
         }
     }, [db, user])
 
-    const getListUsers = (organization) => {
-        getDocs(queryFirestore(collection(firestore, "users"), where("organization", "array-contains", organization)))
+    const getListUsers = (team) => {
+        getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team)))
             .then(res => {
                 let users = {}
                 res.forEach(user => {
@@ -511,14 +511,14 @@ const UsersBalance = () => {
             >
                 <option value={0} disabled>Seleccione el Grupo</option>
                 {
-                    organizations && Object.entries(organizations).map(([key, organization]) => {
+                    teams && Object.entries(teams).map(([key, team]) => {
 
                         return (
                             <option
                                 key={key}
                                 value={key}
                             >
-                                {organization.businessName}
+                                {team.businessName}
                             </option>
                         )
                     })

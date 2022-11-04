@@ -50,7 +50,6 @@ export default function Checkout() {
     const transaction = Transaction.from(Buffer.from(json.transaction, 'base64'));
     setTransaction(transaction);
     setMessage(json.message);
-    console.log(transaction);
   }
 
   useEffect(() => {
@@ -93,7 +92,8 @@ export default function Checkout() {
     return (
       <div className='flex flex-col gap-8 items-center'>
 
-        <WalletMultiButton />
+                  <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
 
         <p>You need to connect your wallet to make transactions</p>
       </div>
@@ -103,7 +103,8 @@ export default function Checkout() {
   return (
     <div className='flex flex-col gap-8 items-center'>
 
-      <WalletMultiButton />
+                <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
 
       {message ?
         <p>{message} Please approve the transaction using your wallet</p> :

@@ -26,46 +26,26 @@ const CallProject = ({ keyProject }) => {
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
   const { program } = useProgram({ connection, wallet });
-  const [balance, setBalance] = useState()
+  // const [balance, setBalance] = useState()
 
   useEffect(() => {
     if (program?.account?.group) {
 
       const unsubscribe = onValue(ref(db, `wallet/${user?.uid}`),
         async (res) => {
-          const resOrganizationWeb3 = await program?.account?.group?.all()
-          const findOrganization = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === project?.organization)
-          const convertWalletsInOrganization = findOrganization?.account?.members?.map(member => member.toBase58())
-          const filterWalletInOrganization = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInOrganization?.includes(wallet.publicKey))
-          const objWalletsInOrganization = Object.fromEntries(filterWalletInOrganization)
-          setWallets(objWalletsInOrganization)
+          const resTeamWeb3 = await program?.account?.group?.all()
+          const findTeam = resTeamWeb3?.find(team => team.publicKey.toBase58() === project?.team)
+          const convertWalletsInTeam = findTeam?.account?.members?.map(member => member.toBase58())
+          const filterWalletInTeam = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInTeam?.includes(wallet.publicKey))
+          const objWalletsInTeam = Object.fromEntries(filterWalletInTeam)
+          setWallets(objWalletsInTeam)
         }
       )
       return () => {
         unsubscribe()
       }
     }
-
-
   }, [db, user, program?.account?.group, project, connection, wallet])
-
-  useEffect(() => {
-    get(ref(db, `projects/${keyProject}`))
-        .then(async res => {
-            const interval = setInterval(async () => {
-                try {
-                    const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-                    setBalance(bal / LAMPORTS_PER_SOL)
-                } catch (e) {
-                    console.error('Unknown error', e)
-                }
-            }, 500)
-            return () => {
-                clearInterval(interval)
-            }
-        })
-}, [])
-
 
   useEffect(() => {
     if (keyProject && user) {
@@ -76,7 +56,7 @@ const CallProject = ({ keyProject }) => {
         unsubscribe()
       }
     }
-  }, [keyProject])
+  }, [db, user, keyProject])
 
 
   const comfirmProject = () => {
@@ -206,10 +186,10 @@ const CallProject = ({ keyProject }) => {
         <p>Project holder: </p>
         <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
       </div>
-      <div className="flex text-xl w-full justify-between font-normal">
+      {/* <div className="flex text-xl w-full justify-between font-normal">
         <p>Treasury project: </p>
         <p>{balance}</p>
-      </div>
+      </div> */}
       <div>
         <h3>Called up team:</h3>
         {
@@ -237,7 +217,7 @@ const CallProject = ({ keyProject }) => {
               <div className="flex flex-col items-center gap-8">
                 {
                   (!connection || !wallet) ?
-                    <WalletMultiButton />
+                    <WalletMultiButton>Connect Wallet</WalletMultiButton>
                     :
                     <>
                       <InputSelect

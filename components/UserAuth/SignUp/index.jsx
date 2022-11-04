@@ -7,10 +7,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import InputSelect from "../../Elements/InputSelect"
 import ComponentButton from "../../Elements/ComponentButton"
+import { useRouter } from "next/router";
 
 const SignUp = () => {
     const db = getDatabase()
     const { signUp } = useAuth();
+    const router = useRouter()
     const [visiblePass, setVisible] = useState(false)
 
     const [user, setUser] = useState({
@@ -22,7 +24,7 @@ const SignUp = () => {
         fullName: "",
     });
 
-    const [organization, setOrganization] = useState({
+    const [team, setTeam] = useState({
         businessName: "",
         activity: "",
         treasury: "",
@@ -43,10 +45,10 @@ const SignUp = () => {
     // };
 
     const userChange = (e) => {
-        if (e.target.name === "organization") {
+        if (e.target.name === "team") {
             setUser({
                 ...user,
-                organization: e.target.value
+                team: e.target.value
             })
         } else {
             setUser({
@@ -64,7 +66,10 @@ const SignUp = () => {
             })
         if (response?.error) {
             if (response.error.code === "auth/email-already-exists") {
-                alert("Email already exists")
+                handlePopUp({
+                    text: "Email already exists.",
+                    title: `Error`,
+                  })
             }
         }
     }

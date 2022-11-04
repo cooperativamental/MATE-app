@@ -11,6 +11,8 @@ import { RulesProvider } from "../context/rulesApp";
 import WalletContextProvider from "../context/WalletContext";
 import { PopUpProvider } from "../components/PopUp";
 
+import Favicon from "../components/Favicon"
+
 const MyApp = ({ Component, pageProps }) => {
 
   return (
@@ -25,9 +27,7 @@ const MyApp = ({ Component, pageProps }) => {
                   <RouteGuard>
                     {/* <PopUpProvider> */}
                       <Layout>
-                        <Head>
-                          <title>Mate</title>
-                        </Head>
+                        <Favicon/>
                         <Component {...pageProps} />
                       </Layout>
                     {/* </PopUpProvider> */}

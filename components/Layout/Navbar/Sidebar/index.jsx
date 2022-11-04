@@ -132,8 +132,8 @@ const Menu = ({ openMenu, closeSideBar }) => {
         <ul className="flex h-full flex-col items-start mt-5 overflow-y-auto overflow-x-hidden scrollbar">
 
           <hr className=" h-[1px] bg-slate-300 border-[1px] w-full" />
-          <Link href="/organizations" passHref>
-            <li className={` cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/organizations" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
+          <Link href="/teams" passHref>
+            <li className={` cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/teams" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
               <a>Teams</a>
             </li>
           </Link>

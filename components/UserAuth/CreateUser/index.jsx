@@ -4,11 +4,15 @@ import { useAuth } from "../../../context/auth";
 import { get, getDatabase, ref, set } from "firebase/database";
 
 import styles from "./singup.module.scss";
+import { usePopUp } from "../../../context/PopUp";
+import { useRouter } from "next/router";
 
 
 const CreateUser = () => {
   const db = getDatabase()
   const { signup } = useAuth();
+  const { handlePopUp } = usePopUp()
+  const router = useRouter()
   const [errors, setErrors] = useState()
   const [user, setUser] = useState({
     userName: "",
@@ -17,27 +21,27 @@ const CreateUser = () => {
     regFis: "",
     priority: "USER",
     fullName: "",
-    organization: []
+    team: []
   });
-  const [organizations, setOrganizations] = useState()
+  const [teams, setTeams] = useState()
 
   useEffect(() => {
     const getter = async () => {
-      const res = await get(ref(db, `/organizations`))
+      const res = await get(ref(db, `/teams`))
       if (res.hasChildren()) {
-        const organizations = res.val()
-        setOrganizations(organizations)
+        const teams = res.val()
+        setTeams(teams)
       }
     }
     getter()
   }, [])
 
   const userChange = (e) => {
-    if (e.target.name === "organization") {
+    if (e.target.name === "team") {
 
       setUser({
         ...user,
-        organization: [e.target.value]
+        team: [e.target.value]
       })
     } else {
       setUser({
@@ -54,7 +58,10 @@ const CreateUser = () => {
       })
       if(response?.error){
         if(response.error.code === "auth/email-already-exists"){
-          alert("El mail ya esta en uso. No pueden haber usuarios con el mismo mail.")
+          handlePopUp({
+            text: "The mail is already in use. There cannot be users with the same email.",
+            title: `Error`,
+          })
         }
       }
   }
@@ -83,18 +90,18 @@ const CreateUser = () => {
         <option value="RESPONSABLE_INSCRIPTO">Responsable Inscripto</option>
       </select>
         {
-          organizations &&
+          teams &&
           <select
             defaultValue={0}
             onChange={userChange}
-            name="organization"
+            name="team"
             className={`text-black flex w-full border rounded-xl h-16 p-4 text-xl shadow-sm`}
           >
             <option value={0} disabled>Seleccionar Grupo</option>
             {
-              Object.entries(organizations).map(([key, organization]) => {
+              Object.entries(teams).map(([key, team]) => {
                 return (
-                  <option key={key} value={key}>{organization.businessName}</option>
+                  <option key={key} value={key}>{team.businessName}</option>
                 )
               })
             }

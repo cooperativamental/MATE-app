@@ -17,7 +17,7 @@ import ComponentButton from "../../Elements/ComponentButton"
 import { useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
-export const CollectCall = ({ project, organization, keyProject }) => {
+export const CollectCall = ({ project, team, keyProject }) => {
     const db = getDatabase()
 
     const { connection } = useConnection()

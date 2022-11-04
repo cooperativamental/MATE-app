@@ -26,7 +26,7 @@ import { sendEmail } from "../../../functions/sendMail"
 import { query } from "firebase/firestore";
 
 
-const InvoiceRequest = ({ keyProject, project, organization }) => {
+const InvoiceRequest = ({ keyProject, project, team }) => {
   const db = getDatabase()
   const { user } = useAuth()
   const { host } = useHost()
@@ -37,7 +37,7 @@ const InvoiceRequest = ({ keyProject, project, organization }) => {
   })
   const [percentage, setPercentage] = useState(undefined)
   const [radioState, setRadioState] = useState()
-  const [organizationValues, setOrganizationValues] = useState()
+  const [teamValues, setTeamValues] = useState()
   const [descriptionInvoice, setDescriptionInvoice] = useState()
   const [errors, setError] = useState({
     date: true,
@@ -48,11 +48,11 @@ const InvoiceRequest = ({ keyProject, project, organization }) => {
     if (keyProject && user) {
       get(ref(db, `projects/${keyProject}`))
         .then(res => {
-          get(query(ref(db, `organizations/${organization}`)))
-            .then(resOrganization => setOrganizationValues(resOrganization.val()))
+          get(query(ref(db, `teams/${team}`)))
+            .then(resTeam => setTeamValues(resTeam.val()))
         })
     }
-  }, [keyProject, organization])
+  }, [keyProject, team])
 
   useEffect(() => {
     if (project?.amountToInvoice) {
@@ -205,7 +205,7 @@ const InvoiceRequest = ({ keyProject, project, organization }) => {
                     petitioner: !(typeUpdate[status.toLowerCase()].status === "COBRADO") ? user.displayName : null,
                     projectHolder: prjOwn,
                     client: cliName,
-                    organization: project.organization,
+                    team: project.team,
                     nameProject: project.nameProject,
                     percentage: percentage ? Number(percentage) : project.percentage,
                     viewed: false,
@@ -259,7 +259,7 @@ const InvoiceRequest = ({ keyProject, project, organization }) => {
                     nameProject: project.nameProject,
                     percentage: percentage ? Number(percentage) : project.percentage,
                     viewed: false,
-                    organization: organization,
+                    team: team,
                     open: false,
                     showCard: false,
                     createdAt: serverTimestamp()
@@ -288,7 +288,7 @@ const InvoiceRequest = ({ keyProject, project, organization }) => {
                     router.push({
                       pathname: router.pathname,
                       query: {
-                        organization: organization
+                        team: team
                       }
                     })
                   })

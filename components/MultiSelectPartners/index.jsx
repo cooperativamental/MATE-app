@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Image } from "next/image"
 import { PlusIcon, MinusIcon } from '@heroicons/react/20/solid'
 
-export const MultiSelectPartners = ({ options, selectState, searchFunction, setSelectState, blockOption }) => {
+export const MultiSelectPartners = ({ options, selectState, searchFunction, setOptions,  setSelectState, blockOption }) => {
 
   const [fieldSearch, setFieldSearch] = useState()
 
@@ -25,22 +25,23 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
             />
           </svg>
           <h2 className="mt-2 text-lg font-medium text-gray-900">Add team members</h2>
-          <p className="mt-1 text-sm text-gray-500">You haven’t added any team members to your project yet.</p>
         </div>
         <div className="flex w-full">
 
           <div className="flex w-full">
-            <label htmlFor="address" className="sr-only">
-              Email addresses
-            </label>
             <div className="relative rounded-md shadow-sm w-full">
               <input
                 type="text"
                 name="address"
                 id="address"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    searchFunction(fieldSearch)
+                  }
+                }}
                 onChange={(e) => setFieldSearch(e.target.value)}
                 className="block w-full rounded-md border-gray-300 text-black focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Enter an address"
+                placeholder="Enter email or Phantom wallet address."
               />
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <span className="h-4 w-px bg-gray-200" aria-hidden="true" />
@@ -62,7 +63,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
 
       </div>
       <div className="mt-10">
-        <h3 className="text-sm font-medium text-gray-500">Recommended team members</h3>
+        <h3 className="text-sm font-medium text-gray-500">Team Admin [Up next delegate admin to your MultiSign or DAO]</h3>
         <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {
             options &&
@@ -70,7 +71,7 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
               <li key={partnerKey}>
                 <button
                   type="button"
-                  className={`group flex w-full items-center justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
+                  className={`group flex w-full items-center h-12 justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
                 >
                   <span className="flex min-w-0 flex-1 items-center space-x-3">
                     <span className="block flex-shrink-0">
@@ -89,12 +90,48 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                     <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center">
                       <PlusIcon
                         onClick={() => {
+                          const { [partnerKey]: _, ...resOption } = options
+                          setOptions(resOption)
                           setSelectState({
                             ...selectState,
                             [partnerKey]: partner
                           })
                         }}
                         className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+
+                    </span>
+                  }
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div className="mt-10">
+        <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {
+            options &&
+            Object.entries(selectState).map(([partnerKey, partner]) => (
+              <li key={partnerKey}>
+                <button
+                  type="button"
+                  className={`group flex w-full h-12 items-center justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900 ${selectState?.[partnerKey] && "outline-none ring-2 ring-indigo-500 ring-offset-2"}`}
+                >
+                  <span className="flex min-w-0 flex-1 items-center space-x-3">
+                    <span className="block flex-shrink-0">
+                      {
+                        partner.imageUrl &&
+                        <Image className="h-10 w-10 rounded-full" src={partner.imageUrl} alt="" />
+                      }
+                    </span>
+                    <span className="block min-w-0 flex-1">
+                      <span className="block truncate text-sm font-medium ">{partner.name}</span>
+                      <span className="block truncate text-sm font-medium text-gray-500">{partner.role}</span>
+                    </span>
+                  </span>
+                  {
+                    !blockOption?.includes(partnerKey) &&
+                    <span className="inline-flex w-10 flex-shrink-0 items-center justify-center">
                       <MinusIcon
                         onClick={() => {
                           const { [partnerKey]: _, ...resPartners } = selectState
@@ -102,8 +139,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setS
                             ...resPartners
                           })
                         }}
-                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" 
-                        />
+                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true"
+                      />
                     </span>
                   }
                 </button>

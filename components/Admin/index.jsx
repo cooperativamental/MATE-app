@@ -56,7 +56,7 @@ const Administration = ({ children, }) => {
               key="Crear Grupo"
               buttonStyle="whitespace-nowrap w-max h-min bg-secondary-color"
               buttonText="Crear Grupo"
-              buttonEvent={() => router.push("/admin/createorganization")}
+              buttonEvent={() => router.push("/admin/createteam")}
             />
           ]
         }

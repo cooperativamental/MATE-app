@@ -25,14 +25,12 @@ const Navbar = () => {
   const { handleOpeners } = useBalance()
   const { user } = useAuth()
 
-
-
   return (
     <>
       <Sidebar />
       <div className="flex relative items-center justify-between w-full px-[3.5rem] h-[3rem] z-10">
         <div className='flex ml-4 gap-2'>
-          <Link href="/organizations" >
+          <Link href="/teams" >
             <a
               className='flex justify-center items-center'
               title="Teams"
@@ -66,76 +64,19 @@ const Navbar = () => {
               router.push("/projects")
             }}
             className="h-10 w-10 text-[#0d9488]" aria-hidden="true"
-            />
-          {/* <Link href="/wallet" >
-            <a
-              className='flex justify-center items-center'
-              title='Wallet'
-            >
-              <AccountBalanceWalletIcon
-                style={{ color: "#0d9488" }}
-                sx={{ fontSize: 40 }}
-              />
-            </a>
-          </Link> */}
-          <Link
-            href={{
-              pathname: "/adminprojects",
-
-            }}
-            passHref
-          >
-            <a
-              className='flex justify-center items-center'
-              title="Admin Projects"
-            >
-              <FolderIcon
-                style={{ color: "#0d9488" }}
-                sx={{ fontSize: 40 }}
-              />
-            </a>
-          </Link>
+          />
         </div>
 
-        
+
         <div className='flex mr-4 gap-2'>
-          <WalletMultiButton />
-          {/* <div
-            className='flex justify-center items-center cursor-pointer'
-            onClick={() => { handleOpeners("withdraw") }
-            }
-            title="Whitdrawal"
-          >
-            <PaidIcon
-              style={{ color: "#0d9488" }}
-              sx={{ fontSize: 40 }}
-            />
-          </div> */}
-
-
+          <WalletMultiButton>Connect Wallet</WalletMultiButton>
         </div>
-        {
-          router.pathname === "/wallet/movements" ?
-            <p
-              className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold p-4"
-            >
-              Movements
-            </p>
-            :
-            router.pathname === "/projects" || router.pathname === "/projects/[id]"
-              ?
-              <p
-                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-bold p-4"
-              >
-                Projects
-              </p>
-              :
-              <p
-                className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
-              >
-                gm, {user?.displayName}
-              </p>
-        }
+        <p
+          className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
+        >
+          gm, {user?.userName}
+        </p>
+
 
       </div>
       {

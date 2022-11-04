@@ -11,7 +11,8 @@ const Example = () => {
 
     return (
         <div className='flex'>
-            <WalletMultiButton />
+                      <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
             <div className='p-3'>
                 {(!connection || !publicKey) ? (
                     <h2>usuario no conectado a solana</h2>

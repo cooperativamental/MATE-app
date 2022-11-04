@@ -15,11 +15,11 @@ import ComponentButton from "../../Elements/ComponentButton"
 import { MultiSelectPartners } from "../../MultiSelectPartners"
 
 
-const Organization = () => {
+const Team = () => {
     const db = getDatabase()
     const router = useRouter()
     const { firestore, user } = useAuth()
-    const [organization, setOrganization] = useState()
+    const [team, setTeam] = useState()
     const [addPartner, setAddPartner] = useState()
     const [projects, setProjects] = useState([])
     const [listPartners, setListPartners] = useState()
@@ -40,7 +40,7 @@ const Organization = () => {
         let resPartners = {}
         users.forEach(user => {
             const { userName, ...resUser } = user.data()
-            if (!organization?.users?.[user.id]) {
+            if (!team?.users?.[user.id]) {
                 resPartners = {
                     ...resPartners,
                     [user.id]: {
@@ -64,12 +64,12 @@ const Organization = () => {
         }
     }
 
-    // const addToOrganization = () => {
+    // const addToTeam = () => {
     //     Object.entries(listPartners).map(async ([keyPartner, partner]) => {
     //         const resPartner = await getDoc(doc(firestore, "users", keyPartner))
-    //         if (!resPartner.data().organization.find(organizationPartner => organizationPartner === router.query.group)) {
+    //         if (!resPartner.data().team.find(teamPartner => teamPartner === router.query.group)) {
     //             updateDoc(doc(firestore, "users", keyPartner), {
-    //                 group: arrayUnion(router.query.organization)
+    //                 group: arrayUnion(router.query.team)
     //             })
     //         }
     //     })
@@ -79,10 +79,9 @@ const Organization = () => {
 
         if (program?.account?.group) {
             (async () => {
-                const resOrganizationWeb3 = await program?.account?.group.all()
-                const organizationQuery = resOrganizationWeb3?.find(organization => organization.publicKey.toBase58() === router.query.organization)
-
-                const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("organization", "array-contains", organizationQuery?.publicKey?.toBase58())),
+                const resTeamWeb3 = await program?.account?.group.all()
+                const teamQuery = resTeamWeb3?.find(team => team.publicKey.toBase58() === router.query.team)
+                const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("team", "array-contains", teamQuery?.publicKey?.toBase58())),
                     (resUsers) => {
                         let users = {}
 
@@ -96,48 +95,47 @@ const Organization = () => {
                                 }
                             }
                         })
-                        const infoOrganization = {
-                            ...organizationQuery,
+                        const infoTeam = {
+                            ...teamQuery,
                             users
                         }
-                        setOrganization(infoOrganization)
-                        setListMate(users)
-                        setListPartners(users)
-                        setBlockOptions(Object.keys(users).map(key => key))
+                        setTeam(infoTeam)
+                        // setListPartners(users)
+                        // setBlockOptions(Object.keys(users).map(key => key))
                     }
                 )
                 return () => unSubscribeSnapshot()
+
             })()
         }
-        get(query(ref(db, `projects`), orderByChild("organization"), equalTo(router.query.organization)))
+        get(query(ref(db, `projects`), orderByChild("team"), equalTo(router.query.team)))
             .then(res => res.val())
             .then(projects => {
                 setProjects(projects)
             })
-    }, [db, firestore, router.query.organization, program?.account?.group])
+    }, [db, firestore, router.query.team, program?.account?.group])
 
     return (
         <div className="flex flex-col py-8 h-min w-6/12 gap-8">
             <div className="flex w-full justify-between items-center">
                 <div>
-                    <p>Organization Name:</p>
+                    <p>Team Name:</p>
                     <h1 className="text-2xl font-semibold">
-                        {organization?.account?.name}
+                        {team?.account?.name}
                     </h1>
                 </div>
                 {
-                    organization?.users[user?.uid] &&
+                    team?.users?.[user?.uid] &&
                     <div className="flex gap-8 h-full">
-
                         <ComponentButton
-                            buttonText="Start a Project"
+                            buttonText="Start Project"
                             buttonStyle="w-max"
                             buttonEvent={() => {
                                 router.push(
                                     {
                                         pathname: "/createproject",
                                         query: {
-                                            organization: router.query.organization
+                                            team: router.query.team
                                         }
                                     },
                                     "/createproject",
@@ -154,7 +152,7 @@ const Organization = () => {
                                 router.push({
                                     pathname: "/createclient",
                                     query: {
-                                        organization: router.query.organization
+                                        team: router.query.team
                                     }
                                 })
                             }}
@@ -165,25 +163,25 @@ const Organization = () => {
             <div className="flex w-full justify-between items-center">
                 <div>
                     <p className="font-semibold">
-                        Treasury {organization?.account?.ratio / 100}%
+                        Treasury {team?.account?.ratio / 100}%
                     </p>
                     <button
                         className=" text-secondary-color font-semibold"
                     >
-                        Vote Review (incoming)
+                        Vote Review (Coming Up)
                     </button>
                 </div>
                 <button
                     className=" text-secondary-color font-semibold"
                 >
-                    Treasury Funds Proposal (incoming)
+                    Treasury Poll  (Coming Up)
                 </button>
             </div>
             <div className="flex flex-col gap-4">
                 <p className="text-xl font-bold">Associate Members</p>
                 <div className="flex flex-col gap-8">
                     {
-                        organization?.users && Object.entries(organization.users).map(([keyUser, user]) => {
+                        team?.users && Object.entries(team.users).map(([keyUser, user]) => {
                             return (
                                 <p key={keyUser} className="font-semibold">
                                     {user.name}
@@ -219,46 +217,49 @@ const Organization = () => {
                     </div>
                 }
             </div> */}
-            <div className="flex flex-col ">
-                <p className="text-xl font-bold">Project's {organization?.account?.name}</p>
-                <div className="flex flex-col gap-8">
-                    {
-                        projects && Object.entries(projects).map(([keyProject, project]) => {
-                            return (
-                                <Link
-                                    key={keyProject}
-                                    passHref
-                                    href={{
-                                        pathname: "/adminprojects",
-                                        query: {
-                                            prj: keyProject
-                                        }
-                                    }}
-                                    as="/adminprojects"
-                                >
-                                    <a className="flex w-full justify-between p-4 border-b-2 border-white font-semibold">
-                                        <h5>{project?.nameProject}</h5>
-                                        <p>
-                                            {
-                                                project?.projectOwner ?
-                                                    Object.values(project?.projectOwner).map(
-                                                        prjHolder => prjHolder.fullName
-                                                    )
-                                                    :
-                                                    Object.values(project?.projectHolder).map(
-                                                        prjHolder => prjHolder.fullName
-                                                    )
+            {
+                projects &&
+                <div className="flex flex-col ">
+                    <p className="text-xl font-bold">Project's {team?.account?.name}</p>
+                    <div className="flex flex-col gap-8">
+                        {
+                            Object.entries(projects).map(([keyProject, project]) => {
+                                return (
+                                    <Link
+                                        key={keyProject}
+                                        passHref
+                                        href={{
+                                            pathname: "/adminprojects",
+                                            query: {
+                                                prj: keyProject
                                             }
-                                        </p>
-                                    </a>
-                                </Link>
-                            )
-                        })
-                    }
+                                        }}
+                                        as="/adminprojects"
+                                    >
+                                        <a className="flex w-full justify-between p-4 border-b-2 border-white font-semibold">
+                                            <h5>{project?.nameProject}</h5>
+                                            <p>
+                                                {
+                                                    project?.projectOwner ?
+                                                        Object.values(project?.projectOwner).map(
+                                                            prjHolder => prjHolder.fullName
+                                                        )
+                                                        :
+                                                        Object.values(project?.projectHolder).map(
+                                                            prjHolder => prjHolder.fullName
+                                                        )
+                                                }
+                                            </p>
+                                        </a>
+                                    </Link>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }
 
-export default Organization
+export default Team

@@ -51,7 +51,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             setError(prevState => {
               const newState = {
                 ...prevState,
-                wallet: project.projectHolder[user.uid].wallet !== publicKey?.toBase58(),
+                wallet: project?.projectHolder?.[user.uid]?.wallet !== publicKey?.toBase58(),
                 confirm
               }
               return newState
@@ -84,7 +84,7 @@ const ConfirmProject = ({ keyProject, project }) => {
       })[0]
       const projectWeb3 = {
         name: project.nameProject,
-        group: project.organization,
+        group: project.team,
         projectType: "COMMON",
         reserve: project.ratio,
         payments: walletsPartners,
@@ -170,7 +170,8 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       {
         !connection || !publicKey ?
-          <WalletMultiButton />
+                    <WalletMultiButton>Connect Wallet</WalletMultiButton>
+
           :
           <>
             <ComponentButton
@@ -183,7 +184,7 @@ const ConfirmProject = ({ keyProject, project }) => {
             />
             {
               errors?.wallet &&
-              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project.projectHolder[user.uid].wallet}</p>
+              <p className="text-center font-semibold">Wrong Wallet. Connect with address: {project?.projectHolder?.[user.uid]?.wallet}</p>
             }
           </>
       }

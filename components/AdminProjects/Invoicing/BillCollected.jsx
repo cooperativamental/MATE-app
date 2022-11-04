@@ -11,7 +11,7 @@ import {
 
 } from "firebase/database";
 
-export const BillCollected = ({ project, organization, keyProject }) => {
+export const BillCollected = ({ project, team, keyProject }) => {
     const db = getDatabase()
 
     const confirmInvoice = () => {
@@ -50,7 +50,7 @@ export const BillCollected = ({ project, organization, keyProject }) => {
                                 nameProject: project.nameProject,
                                 percentage: project.percentage,
                                 viewed: false,
-                                organization: organization,
+                                team: team,
                                 open: false,
                                 showCard: false,
                                 createdAt: serverTimestamp()
@@ -79,7 +79,7 @@ export const BillCollected = ({ project, organization, keyProject }) => {
                                 router.push({
                                     pathname: router.pathname,
                                     query: {
-                                        organization: organization
+                                        team: team
                                     }
                                 })
                             })

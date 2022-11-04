@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/router";
 
 import { useAuth } from "../../context/auth";
@@ -15,9 +15,14 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { getDatabase, ref, get, orderByChild, query, equalTo, set, push } from "firebase/database";
 import { updateDoc, query as queryFirestore, doc, arrayUnion } from "firebase/firestore";
 import { PopUpProvider } from "../../context/PopUp";
+import { useNotification } from '../../context/notification'
+
+import Favicon from "../Favicon";
 
 const Layout = ({ children }) => {
   const db = getDatabase()
+  const { notification } = useNotification()
+
   const { user, firestore } = useAuth()
   const router = useRouter()
   const { openers } = useBalance()
@@ -50,6 +55,8 @@ const Layout = ({ children }) => {
 
   return (
     <>
+      <Favicon />
+
       {
         !existPath && <Navbar />
       }
