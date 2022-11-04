@@ -70,7 +70,7 @@ export const BillCollected = ({ project, team, keyProject }) => {
                                     to: {
                                         ...Object.values(project.projectHolder)
                                             .map(values => ({
-                                                name: values.fullName,
+                                                name: values.name,
                                                 email: values.email
                                             }))[0]
                                     },

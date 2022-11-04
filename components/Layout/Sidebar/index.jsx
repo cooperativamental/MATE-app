@@ -1,14 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link"
 import { useRouter } from "next/router";
-import { useAuth } from "../../../../context/auth"
+import { useAuth } from "../../../context/auth"
 import SettingsIcon from '@mui/icons-material/Settings';
 import { motion, useTransform, useMotionValue } from "framer-motion"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import { width } from "@mui/system";
+import { Bars3Icon } from "@heroicons/react/20/solid"
+import { useMediaQuery } from "../../../hooks/useMediaQuery";
 
 const Menu = ({ openMenu, closeSideBar }) => {
   const router = useRouter()
+  const isMedium = useMediaQuery("(min-width:600px)")
   const refContainer = useRef()
 
   const {
@@ -22,6 +24,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
     console.log("logged out");
   }
 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (refContainer.current && !refContainer.current.contains(event.target)) {
@@ -34,10 +37,35 @@ const Menu = ({ openMenu, closeSideBar }) => {
     };
   }, [refContainer]);
 
-  const sidebar = {
+  const sidebar = isMedium ?
+  {
+    openContainer: {
+      position: "initial",
+      width: "calc(100% / 6)",
+      height: "100vh",
+      backgroundColor: ["#7e22ce", "#000"],
+      borderRadius: "0 0 1rem 0",
+    },
+    closedContainer: {
+      position: "initial",
+      width: "calc(100% / 6)",
+      height: "100vh",
+      borderRadius: "0 0 1rem 0",
+
+    },
+    open: {
+      display: "flex",
+      opacity: 1,
+      transition: {
+        duration: 1
+      }
+  },
+  }
+  :
+  {
     openContainer: {
       width: "15rem",
-      height: "75vh",
+      height: "90vh",
       backgroundColor: ["#7e22ce", "#000"],
       borderRadius: "0 0 1rem 0",
       transition: {
@@ -55,17 +83,14 @@ const Menu = ({ openMenu, closeSideBar }) => {
         }
       },
     },
-    open: (width) => {
-      return ({
+    open: {
         display: "flex",
         opacity: 1,
         transition: {
           duration: 1
         }
-      })
     },
-    closed: () => {
-      return ({
+    closed: {
         opacity: 0,
         transition: {
           duration: 1,
@@ -76,7 +101,6 @@ const Menu = ({ openMenu, closeSideBar }) => {
         transitionEnd: {
           display: "none",
         },
-      })
     },
     openIcon: {
       color: "#7e22ce",
@@ -99,34 +123,38 @@ const Menu = ({ openMenu, closeSideBar }) => {
   return (
     <motion.div
       variants={sidebar}
-      initial={{ height: "3rem", width: "3rem" }}
-      animate={open ? "openContainer" : "closedContainer"}
+      initial={false}
+
+      // initial={{ height: "3rem", width: "3rem" }}
+      animate={open || isMedium ? "openContainer" : "closedContainer"}
       // custom={whidth}
       ref={refContainer}
-      className="fixed z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] bg-[#7e22ce]"
+      className={`fixed z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] bg-[#7e22ce]`}
     >
       <motion.div
         variants={sidebar}
-        initial={{ display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
-        animate={open ? "openIcon" : "closeIcon"}
+        initial={false}
+
+        // initial={{ display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
+        animate={open || isMedium ? "openIcon" : "closeIcon"}
         className="origin-center text-white rotate-180 absolute h-max w-max max-w-max z-10 "
       >
-
-        <MenuOpenIcon onClick={() => { setOpen(!open) }} alt="menu open" sx={{ fontSize: "2.5rem" }} />
+        <Bars3Icon 
+          onClick={() => { setOpen(!open) }}
+          alt="menu open"
+          className="md:hidden h-10"
+        />
       </motion.div>
       <motion.div
         variants={sidebar}
-        initial={{ display: "none", opacity: 0 }}
-        animate={open ? "open" : "closed"}
+        initial={false}
+        // initial={{ display: "none", opacity: 0 }}
+        animate={open || isMedium  ? "open" : "closed"}
         className=" flex  flex-col h-full left-0 overflow-hidden rounded-br-2xl mr-[1px] mb-[1px] pt-10 w-full "
       >
         {user &&
           <div className="flex gap-9">
-            <p className="whitespace-nowrap flex items-start text-lg font-semibold pl-4">Welcome  {`${user?.displayName}`}</p>
-            <div className="flex  items-end">
-
-              <SettingsIcon onClick={() => { router.push("/updateUser") }} alt="menu open" color="white" />
-            </div>
+            <p className="flex items-start text-sm font-semibold pl-2">Welcome  {`${user?.displayName}`}</p>
           </div>
         }
         <ul className="flex h-full flex-col items-start mt-5 overflow-y-auto overflow-x-hidden scrollbar">
@@ -137,34 +165,20 @@ const Menu = ({ openMenu, closeSideBar }) => {
               <a>Teams</a>
             </li>
           </Link>
-          {/* <Link href="/wallet" passHref>
-            <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/wallet" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
-              <a>Wallet</a>
-            </li>
-          </Link> */}
-          {/* <Link href="/createproject" passHref>
-            <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/createproject" ? "bg-[#F2EBFE] text-[#5A31E1]" : null}`}>
-              <a>Create Project</a>
-            </li>
-          </Link> */}
-          {/* { */}
+            <Link href="/projects" passHref>
+              <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/projects" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
+                <a>Projects</a>
+              </li>
+            </Link>
 
-            {/* //cambiar nombres de transferencia a liquidacion */}
-            {/* user?.projectsOwner && Object.entries(user?.projectsOwner).length && */}
-            <Link href="/adminprojects" passHref>
-              <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/adminprojects" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
-                <a>Admin Projects</a>
-              </li>
-            </Link>
-          {/* } */}
-          {/* {
-            user?.priority === "ADMIN" &&
-            <Link href="/admin/generalbalance" passHref>
-              <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?", 1).join().split("/")[1] === "admin" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
-                <a>Administration</a>
-              </li>
-            </Link>
-          } */}
+          <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/setting" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
+            <button
+              onClick={() => { router.push("/setting") }}
+            >
+              Setting
+            </button>
+          </li>
+
           <li className="flex h-12 text-[1rem] font-medium items-center pl-4">
             <button
               onClick={() => {

@@ -19,11 +19,8 @@ const Teams = () => {
     const db = getDatabase()
     const router = useRouter()
     const { user, firestore } = useAuth()
-    const [teamPendingToConfirm, setTeamPendingToConfirm] = useState()
-    const [teamsInvite, setTeamsInvite] = useState()
     const [showTeam, setShowTeams] = useState("ALL_TEAMS")
     const [gloablTeams, setTeams] = useState()
-    const [infoUser, setInfoUser] = useState()
     const [tabs, setTabs] = useState([
         { name: 'All Teams', current: true, value: "ALL_TEAMS" },
         { name: 'Hosting', current: false, value: "SEND_CONTRACTS" },
@@ -71,12 +68,24 @@ const Teams = () => {
                                         }
                                     })
                                     const teamsIsOrNotMember = res.map(team => {
-                                        console.log(team)
                                         let data = {
                                             id: team.publicKey.toBase58(),
                                             name: team.account.name,
-                                            treasury: team.account.ratio / 100,
-                                            partners: team.partners
+                                            info: `Treasury ${team.account.ratio / 100}`,
+                                            partners: team.partners,
+                                            redirect: () => {
+                                                router.push(
+                                                    {
+                                                        pathname: "/teams/[team]",
+                                                        query: {
+                                                            team: team.publicKey?.toBase58()
+                                                        }
+                                                    },
+                                                    "/teams",
+                                                    { shallow: true }
+                                                )
+                                            }
+
                                         }
                                         if (user?.team?.includes(team.publicKey.toBase58())) {
                                             data = {
@@ -96,13 +105,36 @@ const Teams = () => {
                     const teamCreatorUserLog = await get(query(ref(db, `users/${user?.uid}/teamCreator`), orderByChild("status"), equalTo("INVITE")))
                     if (teamCreatorUserLog.hasChildren()) {
                         const getInfoTeamCreator = Object.keys(teamCreatorUserLog.val()).map(async (keyTeamCreators) => {
-                            return [keyTeamCreators, await (await get(ref(db, `team/${keyTeamCreators}`))).val()]
+                            const teamCreator = await (await get(ref(db, `team/${keyTeamCreators}`))).val()
+                            const arrPartner = Object.entries(teamCreator.guests).map(([keyPartner, partner]) => {
+                                return {
+                                    id: keyPartner,
+                                    name: partner.name,
+                                }
+                            })
+                            return {
+                                id: keyTeamCreators,
+                                info: `Trasury: ${teamCreator.treasury}`,
+                                name: teamCreator.name,
+                                partners: arrPartner,
+                                redirect: () => {
+                                    router.push(
+                                        {
+                                            pathname: "/teams/confirmteam/[team]",
+                                            query: {
+                                                team: keyTeamCreators
+                                            }
+                                        },
+                                        "/teams",
+                                        { shallow: true }
+                                    )
+                                }
+                            }
                         })
 
                         Promise.all(getInfoTeamCreator)
                             .then((res) => {
-                                const dataTeamCreator = Object.fromEntries(res.reverse())
-                                setTeams(dataTeamCreator)
+                                setTeams(res)
                                 setLoading(false)
                             })
                     }
@@ -111,13 +143,35 @@ const Teams = () => {
                     const getTeamsInvite = await get(query(ref(db, `users/${user?.uid}/teamInvite`)))
                     if (getTeamsInvite.hasChildren()) {
                         const getInfoTeamInvite = Object.keys(getTeamsInvite.val()).map(async (keyTeamInvite) => {
-                            return [keyTeamInvite, await (await get(ref(db, `team/${keyTeamInvite}`))).val()]
+                            const teamInvited = await (await get(ref(db, `team/${keyTeamInvite}`))).val()
+                            const arrPartner = Object.entries(teamInvited.guests).map(([keyPartner, partner]) => {
+                                return {
+                                    id: keyPartner,
+                                    name: partner.name,
+                                }
+                            })
+                            return {
+                                id: keyTeamInvite,
+                                info: `Trasury: ${teamInvited.treasury}`,
+                                name: teamInvited.name,
+                                partners: arrPartner,
+                                redirect: () => {
+                                    router.push(
+                                        {
+                                            pathname: "/teams/confirmteam/[team]",
+                                            query: {
+                                                team: keyTeamInvite
+                                            }
+                                        },
+                                        "/teams",
+                                        { shallow: true }
+                                    )
+                                }
+                            }
                         })
                         Promise.all(getInfoTeamInvite)
                             .then((res) => {
-                                const dataTeamInvite = Object.fromEntries(res.reverse())
-                                console.log(dataTeamInvite)
-                                setTeams(dataTeamInvite)
+                                setTeams(res)
                                 setLoading(false)
                             })
                     }
@@ -173,7 +227,6 @@ const Teams = () => {
     //         ALL_TEAMS: gloablTeams.length ?
     //             gloablTeams?.map((infoTeam) => {
     //                 const team = infoTeam
-    //                 console.log(infoTeam)
     //                 return (
     //                     <div
     //                         key={infoTeam.id}
@@ -218,7 +271,7 @@ const Teams = () => {
     //                                                         >
     //                                                             <p className=" text-white font-bold">
     //                                                                 {
-    //                                                                     user.fullName.split(" ").map(sep => {
+    //                                                                     user.name.split(" ").map(sep => {
     //                                                                         return (
     //                                                                             sep[0]
     //                                                                         )
@@ -228,7 +281,7 @@ const Teams = () => {
     //                                                             {
     //                                                                 infoUser?.key === `${keyUser}${infoTeam.id}` &&
     //                                                                 <div className="absolute text-black font-bold outline-double outline-4 outline-white -top-12 rounded-md bg-slate-500 h-max z-20 p-2">
-    //                                                                     <p>{infoUser.fullName}</p>
+    //                                                                     <p>{infoUser.name}</p>
     //                                                                 </div>
     //                                                             }
     //                                                         </div>
@@ -277,14 +330,6 @@ const Teams = () => {
     //     return renders[status]
     // }
 
-    console.log(gloablTeams)
-
-    if (loading) return (
-        <div className=" flex flex-col items-center justify-center w-11/12 h-96  ">
-            <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
-        </div>
-    )
-
     return (
         <div className="flex flex-col py-8 items-center w-full gap-8">
             <ComponentButton
@@ -298,6 +343,7 @@ const Teams = () => {
             />
             <HeadBar
                 event={(value) => {
+                    setLoading(true)
                     setShowTeams(value)
                     const setTab = tabs.map(tab => {
                         if (tab.value === value) {
@@ -311,9 +357,16 @@ const Teams = () => {
                 }}
                 tabs={tabs}
             />
-            <div className="w-8/12">
-                <CardList list={gloablTeams}/>
-            </div>
+            {
+                loading ?
+                    <div className=" flex flex-col items-center justify-center w-11/12 h-96  ">
+                        <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
+                    </div>
+                    :
+                    <div className="w-8/12">
+                        <CardList list={gloablTeams} />
+                    </div>
+            }
 
             <div className="flex flex-col py-4 items-center h-full w-full gap-8 overflow-y-auto scrollbar">
 

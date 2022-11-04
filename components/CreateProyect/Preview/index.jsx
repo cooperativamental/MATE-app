@@ -24,7 +24,6 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
     })
 
     const sendProposal = (keyProject) => {
-        console.log("ingresa?")
         return new Promise((resolve, reject) => {
             const proposalPartner = Object.entries(project.partners).map(([key, valuePartner]) => {
                 return new Promise((resolve, reject) => {
@@ -35,7 +34,6 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                             createdAt: serverTimestamp(),
                         })
                             .then((snapshot) => {
-                                console.log("notifications")
                                 const pushNoti = push(ref(db, `notifications/${key}`))
                                 let cliName = ""
                                 Object.values(project.client).forEach(client => cliName = client.clientName)
@@ -54,21 +52,20 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                                     }
                                 )
                                     .then(res => {
-                                        console.log("send emailzsd")
                                         sendEmail(
                                             {
                                                 from: {
-                                                    name: user.fullName,
+                                                    name: user.name,
                                                     email: user.email
                                                 },
                                                 to: {
-                                                    name: valuePartner.fullName,
+                                                    name: valuePartner.name,
                                                     email: valuePartner.email
                                                 },
                                                 subject: "New project invitation",
                                                 redirect: `${host}/projects/${keyProject}`,
                                                 text: [
-                                                    `Member: ${user.fullName},`,
+                                                    `Member: ${user.name},`,
                                                     `Invites you to join ${project.nameProject} for ${cliName}.`
                                                 ],
                                             }
@@ -91,7 +88,6 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
 
                 })
             })
-            console.log(proposalPartner)
             Promise.all(proposalPartner)
                 .then(res => {
                     console.log(res)
@@ -117,7 +113,6 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                 })
                 sendProposal(pushProject.key)
                     .then(res => {
-                        console.log("no avanza")
                         setProject({
                             ...project,
                             nameProject: "",
@@ -157,7 +152,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
             return Object.entries(info).map(([key, value]) => {
                 return (
                     <div key={key} className="flex flex-row h-10 w-full justify-between font-medium text-base items-center border-b-2 border-slate-300">
-                        <label>{value.fullName}</label>
+                        <label>{value.name}</label>
                         <p>{value.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                     </div>
                 )

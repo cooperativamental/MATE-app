@@ -195,7 +195,7 @@ const InvoiceRequest = ({ keyProject, project, team }) => {
               ) {
                 const pushNoti = push(ref(db, `notifications/${key}`))
                 let prjOwn = ""
-                Object.values(project.projectHolder).forEach(val => prjOwn = val.fullName)
+                Object.values(project.projectHolder).forEach(val => prjOwn = val.name)
                 let cliName = ""
                 Object.values(project.client).forEach(client => cliName = client.clientName)
                 set(pushNoti,
@@ -223,11 +223,11 @@ const InvoiceRequest = ({ keyProject, project, team }) => {
                         projectHolder: prjOwn
                       }),
                       from: {
-                        name: user.fullName,
+                        name: user.name,
                         email: user.email
                       },
                       to: {
-                        name: valueUser.fullName,
+                        name: valueUser.name,
                         email: valueUser.email
                       },
                       redirect: `${host}`,
@@ -279,7 +279,7 @@ const InvoiceRequest = ({ keyProject, project, team }) => {
                       to: {
                         ...Object.values(project.projectHolder)
                           .map(values => ({
-                            name: values.fullName,
+                            name: values.name,
                             email: values.email
                           }))[0]
                       },
@@ -344,7 +344,7 @@ const InvoiceRequest = ({ keyProject, project, team }) => {
         //   <h2 className="text-xl font-semibold">Pedido de Facturación</h2>
         //   <div className="flex font-bold justify-between text-lg w-full">
         //     <p>Titular de Proyecto: </p>
-        //     <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.fullName)}</p>
+        //     <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.name)}</p>
         //   </div>
         //   <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 

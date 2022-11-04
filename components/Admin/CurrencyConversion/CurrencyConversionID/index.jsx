@@ -87,11 +87,11 @@ const CurrencyConversionID = () => {
                     sendEmail({
                         from: {
                             email: user.email,
-                            name: user.fullName
+                            name: user.name
                         },
                         to: {
                             email: partner.data.email,
-                            name: partner.data.fullName
+                            name: partner.data.name
                         },
                         subject: "Confirmación de cambio",
                         redirect: `${host}/wallet`,
@@ -126,11 +126,11 @@ const CurrencyConversionID = () => {
                     sendEmail({
                         from: {
                             email: user.email,
-                            name: user.fullName
+                            name: user.name
                         },
                         to: {
                             email: partner.data.email,
-                            name: partner.data.fullName
+                            name: partner.data.name
                         },
                         subject: "Rechazo de cambio",
                         redirect: `${host}/wallet`,
@@ -169,7 +169,7 @@ const CurrencyConversionID = () => {
             }
             <div className="flex flex-col w-11/12 h-max items-center">
                 <div className="flex flex-col w-8/12 items-center gap-4 ">
-                    <h1 className="text-xl font-bold">{partner?.data?.fullName}</h1>
+                    <h1 className="text-xl font-bold">{partner?.data?.name}</h1>
                     <div className="flex w-full justify-between text-lg font-semibold">
                         <p>Monto: </p>
                         <p>

@@ -121,7 +121,7 @@ export const InvoiceOrder = ({ project, team, keyProject }) => {
                                         to: {
                                             ...Object.values(project.projectHolder)
                                                 .map(values => ({
-                                                    name: values.fullName,
+                                                    name: values.name,
                                                     email: values.email
                                                 }))[0]
                                         },
@@ -145,7 +145,7 @@ export const InvoiceOrder = ({ project, team, keyProject }) => {
             <h2 className="text-xl font-semibold">Pedido de Facturación</h2>
             <div className="flex font-bold justify-between text-lg w-full">
                 <p>Titular de Proyecto: </p>
-                <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.fullName)}</p>
+                <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.name)}</p>
             </div>
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 

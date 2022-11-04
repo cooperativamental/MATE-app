@@ -65,7 +65,7 @@ const RevisionPartners = ({ keyProject, project }) => {
             }).then(res => {
               const pushNoti = push(ref(db, `notifications/${key}`))
               let projOwn = ""
-              Object.values(project.projectHolder).forEach(val => projOwn = val.fullName)
+              Object.values(project.projectHolder).forEach(val => projOwn = val.name)
               let cliName = ""
               Object.values(project.client).forEach(client => cliName = client.clientName)
               set(pushNoti,
@@ -84,17 +84,17 @@ const RevisionPartners = ({ keyProject, project }) => {
                 .then(res => {
                   sendEmail({
                     from: {
-                      name: user.fullName,
+                      name: user.name,
                       email: user.email
                     },
                     to: {
-                      name: project.partners[key].fullName,
+                      name: project.partners[key].name,
                       email: project.partners[key].email
                     },
                     subject: `Project holder ${projOwn} confirmed the review.`,
                     redirect: `${host}/projects/${value.projectID}`,
                     text: [
-                      `${project.partners[key].fullName}`,
+                      `${project.partners[key].name}`,
                       `A new proposal was submitted by ${revisionPartners?.[key]}`,
                     ],
                   })
@@ -137,7 +137,7 @@ const RevisionPartners = ({ keyProject, project }) => {
               return (
                 <div key={key} className="flex flex-col gap-4 items-center w-max text-base rounded-md bg-slate-200 p-4 font-normal">
                   <div className="flex flex-col w-full ">
-                    <p className="font-bold text-2xl">{value.fullName}</p>
+                    <p className="font-bold text-2xl">{value.name}</p>
                     <div className="flex w-full gap-10 text-md font-semibold">
                       <p>Amount agreed:</p>
                       <p>{value.amount.toLocaleString('es-ar', { style: 'currency', currency: project?.currency, minimumFractionDigits: 2 })}</p>

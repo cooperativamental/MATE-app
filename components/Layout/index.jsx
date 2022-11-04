@@ -16,6 +16,7 @@ import { getDatabase, ref, get, orderByChild, query, equalTo, set, push } from "
 import { updateDoc, query as queryFirestore, doc, arrayUnion } from "firebase/firestore";
 import { PopUpProvider } from "../../context/PopUp";
 import { useNotification } from '../../context/notification'
+import SideBar from "./Sidebar"
 
 import Favicon from "../Favicon";
 
@@ -57,13 +58,21 @@ const Layout = ({ children }) => {
     <>
       <Favicon />
 
-      {
-        !existPath && <Navbar />
-      }
       <PopUpProvider>
-        <main className={`overflow-y-auto flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
-          {children}
-        </main>
+        <div className="flex w-full">
+          {
+            user &&
+            <SideBar />
+          }
+          <div className="flex flex-col w-full">
+            {
+              !existPath && <Navbar />
+            }
+            <main className={`overflow-y-auto  flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
+              {children}
+            </main>
+          </div>
+        </div>
       </PopUpProvider>
       {
         !existPath &&

@@ -71,7 +71,7 @@ export const CollectCall = ({ project, team, keyProject }) => {
         //     to: {
         //         ...Object.values(project.projectHolder)
         //             .map(values => ({
-        //                 name: values.fullName,
+        //                 name: values.name,
         //                 email: values.email
         //             }))[0]
         //     },
@@ -86,7 +86,7 @@ export const CollectCall = ({ project, team, keyProject }) => {
             <h2 className="text-xl font-semibold text-center p-4">Ask for invoice</h2>
             <div className="flex font-bold justify-between text-lg w-full">
                 <p>Project holder: </p>
-                <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.fullName)}</p>
+                <p>{project?.projectHolder && Object.values(project?.projectHolder).map(val => val.name)}</p>
             </div>
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 

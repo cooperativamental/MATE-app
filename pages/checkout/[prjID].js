@@ -98,7 +98,7 @@ export default function Checkout() {
   //       email: Object.values(project.client).map(client => client.email)[0]
   //     },
   //     to: {
-  //       name: Object.values(project.projectHolder).map(prjHolder => prjHolder.fullName)[0],
+  //       name: Object.values(project.projectHolder).map(prjHolder => prjHolder.name)[0],
   //       email: Object.values(project.projectHolder).map(prjHolder => prjHolder.email)[0],
   //     },
   //     subject: "Payment Made",

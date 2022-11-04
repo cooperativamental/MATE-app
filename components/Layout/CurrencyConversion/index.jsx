@@ -71,7 +71,7 @@ const CurrencyConversion = () => {
                       type: "CURRENCY_CONVERSION",
                       currency: currencyConversion.currency,
                       amount: currencyConversion.amount,
-                      petitioner: user.fullName,
+                      petitioner: user.name,
                       currencyconversionID: pushCurrencyconversion.key,
                       userID: user.uid,
                       viewed: false,
@@ -83,17 +83,17 @@ const CurrencyConversion = () => {
                     sendEmail(
                       {
                         from: {
-                          name: user.fullName,
+                          name: user.name,
                           email: user.email
                         },
                         to: {
-                          name: valueUser.fullName,
+                          name: valueUser.name,
                           email: valueUser.email
                         },
                         subject: "Requests currency exchange",
                         redirect: `${host}/admin/currencyconversion/${pushCurrencyconversion.key}?u=${user.uid}`,
                         text: [
-                          `The partner ${user.fullName}`,
+                          `The partner ${user.name}`,
                           `Requests currency exchange for ${currencyConversion.currency} ${currencyConversion.amount}`,
                         ],
                       }

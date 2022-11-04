@@ -103,7 +103,7 @@ const Withdraw = ({ open, setOpen }) => {
                         type: "WITHDRAWAL",
                         currency: withdrawal.currency,
                         withdraw: withdrawal.amount,
-                        petitioner: user.fullName,
+                        petitioner: user.name,
                         withdrawID: pushWithdraw.key,
                         userID: user.uid,
                         viewed: false,
@@ -115,17 +115,17 @@ const Withdraw = ({ open, setOpen }) => {
                       sendEmail(
                         {
                           from: {
-                            name: user.fullName,
+                            name: user.name,
                             email: user.email
                           },
                           to: {
-                            name: valueUser.fullName,
+                            name: valueUser.name,
                             email: valueUser.email
                           },
                           subject: "Requests withdrawal",
                           redirect: `${host}/admin/transferences/${pushWithdraw.key}?u=${user.uid}`,
                           text: [
-                            `The Partner ${user.fullName}`,
+                            `The Partner ${user.name}`,
                             `requests withdrawal of ${withdrawal.currency} ${withdrawal.amount}`,
                           ],
                         }

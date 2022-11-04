@@ -4,10 +4,10 @@ import Team from "../../components/Teams/Team"
 
 const PageTeamID = () => {
     const router = useRouter();
-    const { id } = router?.query;
-
+    const { team } = router?.query;
+    console.log(team)
     return (
-        <Team id={id} />
+        <Team id={team} />
     )
 }
 

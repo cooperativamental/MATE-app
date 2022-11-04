@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Link from "next/link"
 import { useAuth } from '../../../context/auth'
 import Notification from './Notification';
-import Sidebar from "./Sidebar"
+// import Sidebar from "../Sidebar"
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaidIcon from '@mui/icons-material/Paid';
@@ -17,19 +17,24 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { getDatabase, ref, get, set, push, query, orderByChild, equalTo } from "firebase/database";
 
 import { useBalance } from "../../../context/contextBalance";
+import { useMediaQuery } from "../../../hooks/useMediaQuery";
 
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 const Navbar = () => {
   const db = getDatabase()
   const router = useRouter()
-  const { handleOpeners } = useBalance()
+  const isMedium = useMediaQuery("(min-width: 480px)")
   const { user } = useAuth()
+  const { connection } = useConnection()
+  const { publicKey } = useWallet()
+
 
   return (
     <>
-      <Sidebar />
+
       <div className="flex relative items-center justify-between w-full px-[3.5rem] h-[3rem] z-10">
-        <div className='flex ml-4 gap-2'>
+        {/* <div className='flex ml-4 gap-2'>
           <Link href="/teams" >
             <a
               className='flex justify-center items-center'
@@ -42,7 +47,7 @@ const Navbar = () => {
               />
             </a>
           </Link>
-          {/* <Link
+           <Link
             href={{
               pathname: "/projects",
 
@@ -58,25 +63,35 @@ const Navbar = () => {
                 sx={{ fontSize: 40 }}
               />
             </a>
-          </Link> */}
+          </Link> 
           <ClipboardDocumentListIcon
             onClick={() => {
               router.push("/projects")
             }}
             className="h-10 w-10 text-[#0d9488]" aria-hidden="true"
           />
-        </div>
+        </div> */}
 
 
-        <div className='flex mr-4 gap-2'>
-          <WalletMultiButton>Connect Wallet</WalletMultiButton>
-        </div>
+
         <p
           className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
         >
-          gm, {user?.userName}
+          gm, {user?.name}
         </p>
-
+        {
+          isMedium &&
+          <div className='flex absolute right-9 mr-3 gap-2'>
+            <WalletMultiButton
+              className="!h-6 !bg-purple-700 !rounded-r-none !rounded-l-xl "
+            >
+              {
+                (!publicKey || !connection) &&
+                "Connect Wallet"
+              }
+            </WalletMultiButton>
+          </div>
+        }
 
       </div>
       {
