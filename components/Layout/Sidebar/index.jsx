@@ -37,31 +37,32 @@ const Menu = ({ openMenu, closeSideBar }) => {
     };
   }, [refContainer]);
 
-  const sidebar = isMedium ?
-  {
-    openContainer: {
-      position: "initial",
-      width: "calc(100% / 6)",
-      height: "100vh",
-      backgroundColor: ["#7e22ce", "#000"],
-      borderRadius: "0 0 1rem 0",
-    },
-    closedContainer: {
-      position: "initial",
-      width: "calc(100% / 6)",
-      height: "100vh",
-      borderRadius: "0 0 1rem 0",
+  const sidebar = 
+  // isMedium ?
+  // {
+  //   openContainer: {
+  //     position: "initial",
+  //     width: "calc(100% / 6)",
+  //     height: "100vh",
+  //     backgroundColor: ["#7e22ce", "#000"],
+  //     borderRadius: "0 0 1rem 0",
+  //   },
+  //   closedContainer: {
+  //     position: "initial",
+  //     width: "calc(100% / 6)",
+  //     height: "100vh",
+  //     borderRadius: "0 0 1rem 0",
 
-    },
-    open: {
-      display: "flex",
-      opacity: 1,
-      transition: {
-        duration: 1
-      }
-  },
-  }
-  :
+  //   },
+  //   open: {
+  //     display: "flex",
+  //     opacity: 1,
+  //     transition: {
+  //       duration: 1
+  //     }
+  // },
+  // }
+  // :
   {
     openContainer: {
       width: "15rem",
@@ -119,24 +120,22 @@ const Menu = ({ openMenu, closeSideBar }) => {
     }
   };
 
-
   return (
     <motion.div
       variants={sidebar}
-      initial={false}
+      // initial={false}
 
-      // initial={{ height: "3rem", width: "3rem" }}
-      animate={open || isMedium ? "openContainer" : "closedContainer"}
+      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#000000" } : { height: "3rem", width: "3rem", backgroundColor: "#7e22ce" } }
+      animate={!window.matchMedia("(min-width:600px)").matches ?  (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#000000" }}
       // custom={whidth}
       ref={refContainer}
-      className={`fixed z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] bg-[#7e22ce]`}
+      className={`fixed z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] `}
     >
       <motion.div
         variants={sidebar}
-        initial={false}
 
-        // initial={{ display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
-        animate={open || isMedium ? "openIcon" : "closeIcon"}
+        initial={ window.matchMedia("(min-width:600px)").matches && { display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
+        animate={(open  ? "openIcon" : "closeIcon")}
         className="origin-center text-white rotate-180 absolute h-max w-max max-w-max z-10 "
       >
         <Bars3Icon 
@@ -147,9 +146,8 @@ const Menu = ({ openMenu, closeSideBar }) => {
       </motion.div>
       <motion.div
         variants={sidebar}
-        initial={false}
-        // initial={{ display: "none", opacity: 0 }}
-        animate={open || isMedium  ? "open" : "closed"}
+        initial={window.matchMedia("(min-width:600px)").matches || isMedium ?  { display: "flex", opacity: 1 } :{ display: "none", opacity: 0 } }
+        animate={!window.matchMedia("(min-width:600px)").matches ? (open  ? "open" : "closed") : "open"}
         className=" flex  flex-col h-full left-0 overflow-hidden rounded-br-2xl mr-[1px] mb-[1px] pt-10 w-full "
       >
         {user &&

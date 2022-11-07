@@ -73,6 +73,21 @@ const Teams = () => {
                                             name: team.account.name,
                                             info: `Treasury ${team.account.ratio / 100}`,
                                             partners: team.partners,
+                                            button: () =>
+                                            router.push(
+                                                {
+                                                    pathname: "/createproject",
+                                                    query: {
+                                                        team: team.publicKey.toBase58()
+                                                    },
+                                                },
+                                                "/createproject",
+                                                {
+                                                    shallow: true
+                                                }
+                                            )
+        
+                                        ,
                                             redirect: () => {
                                                 router.push(
                                                     {
@@ -117,6 +132,7 @@ const Teams = () => {
                                 info: `Trasury: ${teamCreator.treasury}`,
                                 name: teamCreator.name,
                                 partners: arrPartner,
+
                                 redirect: () => {
                                     router.push(
                                         {

@@ -69,7 +69,6 @@ const PageHomeProjects = () => {
                       name: partner.name || partner.fullName,
                     }
                   })
-                  console.log(arrPartner)
                   return ({
                     partners: arrPartner,
                     name: prj.nameProject,
@@ -109,7 +108,6 @@ const PageHomeProjects = () => {
                             name: partner.name || partner.fullName,
                           }
                         })
-                        console.log(arrPartner)
                         return {
                           name: value.nameProject,
                           info: `Client: ${Object.values(value.client).map(client => client.clientName)[0]}`,

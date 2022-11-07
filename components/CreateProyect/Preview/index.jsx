@@ -90,11 +90,9 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
             })
             Promise.all(proposalPartner)
                 .then(res => {
-                    console.log(res)
                     resolve("All proposals were successfully submitted")
                 })
                 .catch(err => {
-                    console.log(err)
                     reject(`Sorry, there was an error, please try again, ${err}`)
                 })
         })

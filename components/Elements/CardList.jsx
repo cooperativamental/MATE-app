@@ -1,10 +1,10 @@
 import Image from "next/image"
 import { CalendarIcon, ChevronRightIcon, UsersIcon } from '@heroicons/react/20/solid'
 import { useState } from "react"
+import ComponentButton from "./ComponentButton"
 
 export default function CardList({ list }) {
     const [namePartner, setNamePartner] = useState()
-
 
     return (
         <div className="bg-slate-400 shadow w-full sm:rounded-md">
@@ -24,7 +24,7 @@ export default function CardList({ list }) {
                                                     <p className="truncate font-medium text-indigo-600">{position.name}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center w-4/12 overflow-hidden text-ellipsis text-gray-500">
+                                            <div className="flex items-center overflow-hidden text-ellipsis text-gray-500">
                                                 <p className=" whitespace-nowrap float-right transition-all duration-500 hover:float-left">
                                                     {position.info}
                                                 </p>
@@ -79,9 +79,14 @@ export default function CardList({ list }) {
                                                     })}
                                                 </div>
                                             }
-                                        </div>
-                                        <div className="ml-5 flex-shrink-0">
-                                            {/* <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" /> */}
+                                            {
+                                                position?.button &&
+                                                <ComponentButton
+                                                    buttonEvent={position?.button}
+                                                    buttonText="Start Project"
+                                                    buttonStyle="w-min !border-white !border-2 text-slate-700 hover:text-white"
+                                                />
+                                            }
                                         </div>
                                     </div>
                                 </a>
