@@ -19,19 +19,19 @@ export default function CardList({ list }) {
                                 <a href="#" className="block hover:bg-gray-50">
                                     <div className="flex items-center px-4 py-4 sm:px-6">
                                         <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                            <div className="truncate">
+                                            <div className="truncate w-3/12">
                                                 <div className="flex text-sm">
                                                     <p className="truncate font-medium text-indigo-600">{position.name}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center overflow-hidden text-ellipsis text-gray-500">
+                                            <div className="flex w-3/12 items-center overflow-hidden text-ellipsis text-gray-500">
                                                 <p className=" whitespace-nowrap float-right transition-all duration-500 hover:float-left">
                                                     {position.info}
                                                 </p>
                                             </div>
                                             {
                                                 position?.partners &&
-                                                <div className="flex mt-4 flex-shrink-0 sm:mt-0 sm:ml-5 -space-x-2  ">
+                                                <div className="flex w-3/12 mt-4 flex-shrink-0 sm:mt-0 sm:ml-5 -space-x-2  ">
                                                     {position?.partners?.map((partner) => {
                                                         return (
                                                             <div
@@ -81,11 +81,13 @@ export default function CardList({ list }) {
                                             }
                                             {
                                                 position?.button &&
-                                                <ComponentButton
-                                                    buttonEvent={position?.button}
-                                                    buttonText="Start Project"
-                                                    buttonStyle="w-min !border-white !border-2 text-slate-700 hover:text-white"
-                                                />
+                                                <div className="w-3/12">
+                                                    <ComponentButton
+                                                        buttonEvent={position?.button}
+                                                        buttonText="Start Project"
+                                                        buttonStyle="w-min !border-white !border-2 text-slate-700 hover:text-white"
+                                                    />
+                                                </div>
                                             }
                                         </div>
                                     </div>
