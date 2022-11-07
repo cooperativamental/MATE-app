@@ -2,7 +2,7 @@ import { ref } from "firebase/database";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ComponentButton from "../Elements/ComponentButton"
-import useWindowDimensions from "../../hooks/useWindowSize"
+import useWindowDimensions from "../../hooks/useMediaQuery"
 
 
 const ScrollButtons = ({ children }) => {

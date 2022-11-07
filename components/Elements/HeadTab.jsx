@@ -1,10 +1,3 @@
-const tabs = [
-    { name: 'My Account', href: '#', current: true },
-    { name: 'Company', href: '#', current: false },
-    { name: 'Team Members', href: '#', current: false },
-    { name: 'Billing', href: '#', current: false },
-  ]
-  
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
