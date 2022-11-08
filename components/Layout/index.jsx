@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
       <PopUpProvider>
         <div className="flex w-full">
           {
-            user &&
+            (user || !existPath) &&
             <SideBar />
           }
           <div className="flex flex-col w-full">

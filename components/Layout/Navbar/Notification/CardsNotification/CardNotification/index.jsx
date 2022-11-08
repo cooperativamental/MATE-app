@@ -3,8 +3,6 @@ import { getDatabase, ref, update } from "@firebase/database"
 
 import { useAuth } from "../../../../../../context/auth"
 
-import styles from "./cardnotification.module.scss"
-
 export const CardNotification = ({ Icon, title, text, keyNoti, href }) => {
     const { user } = useAuth()
     const db = getDatabase()
