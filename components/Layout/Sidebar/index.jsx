@@ -67,7 +67,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
     openContainer: {
       width: "15rem",
       height: "90vh",
-      backgroundColor: ["#7e22ce", "#000"],
+      backgroundColor: ["#BA30E5", "#131128"],
       borderRadius: "0 0 1rem 0",
       transition: {
         duration: 1
@@ -120,13 +120,14 @@ const Menu = ({ openMenu, closeSideBar }) => {
     }
   };
 
+
   return (
     <motion.div
       variants={sidebar}
       // initial={false}
 
-      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#000000" } : { height: "3rem", width: "3rem", backgroundColor: "#7e22ce" } }
-      animate={!window.matchMedia("(min-width:600px)").matches ?  (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#000000" }}
+      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#1A1735" } : { height: "3rem", width: "3rem", backgroundColor: "#BA30E5" } }
+      animate={!window.matchMedia("(min-width:600px)").matches ?  (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#1A1735" }}
       // custom={whidth}
       ref={refContainer}
       className={`fixed z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] `}
