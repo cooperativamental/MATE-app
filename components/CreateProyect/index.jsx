@@ -115,7 +115,7 @@ const CreateProject = () => {
               {
                 confirmation.INFO_PROJECT &&
                 <ComponentButton
-                  buttonStyle="w-min"
+                  buttonStyle="w-min h-min sm:h-16"
                   buttonText="Edit Info Project"
                   buttonEvent={() => setConfirmation({
                     ...confirmation,
@@ -127,7 +127,7 @@ const CreateProject = () => {
               {
                 confirmation.BUDGET &&
                 <ComponentButton
-                  buttonStyle="w-min"
+                  buttonStyle="w-min h-min sm:h-16"
                   buttonText="Edit Budget"
                   buttonEvent={() => setConfirmation({
                     ...confirmation,

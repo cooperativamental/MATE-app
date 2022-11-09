@@ -41,6 +41,6 @@ a {
     hover:text-white
   }
   .btn-back{
-    @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-0 rounded-full border-2 border-white
+    @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-4 rounded-full border-2 border-white
   }
 }

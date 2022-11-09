@@ -4,7 +4,7 @@
   
   export default function HeadBar({ tabs, event }) {
     return (
-        <div className="hidden sm:block w-8/12">
+        <div className="w-8/12">
           <nav className="isolate flex w-full divide-x divide-gray-200 ring-1 ring-gray-200 rounded-lg shadow" aria-label="Tabs">
             {tabs?.map((tab, tabIdx) => (
               <a

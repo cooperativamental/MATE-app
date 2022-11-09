@@ -195,7 +195,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                 />
             }
 
-            <div className="grid w-full grid-cols-2 gap-4">
+            <div className="flex flex-col sm:grid w-full sm:grid-cols-2 gap-4">
                 {
                     selectPartners && Object.entries(selectPartners).map(([key, select]) => {
                         return (

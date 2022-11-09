@@ -2,7 +2,6 @@ import { useRouter } from "next/router"
 
 const ComponentButton
     = ({ buttonText, buttonEvent, buttonStyle, conditionDisabled, isBack, routeBack }) => {
-        const router = useRouter()
         if (isBack) {
             return(
                 <div
@@ -15,7 +14,7 @@ const ComponentButton
         } else {
             return (
                 <button className=
-                    {`${buttonStyle || ""} ${conditionDisabled && "bg-gray-500" } btn w-full rounded-full hover:text-white`}
+                    {`btn ${buttonStyle || ""} ${conditionDisabled && "!bg-none !bg-slate-500 hover:!bg-slate-300 hover:!text-slate-500" }  w-full rounded-full hover:text-white`}
                     onClick={buttonEvent}
                     disabled={conditionDisabled ? "disabled" : undefined}
                 >

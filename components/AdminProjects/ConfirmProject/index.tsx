@@ -65,19 +65,21 @@ const ConfirmProject = ({ keyProject, project }) => {
     }
   }, [db, user, keyProject, publicKey])
 
+  console.log(errors)
+
 
   const confirmProject = async () => {
     // if(!errors?.confirm){
     //   if(project.fiatOrCrypto === "CRYPTO"){
     if (project.projectHolder[user.uid].wallet === publicKey.toBase58()) {
       const walletsPartners = Object.values(project.partners).map((partner: any) => {
-        return(
-        {
-          member: new PublicKey(partner.wallet), 
-          amount: new anchor.BN((partner.amount * LAMPORTS_PER_SOL))
-        }
+        return (
+          {
+            member: new PublicKey(partner.wallet),
+            amount: new anchor.BN((partner.amount * LAMPORTS_PER_SOL))
+          }
         )
-        }
+      }
       )
       const client = Object.values(project.client).map((client: any) => {
         return new PublicKey(client?.wallet)
@@ -97,25 +99,25 @@ const ConfirmProject = ({ keyProject, project }) => {
 
       const respCreateProjectWeb3 = await createProject(projectWeb3)
       update(ref(db, `projects/${keyProject}`),
-      {
-        status: "INVOICE_PENDING", 
-        treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
-      })
+        {
+          status: "INVOICE_PENDING",
+          treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
+        })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
       handlePopUp({
-        text: 
-        <div className="">
-          <p>View on Explorer</p>
-        <Link 
-          href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
-        >
-          <a 
-          target="_blank"
-          className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
-            {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
-          </a>
-        </Link>
-        </div>
+        text:
+          <div className="">
+            <p>View on Explorer</p>
+            <Link
+              href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+            >
+              <a
+                target="_blank"
+                className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
+                {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+              </a>
+            </Link>
+          </div>
         ,
         title: `Project Confirmed & Signed`,
       })
@@ -170,8 +172,7 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       {
         !connection || !publicKey ?
-                    <WalletMultiButton>Connect Wallet</WalletMultiButton>
-
+          <WalletMultiButton>Connect Wallet</WalletMultiButton>
           :
           <>
             <ComponentButton
@@ -179,7 +180,7 @@ const ConfirmProject = ({ keyProject, project }) => {
               routeBack=""
               buttonText="Confirm & Sign Project"
               buttonEvent={confirmProject}
-              buttonStyle={`h-14 ${errors?.confirm ? "bg-gray-500" : "bg-[#5A31E1]"}`}
+              buttonStyle=""
               conditionDisabled={errors?.confirm || errors?.wallet}
             />
             {
