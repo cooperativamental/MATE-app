@@ -178,7 +178,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
               client: project.client,
               nameProject: project.nameProject,
               amount: valuePartner.amount,
-              userName: valuePartner.fullName,
+              name: valuePartner.name,
               date: date,
               currency: project.currency,
               createdAt: serverTimestamp(),
@@ -221,7 +221,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
                           .then(res => {
                             const pushNoti = push(ref(db, `notifications/${partnerUID}`))
                             let projOwn = ""
-                            Object.values(project.projectHolder).forEach(val => projOwn = val.fullName)
+                            Object.values(project.projectHolder).forEach(val => projOwn = val.name)
                             let cliName = ""
                             Object.values(project.client).forEach(client => cliName = client.clientName)
                             set(pushNoti,
@@ -241,11 +241,11 @@ const SalarySettlement = ({ keyPrj, project }) => {
                             ).then(res => {
                               sendEmail({
                                 from: {
-                                  name: user.fullName,
+                                  name: user.name,
                                   email: user.email
                                 },
                                 to: {
-                                  name: valuePartner.fullName,
+                                  name: valuePartner.name,
                                   email: valuePartner.email
                                 },
                                 subject: `New income`,
@@ -280,7 +280,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
         ...salarySettlement.partners,
         [uid]: {
           amount: Number(e.target.value),
-          fullName: partner.fullName,
+          name: partner.name,
           status: "CONFIRMED"
         }
       }
@@ -300,7 +300,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
           let listPartnersSelect = {}
           Object.entries(res.val()).forEach(([key, value]) => {
             if (Object.keys(project.partners).find(keyPartner => key !== keyPartner)) {
-              const { fullName: name, ...resUser } = value
+              const { name: name, ...resUser } = value
               listPartnersSelect = {
                 ...listPartnersSelect,
                 [key]: {
@@ -392,7 +392,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
           Object.entries(project?.partners)?.map(([key, values]) => {
             return (
               <div key={key} className="flex flex-col w-full justify-between gap-4 bg-slate-200 p-4 rounded-md">
-                <h3 className="text-lg font-semibold">{values.fullName}</h3>
+                <h3 className="text-lg font-semibold">{values.name}</h3>
                 {
                   values.amount === values.salarysettlement || values.amount < values.salarysettlement ?
                     <h4>Monto Saldado</h4>
@@ -479,7 +479,7 @@ const SalarySettlement = ({ keyPrj, project }) => {
             return (
               <div key={key} className="flex flex-col items-center rounded-xl gap-4 w-9/12 bg-gray-200 p-2">
                 <label className="flex flex-row justify-between w-full bg-gray-300 rounded-xl text-lg font-normal h-12 p-2" htmlFor="partners">
-                  {partner.fullName}
+                  {partner.name}
                   <button onClick={() => removeSelect(key)}>
                     x
                   </button>

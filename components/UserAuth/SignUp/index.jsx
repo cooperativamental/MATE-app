@@ -16,12 +16,12 @@ const SignUp = () => {
     const [visiblePass, setVisible] = useState(false)
 
     const [user, setUser] = useState({
-        userName: "",
+        name: "",
         email: "",
         password: "",
         regFis: "",
         // priority: "ADMIN",
-        fullName: "",
+        name: "",
     });
 
     const [team, setTeam] = useState({
@@ -62,7 +62,7 @@ const SignUp = () => {
         const response = await signUp(
             {
                 ...user,
-                displayName: user.userName,
+                displayName: user.name,
             })
         if (response?.error) {
             if (response.error.code === "auth/email-already-exists") {
@@ -80,15 +80,15 @@ const SignUp = () => {
             <InputSelect
                 title="Mate Username"
                 type="text"
-                value={user?.userName}
-                name="userName"
+                value={user?.name}
+                name="name"
                 onChange={userChange}
                 inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />
             <InputSelect
                 title="Name"
-                name="fullName"
-                value={user?.fullName}
+                name="name"
+                value={user?.name}
                 onChange={userChange}
                 inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />

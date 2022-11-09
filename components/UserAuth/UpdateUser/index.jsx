@@ -41,11 +41,11 @@ const UpdateUser = (props) => {
     }
 
     const confirmHandleUser = async () => {
-        if (stateUser.displayName && stateUser.fullName) {
+        if (stateUser.displayName && stateUser.name) {
             await updateProfile(auth.currentUser, { displayName: stateUser.displayName })
             await update(ref(db, `users/${stateUser.uid}`), {
-                userName: stateUser.displayName,
-                fullName: stateUser.fullName
+                name: stateUser.displayName,
+                name: stateUser.name
             })
         }
         router.reload()
@@ -91,13 +91,13 @@ const UpdateUser = (props) => {
                     />
                 </div>
                 <div className="w-full">
-                    <label htmlFor="fullName">Nombre Completo</label>
+                    <label htmlFor="name">Nombre Completo</label>
                     <InputSelect
                         inputStyle="border-2 shadow-sm rounded-xl w-full h-16 text-xl p-2"
                         type="text"
-                        name="fullName"
+                        name="name"
                         placeholder="Nombre Completo"
-                        value={stateUser?.fullName}
+                        value={stateUser?.name}
                         onChange={handleUser}
                     />
                 </div>

@@ -44,7 +44,7 @@ const ListCurrencyConversion = () => {
                                 currencyConversion: {
                                     ...listLocaleDate
                                 },
-                                fullName: partner.fullName,
+                                name: partner.name,
                             }
                         ]
                     }
@@ -66,7 +66,7 @@ const ListCurrencyConversion = () => {
                                     className="flex w-full items-center justify-between first:border-t-0 border-t-2 p-4 border-gray"
                                     onClick={() => setSelectPartner(selectPartner !== keyPartner ? keyPartner : undefined)}
                                 >
-                                    <p className=" w-11/12 text-lg font-medium text-ellipsis">{partner.fullName}</p>
+                                    <p className=" w-11/12 text-lg font-medium text-ellipsis">{partner.name}</p>
                                     {
                                         selectPartner === keyPartner ?
                                             <div className=" -rotate-45 border-r-2 border-b-2 border-black h-2 w-2"></div>

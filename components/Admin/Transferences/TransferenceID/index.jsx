@@ -66,10 +66,10 @@ const TransferencesID = () => {
                     {
                         from: {
                             email: user.email,
-                            name: user.fullName
+                            name: user.name
                         },
                         to: {
-                            name: partner?.data?.fullName,
+                            name: partner?.data?.name,
                             email: partner?.data?.email
                         },
                         subject: "Requests withdrawal",
@@ -116,7 +116,7 @@ const TransferencesID = () => {
                 />
             }
             <div className="flex flex-col items-center w-11/12 gap-8">
-                <h1 className="text-xl font-bold">{partner?.data?.fullName}</h1>
+                <h1 className="text-xl font-bold">{partner?.data?.name}</h1>
                 <div className="flex justify-between w-8/12 text-lg font-semibold">
                     <p>Amount: </p>
                     <p>{`${selectedWithdraw?.currency ?? ""} ${selectedWithdraw?.amount}`}</p>

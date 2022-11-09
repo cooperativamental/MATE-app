@@ -15,12 +15,11 @@ const CreateUser = () => {
   const router = useRouter()
   const [errors, setErrors] = useState()
   const [user, setUser] = useState({
-    userName: "",
+    name: "",
     email: "",
     password: "MentalWallet",
     regFis: "",
     priority: "USER",
-    fullName: "",
     team: []
   });
   const [teams, setTeams] = useState()
@@ -54,7 +53,7 @@ const CreateUser = () => {
     const response = await signup(
       {
         ...user,
-        displayName: user.userName,
+        displayName: user.name,
       })
       if(response?.error){
         if(response.error.code === "auth/email-already-exists"){
@@ -70,10 +69,10 @@ const CreateUser = () => {
     <div className="flex flex-col w-10/12 items-center gap-4 pb-4">
       <p className=" text-xl font-medium">Registre el usuario deseado</p>
       <p>Introduzca los datos para poder registrar el usuario.</p>
-      <label className="flex w-full font-medium  " htmlFor="userName">Nombre de Usuario</label>
-      <input className={` flex w-full border rounded-xl h-16 p-4 text-black text-xl shadow-sm `} type="text" value={user?.userName} name="userName" onChange={userChange} />
-      <label className="flex w-full font-medium" htmlFor="fullName">Nombre completo</label>
-      <input className={` flex w-full border text-black rounded-xl h-16 p-4 text-xl shadow-sm `} name="fullName" value={user?.fullName} onChange={userChange} />
+      <label className="flex w-full font-medium  " htmlFor="name">Nombre de Usuario</label>
+      <input className={` flex w-full border rounded-xl h-16 p-4 text-black text-xl shadow-sm `} type="text" value={user?.name} name="name" onChange={userChange} />
+      <label className="flex w-full font-medium" htmlFor="name">Nombre completo</label>
+      <input className={` flex w-full border text-black rounded-xl h-16 p-4 text-xl shadow-sm `} name="name" value={user?.name} onChange={userChange} />
       <label className="flex w-full font-medium" htmlFor="email">Email</label>
       <input className={` flex w-full border text-black rounded-xl h-16 p-4 text-xl shadow-sm`} type="text" name="email" value={user?.email} onChange={userChange} />
       <label className="flex w-full font-medium" htmlFor="regFis">Regimen Fiscal</label>

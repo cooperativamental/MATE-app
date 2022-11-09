@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
           const unSubscribeSnapshot = onSnapshot(doc(dbFirestore, "users", resUser.uid),
             async (res) => {
               await updateProfile(auth.currentUser, {
-                displayName: res.data().userName,
+                displayName: res.data().name,
               });
               let addProperties = {};
               if (res.exists()) {
@@ -74,7 +74,7 @@ const AuthProvider = ({ children }) => {
   };
 
   // const signup = async (
-  //   { email, password, displayName, photoURL, regFis, priority, userName, fullName, group }
+  //   { email, password, displayName, photoURL, regFis, priority, name, name, group }
   // ) => {
   //   try {
   //     const regAuth = registerAuth()
@@ -88,8 +88,8 @@ const AuthProvider = ({ children }) => {
   //       {
   //         regFis: regFis,
   //         priority: priority,
-  //         userName: userName,
-  //         fullName: fullName,
+  //         name: name,
+  //         name: name,
   //         group: group,
   //         wallets: [resWallet],
   //         email: email
@@ -113,7 +113,7 @@ const AuthProvider = ({ children }) => {
   // }
 
   const signUp = async (
-    { email, password, displayName, photoURL, regFis, userName, fullName, team }
+    { email, password, displayName, photoURL, regFis, name, team }
   ) => {
 
     try {
@@ -125,8 +125,8 @@ const AuthProvider = ({ children }) => {
       await setDoc(doc(dbFirestore, "users", auth.currentUser.uid),
         {
           regFis: regFis,
-          userName: userName,
-          fullName: fullName,
+          name: name,
+          name: name,
           email: email
         }
       )

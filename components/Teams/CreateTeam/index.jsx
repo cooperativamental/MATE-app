@@ -59,21 +59,12 @@ const CreateTeams = () => {
   useEffect(() => {
     (async () => {
       const creatorUser = await getDoc(doc(firestore, "users", user.uid))
-      const { userName, ...resUser } = creatorUser.data()
 
-      // setListMate({
-      //   ...listMate,
-      //   [user.uid]: {
-      //     email: creatorUser.data().email,
-      //     name: creatorUser.data().userName,
-      //     status: "CONFIRMED"
-      //   }
-      // })
       setListPartners({
         ...listPartners,
         [user.uid]: {
           email: creatorUser.data().email,
-          name: creatorUser.data().userName,
+          name: creatorUser.data().name,
           status: "CONFIRMED"
         }
       })
@@ -82,7 +73,7 @@ const CreateTeams = () => {
         teamCreator: {
           [user.uid]: {
             email: creatorUser.data().email,
-            name: creatorUser.data().userName,
+            name: creatorUser.data().name,
           }
         }
       })
@@ -113,7 +104,7 @@ const CreateTeams = () => {
             ...resMates,
             [user.id]: {
               email: user.data().email,
-              name: user.data().userName,
+              name: user.data().name,
               status: "INVITED"
             }
           }
@@ -127,7 +118,7 @@ const CreateTeams = () => {
             ...resMates,
             [user.id]: {
               email: user.data().email,
-              name: user.data().userName,
+              name: user.data().name,
               status: "INVITED"
             }
           }
@@ -190,17 +181,17 @@ const CreateTeams = () => {
                     sendEmail(
                       {
                         from: {
-                          name: user.fullName,
+                          name: user.name,
                           email: user.email
                         },
                         to: {
-                          name: valuePartner.fullName,
+                          name: valuePartner.name,
                           email: valuePartner.email
                         },
                         subject: "New team invitation",
                         redirect: `${host}/projects/${keyTeam}`,
                         text: [
-                          `Member: ${user.fullName},`,
+                          `Member: ${user.name},`,
                           `Invites you to join ${team.name}.`
                         ],
                       }

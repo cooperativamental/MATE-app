@@ -63,7 +63,7 @@ const CreateProject = () => {
             ...project,
             projectHolder: {
               [user.uid]: {
-                fullName: res.data().fullName,
+                name: res.data().name,
                 email: res.data().email
               }
             }
@@ -104,7 +104,7 @@ const CreateProject = () => {
 
       <div className="flex w-6/12 justify-between font-bold text-xl">
         <p>Project Holder:</p>
-        <p> {`${Object.values(project.projectHolder).map(val => val.fullName)} `}</p>
+        <p> {`${Object.values(project.projectHolder).map(val => val.name)} `}</p>
       </div>
       <hr className=" h-[3px] flex bg-slate-300 border-[1px] w-8/12 " />
       {

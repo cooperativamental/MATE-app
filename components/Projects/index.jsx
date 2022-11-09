@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { useAuth } from "../../context/auth";
 import { getDatabase } from "firebase/database";
+import CardList from "../Elements/CardList";
 
 const Projects = ({ projects, fnProjects, queryId }) => {
   const router = useRouter();
@@ -16,8 +17,8 @@ const Projects = ({ projects, fnProjects, queryId }) => {
   }, [projects])
 
   const selectProject = ({ id, project }) => {
-    fnProjects(project),
-      setSelected(id)
+    fnProjects(id),
+    setSelected(id)
   };
 
 
@@ -48,58 +49,9 @@ const Projects = ({ projects, fnProjects, queryId }) => {
 
 
   return (
-    <table className="w-full text-center table-fixed border-slate-200">
-      <thead>
-        <tr className='h-12'>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="invoiceDate" onClick={(e) => sort(e)}>Project Name</div></th>
-          <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="nameProject" onClick={(e) => sort(e)}>Client</div></th>
-          {
-            router.pathname !== "/wallet" &&
-            <th className='border border-slate-500 bg-slate-800 cursor-pointer'><div id="status" onClick={(e) => sort(e)}>Status</div></th>
-          }
-        </tr>
-      </thead>
-      <tbody className="font-normal">
-        {
-          listProject && listProject?.map((project) => {
-            return (
-              <tr
-                key={project?.id}
-                onClick={() => {
-                  selectProject({ id: project?.id, project: project });
-                }}
-                className={`
-                   h-12 max-h-12 hover:bg-slate-800 cursor-pointer
-                  ${selected === project?.id ? " bg-[#F2EBFE] text-[#5A31E1]" : ""}
-                `}
-                ref={refProject}
-              >
-                <td className='border-y-2 border-slate-600 h-12 max-h-12'>{project?.nameProject}</td>
-                <td className='border-y-2 border-slate-600 h-12 max-h-12'>
-                  <p className={`${selected === project?.id ? " text-[#cca9fd]" : " text-slate-100"}`}>
-                    {project?.client && Object.values(project?.client).map(client => client.clientName)}
-                  </p>
-                </td>
-                {
-                  router.pathname !== "/wallet" &&
-                  <td className='border-y-2 border-slate-600 h-12 max-h-12'>
-                    {
-                      project?.status?.toLowerCase() === "INVOICE_CALL".toLowerCase() ?
-                        "Call for invoicing" :
-                        project?.status?.toLowerCase() === "INVOICE_ORDER".toLowerCase() ?
-                          "Invoiced" :
-                          project?.status?.toLowerCase() === "INVOICE_PENDING".toLowerCase() ?
-                            "Pending Invoicing" :
-                            project?.status?.toLowerCase()
-                    }
-                  </td>
-                }
-              </tr>
-            );
-          })
-        }
-      </tbody>
-    </table>
+    <div className="w-full text-center table-fixed border-slate-200">
+      <CardList list={listProject} />
+    </div>
   );
 };
 

@@ -33,7 +33,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
                 {project?.projectHolder && Object.entries(project?.projectHolder).map(([key, titular]) => {
                     return (
                         <p key={key}>
-                            {titular.fullName}
+                            {titular.name}
                         </p>
                     )
                 })
@@ -77,7 +77,7 @@ const ProjectSheet = ({ keyPrj, project }) => {
                                     <div key={userId} className="flex flex-col w-full justify-between gap-4 bg-slate-500 p-8 rounded-md">
                                         <div className="flex w-full justify-between">
                                             <p className="">
-                                                {value.fullName}
+                                                {value.name}
                                             </p>
                                             <p>
                                                 {status}

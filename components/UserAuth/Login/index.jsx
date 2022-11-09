@@ -5,6 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useAuth } from '../../../context/auth'
 import InputSelect from "../../Elements/InputSelect"
 import ComponentButton from "../../Elements/ComponentButton"
+import Mate_sq from "/public/mate_sq.svg"
 
 const LogIn = () => {
   const router = useRouter()
@@ -55,9 +56,11 @@ const LogIn = () => {
   }
 
   return (
-    <div className="fixed flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden p-4 z-50 min-w-max min-h-max gap-8" >
-
-      <div className="flex flex-col gap-8 rounded-full">
+    <div className="fixed flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md overflow-hidden z-50 min-w-max min-h-max gap-4 rounded-xl bg-box-color p-16 shadow-sm shadow-blue-color" >
+      <div className='flex flex-col p-2'>
+      <Mate_sq className="w-36 p-6" />
+      </div>
+      <div className="flex flex-col gap-8">
         <div >
           <p className='text-center'>Email address</p>
           <InputSelect
@@ -66,7 +69,7 @@ const LogIn = () => {
             name="email"
             value={emailPass.email}
             onChange={emailChange}
-            inputStyle={`ring-1 rounded-full caret-slate-100 ${errors.email ? "border-red-500" : "border-black"}`}
+            inputStyle={` ${errors.email ? "border-red-500" : "border-black"}`}
           />
           {
             errors?.password &&
@@ -82,7 +85,7 @@ const LogIn = () => {
               name="password"
               value={emailPass.password}
               onChange={emailChange}
-              inputStyle={`h-16 ring-1 rounded-full caret-slate-100`}
+              inputStyle={`h-16`}
             />
             <button
               onClick={() => setVisible(!visiblePass)}
@@ -102,19 +105,20 @@ const LogIn = () => {
           }
         </div>
       </div>
-      <button className="bg-transparent text-tertiary-color" onClick={() => router.push("/resetPass")}>Remember my Password</button>
+      <button className="bg-transparent text-violet-color" onClick={() => router.push("/resetPass")}>Remember my Password</button>
       <ComponentButton
         buttonEvent={log}
         buttonText="Sign in"
-        buttonStyle={`mb-4 hover:bg-white hover:text-slate-900`}
+        buttonStyle={`mb-4`}
       />
       <ComponentButton
         buttonEvent={() => {
           router.push("/register")
         }}
         buttonText="Register"
-        buttonStyle={`mt-8 hover:bg-slate-100 hover:text-slate-900`}
+        buttonStyle={`mt-8`}
       />
+      
     </div>
 
   )

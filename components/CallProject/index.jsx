@@ -90,19 +90,19 @@ const CallProject = ({ keyProject }) => {
                 {
                   from: {
                     email: user.email,
-                    name: user.fullName
+                    name: user.name
                   },
                   to: {
                     ...Object.values(project.projectHolder)
                       .map(values => ({
-                        name: values.fullName,
+                        name: values.name,
                         email: values.email
                       }))[0]
                   },
-                  subject: `${user.fullName} confirma participación`,
+                  subject: `${user.name} confirma participación`,
                   redirect: `${host}/adminprojects?prj=${keyProject}`,
                   text: [
-                    `El socio ${user.fullName}`,
+                    `El socio ${user.name}`,
                     `Confimó su participación en ${project.nameProject}, de ${cliName}`
                   ],
                 }
@@ -147,17 +147,17 @@ const CallProject = ({ keyProject }) => {
             sendEmail(
               {
                 from: {
-                  name: user.fullName,
+                  name: user.name,
                   email: user.email
                 },
                 to: {
-                  name: project.projectHolder.fullName,
+                  name: project.projectHolder.name,
                   email: project.projectHolder.email
                 },
-                subject: `${user.fullName} Requests review`,
+                subject: `${user.name} Requests review`,
                 redirect: `${host}//adminprojects?prj=${keyProject}`,
                 text: [
-                  `The partner ${user.fullName}, `,
+                  `The partner ${user.name}, `,
                   `requests review on ${project.nameProject} for ${cliName}`,
                   `to ${project.currency} ${revision}.`
                 ],
@@ -184,7 +184,7 @@ const CallProject = ({ keyProject }) => {
       </div>
       <div className="flex text-xl w-full justify-between font-normal">
         <p>Project holder: </p>
-        <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.fullName)}</p>
+        <p>{project?.projectHolder && Object.values(project?.projectHolder).map(titular => titular.name)}</p>
       </div>
       {/* <div className="flex text-xl w-full justify-between font-normal">
         <p>Treasury project: </p>
@@ -197,7 +197,7 @@ const CallProject = ({ keyProject }) => {
           <div className="flex flex-col w-full justify-between gap-4 bg-slate-700 p-8 rounded-md">
             <div className="flex justify-between w-full">
               <h5>Partner: </h5>
-              <h5>{user.fullName}</h5>
+              <h5>{user.name}</h5>
             </div>
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full" />
 
@@ -281,7 +281,7 @@ const CallProject = ({ keyProject }) => {
                   }
                   return (
                     <div key={userId} className="flex justify-between w-full text-base rounded-md bg-slate-700 p-8 font-normal">
-                      <p>{value.fullName}</p>
+                      <p>{value.name}</p>
                       <p>
                         {status}
                       </p>

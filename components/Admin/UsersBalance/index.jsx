@@ -70,7 +70,7 @@ const UsersBalance = () => {
 
         let objUser = {
             key: keyUser,
-            fullName: user.fullName,
+            name: user.name,
             email: user.email,
             balance: {},
             scheduledIncome: {
@@ -367,7 +367,7 @@ const UsersBalance = () => {
                 client: client[0],
                 nameProject: changeBalance.name,
                 amount: changeBalance.amount,
-                userName: userSelect.fullName,
+                name: userSelect.name,
                 date: date,
                 currency: changeBalance.currency,
                 createdAt: serverTimestamp(),
@@ -393,11 +393,11 @@ const UsersBalance = () => {
                             sendEmail({
                                 from: {
                                     email: user.email,
-                                    name: user.fullName
+                                    name: user.name
                                 },
                                 to: {
                                     email: userSelect.email,
-                                    name: userSelect.fullName
+                                    name: userSelect.name
                                 },
                                 subject: `Nueva Liquidación`,
                                 redirect: `${host}/wallet`,
@@ -445,7 +445,7 @@ const UsersBalance = () => {
             set(pushSalarySettlement, {
                 businessName: changeBalance.name,
                 amount: changeBalance.amount,
-                userName: userSelect.fullName,
+                name: userSelect.name,
                 date: date,
                 currency: changeBalance.currency,
                 createdAt: serverTimestamp(),
@@ -468,16 +468,16 @@ const UsersBalance = () => {
                             sendEmail({
                                 from: {
                                     email: user.email,
-                                    name: user.fullName
+                                    name: user.name
                                 },
                                 to: {
                                     email: userSelect.email,
-                                    name: userSelect.fullName
+                                    name: userSelect.name
                                 },
                                 subject: "Descuento factura de terceros",
                                 redirect: `${host}/wallet`,
                                 text: [
-                                    `${userSelect.fullName}`,
+                                    `${userSelect.name}`,
                                     `Se le ha descontado un total de ${changeBalance.currency} ${changeBalance.amount}`,
                                     `correspondiente a la factura de terceros, emitida a ${changeBalance.name}`,
                                 ],
@@ -486,7 +486,7 @@ const UsersBalance = () => {
                     }
                 )
         }
-        handleUser(userSelect.key, { fullName: userSelect.fullName, email: userSelect.email })
+        handleUser(userSelect.key, { name: userSelect.name, email: userSelect.email })
         setChangeBalance({
             type: "INTERNAL_SETTLEMENT",
             currency: "",
@@ -558,7 +558,7 @@ const UsersBalance = () => {
                                                         }}
                                                         className="first:border-t-0 border-t-2"
                                                     >
-                                                        {user.fullName}
+                                                        {user.name}
                                                     </li>
                                                 )
                                             })
@@ -569,7 +569,7 @@ const UsersBalance = () => {
                         <div className="h-10 col-start-2 col-end-3 ml-8">
                             <h4 className="ml-8 text-3xl font-medium">
                                 {
-                                    userSelect && userSelect.fullName
+                                    userSelect && userSelect.name
                                 }
                             </h4>
                         </div>

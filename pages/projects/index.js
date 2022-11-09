@@ -6,19 +6,19 @@ import Projects from "../../components/Projects";
 import { getDatabase, onValue, orderByValue, ref, query, get } from "firebase/database";
 import { useAuth } from "../../context/auth";
 
-import HeadBar from "../../components/Elements/HeadTab" 
+import HeadBar from "../../components/Elements/HeadTab"
 
 const PageHomeProjects = () => {
   const router = useRouter();
   const db = getDatabase();
   const [showProject, setShowProject] = useState(
-    (()=>{
+    (() => {
       let showPrj = ""
-      if(router.query.holder){
+      if (router.query.holder) {
         router.query.holder === "true" ?
-        showPrj = "HOSTING"
-        : 
-        showPrj = "INVITED"
+          showPrj = "HOSTING"
+          :
+          showPrj = "INVITED"
       } else {
         showPrj = "HOSTING"
       }
@@ -28,8 +28,8 @@ const PageHomeProjects = () => {
   const [loading, setLoading] = useState(false)
   const [projects, setProjects] = useState([]);
   const [tabs, setTabs] = useState([
-    { name: 'Hosting', current: router.query.holder ? router.query.holder === "true" : true , value: "HOSTING" },
-    { name: 'Invited', current: router.query.holder ? router.query.holder === "false" : false , value: "INVITED" },
+    { name: 'Hosting', current: router.query.holder ? router.query.holder === "true" : true, value: "HOSTING" },
+    { name: 'Invited', current: router.query.holder ? router.query.holder === "false" : false, value: "INVITED" },
   ])
   const { user } = useAuth();
   const [listProjects, setListProjects] = useState([]);
@@ -40,7 +40,7 @@ const PageHomeProjects = () => {
         router.push({
           pathname: `projects/[id]`,
           query: {
-            id: project.id,
+            id: project,
             holder: showProject === "HOSTING"
           }
         },
@@ -55,32 +55,41 @@ const PageHomeProjects = () => {
 
   useEffect(() => {
     if (user) {
-      if(showProject === "HOSTING"){
-      let allProject;
-      get(query(ref(db, "users/" + user.uid + "/projects"))).then(async (res) => {
-        if (res.val()) {
-          const listProject = Object.keys(res.val()).map((key) =>
-            get(ref(db, "projects/" + key))
-              .then((res) => res.val())
-              .then((prj) => {
-                return ({
-                  ...prj,
-                  id: key,
-                })
-              }),
-          );
-          Promise.all(listProject).then((res) => {
-            allProject = res.reverse();
-            setListProjects(allProject);
-          });
-        }
-      });
+      if (showProject === "INVITED") {
 
-      if (router.query.key) {
-        handleInfoProject({ id: router.query.key });
+        get(query(ref(db, "users/" + user.uid + "/projects"))).then(async (res) => {
+          if (res.val()) {
+            const listProject = Object.keys(res.val()).map((key) =>
+              get(ref(db, "projects/" + key))
+                .then((res) => res.val())
+                .then((prj) => {
+                  const arrPartner = Object.entries(prj.partners).map(([keyPartner, partner]) => {
+                    return {
+                      id: keyPartner,
+                      name: partner.name || partner.fullName,
+                    }
+                  })
+                  return ({
+                    partners: arrPartner,
+                    name: prj.nameProject,
+                    redirect: () => handleInfoProject(key),
+                    info: `Client: ${Object.values(prj.client).map(client => client.clientName)[0]}`,
+                    id: key,
+                  })
+                }),
+            );
+            Promise.all(listProject).then((res) => {
+              const reverseProject = res.reverse();
+              setListProjects(reverseProject);
+            });
+          }
+        });
+
+        if (router.query.key) {
+          handleInfoProject(router.query.key);
+        }
       }
-      }
-      if(showProject === "INVITED"){
+      if (showProject === "HOSTING") {
         if (router.query.prj) {
           setKeyProject(router.query.prj)
         }
@@ -90,28 +99,25 @@ const PageHomeProjects = () => {
             const unsub = onValue(ref(db, "projects/"),
               resPrj => {
                 if (res.hasChildren()) {
-                  let stateProjects = []
-                  Object.entries(resPrj.val()).map(([key, value]) => {
-                    Object.keys(res.val()).map(keyPrjOwn => {
+                  const stateProjects = Object.entries(resPrj.val()).map(([key, value]) => {
+                    return Object.keys(res.val()).map(keyPrjOwn => {
                       if (keyPrjOwn === key) {
-                        let localeDate = ""
-                        if (value.invoiceDate) {
-                          localeDate = new Date(value.invoiceDate).toLocaleDateString()
-                        } else {
-                          localeDate = value.invoiceDate
+                        const arrPartner = Object.entries(value.partners).map(([keyPartner, partner]) => {
+                          return {
+                            id: keyPartner,
+                            name: partner.name || partner.fullName,
+                          }
+                        })
+                        return {
+                          name: value.nameProject,
+                          info: `Client: ${Object.values(value.client).map(client => client.clientName)[0]}`,
+                          partners: arrPartner,
+                          redirect: () => handleInfoProject(key),
+                          id: key,
                         }
-                        stateProjects =
-                          [
-                            ...stateProjects,
-                            {
-                              ...value,
-                              id: key,
-                              invoiceDate: localeDate
-                            }
-                          ]
                       }
-                    })
-                  })
+                    }).filter(prj => !!prj)[0]
+                  }).filter(prj => !!prj)
                   setListProjects(stateProjects.reverse())
                   setLoading(false)
                 } else {
@@ -122,6 +128,9 @@ const PageHomeProjects = () => {
             return () => unsub()
           }
         );
+        if (router.query.key) {
+          handleInfoProject({ id: router.query.key });
+        }
         return () => {
           unsubscribe()
           // }
@@ -130,7 +139,7 @@ const PageHomeProjects = () => {
       }
     }
 
-  }, [db, showProject]);
+  }, [db, router.query.key, router.query.prj, showProject, user]);
 
   return (
     <div className="flex flex-col w-8/12 items-center gap-8">

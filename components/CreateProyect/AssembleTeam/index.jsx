@@ -41,7 +41,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                                 ...listUsers,
                                 [user.id]: {
                                     ...user.data(),
-                                    name: user.data().userName
+                                    name: user.data().name
                                 }
                             }
                         })
@@ -111,7 +111,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                         ...project.partners,
                         [data.uid]: {
                             ...project.partners[data.uid],
-                            fullName: data.partner.fullName,
+                            name: data.partner.name,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
                             percentage: value,
                             amount: (value * ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))) / 100,
@@ -127,7 +127,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                         ...project.partners,
                         [data.uid]: {
                             ...project.partners[data.uid],
-                            fullName: data.partner.fullName,
+                            name: data.partner.name,
                             amount: value,
                             percentage: (value / ((project?.totalNeto - project?.thirdParties?.amount) * (1 - (project.ratio / 100)))) * 100,
                             status: user.uid !== data.uid ? "ANNOUNCEMENT" : "CONFIRMED",
@@ -158,7 +158,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
             return Object.entries(info).map(([key, value]) => {
                 return (
                     <div key={key} className="flex flex-row h-10 w-full justify-between font-medium text-base items-center border-b-2 border-slate-300">
-                        <label>{value.fullName}</label>
+                        <label>{value.name}</label>
                         <p>{value.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
                     </div>
                 )

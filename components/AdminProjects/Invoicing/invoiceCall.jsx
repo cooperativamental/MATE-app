@@ -75,7 +75,7 @@ export const InvoiceCall = ({ project, keyProject }) => {
                             Object.entries(resValue).forEach(([key, valueUser]) => {
                                 if (valueUser.priority === "ADMIN") {
                                     const pushNoti = push(ref(db, `notifications/${key}`))
-                                    const prjOwn = Object.values(project.projectHolder).forEach(val => val.fullName)
+                                    const prjOwn = Object.values(project.projectHolder).forEach(val => val.name)
                                     const cliName = Object.values(project.client).forEach(client => client.clientName)
                                     set(pushNoti,
                                         {
@@ -102,11 +102,11 @@ export const InvoiceCall = ({ project, keyProject }) => {
                                                     projectHolder: prjOwn
                                                 }),
                                                 from: {
-                                                    name: user.fullName,
+                                                    name: user.name,
                                                     email: user.email
                                                 },
                                                 to: {
-                                                    name: valueUser.fullName,
+                                                    name: valueUser.name,
                                                     email: valueUser.email
                                                 },
                                                 redirect: `${host}`,

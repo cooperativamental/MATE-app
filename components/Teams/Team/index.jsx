@@ -39,13 +39,13 @@ const Team = () => {
             ))
         let resPartners = {}
         users.forEach(user => {
-            const { userName, ...resUser } = user.data()
+            const { name, ...resUser } = user.data()
             if (!team?.users?.[user.id]) {
                 resPartners = {
                     ...resPartners,
                     [user.id]: {
                         ...resUser,
-                        name: userName,
+                        name: name,
                         wallets: searchMate
                     }
                 }
@@ -86,12 +86,12 @@ const Team = () => {
                         let users = {}
 
                         resUsers.forEach(user => {
-                            const { userName, ...resUser } = user.data()
+                            const { name, ...resUser } = user.data()
                             users = {
                                 ...users,
                                 [user.id]: {
                                     ...resUser,
-                                    name: userName,
+                                    name: name,
                                 }
                             }
                         })
@@ -116,7 +116,7 @@ const Team = () => {
     }, [db, firestore, router.query.team, program?.account?.group])
 
     return (
-        <div className="flex flex-col py-8 h-min w-6/12 gap-8">
+        <div className="flex flex-col py-8 h-min w-10/12 gap-8">
             <div className="flex w-full justify-between items-center">
                 <div>
                     <p>Team Name:</p>
@@ -242,11 +242,11 @@ const Team = () => {
                                                 {
                                                     project?.projectOwner ?
                                                         Object.values(project?.projectOwner).map(
-                                                            prjHolder => prjHolder.fullName
+                                                            prjHolder => prjHolder.name
                                                         )
                                                         :
                                                         Object.values(project?.projectHolder).map(
-                                                            prjHolder => prjHolder.fullName
+                                                            prjHolder => prjHolder.name
                                                         )
                                                 }
                                             </p>

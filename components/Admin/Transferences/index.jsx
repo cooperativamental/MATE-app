@@ -45,7 +45,7 @@ const Transferences = () => {
         users.forEach(user => {
             listPartners = {
                 [user.id]: {
-                    fullName: user.data().fullName
+                    name: user.data().name
                 }
             }
         })
@@ -55,7 +55,7 @@ const Transferences = () => {
             return ({
                 [keyUser]: {
                     withdrawals: withdrawals.val(),
-                    fullName: user.fullName
+                    name: user.name
                 }
             })
         })
@@ -104,7 +104,7 @@ const Transferences = () => {
                                     className="flex w-full items-center justify-between first:border-t-0 border-t-2 p-4 border-gray-400"
                                     onClick={() => setSelectPartner(selectPartner !== keyPartner ? keyPartner : undefined)}
                                 >
-                                    <p className=" w-11/12 text-lg font-medium text-ellipsis">{partner.fullName}</p>
+                                    <p className=" w-11/12 text-lg font-medium text-ellipsis">{partner.name}</p>
                                     {
                                         selectPartner === keyPartner ?
                                             <div className=" -rotate-45 border-r-2 border-b-2 border-black h-2 w-2"></div>

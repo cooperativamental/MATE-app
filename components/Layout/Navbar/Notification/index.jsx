@@ -74,6 +74,7 @@ const Notification = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [refContainer]);
+  
   const sidebar = {
     openContainer: {
       width: "17rem",

@@ -79,6 +79,7 @@ cmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII=" />
 
     return (
         <Head>
+            <title>Mate</title>
             <link rel="icon" href={count ? `${fav}` : "/favicon.ico"} src={fav} />
         </Head>
     )

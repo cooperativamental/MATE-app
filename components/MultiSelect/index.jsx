@@ -15,7 +15,7 @@ export const MultiSelect = ({ label, options, searchFunction, setSelectState, se
 
   const search = (e) => {
     setList(Object.values(options).filter(op =>
-      op.fullName.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1
+      op.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1
     ))
   }
 

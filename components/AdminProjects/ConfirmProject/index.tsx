@@ -154,7 +154,7 @@ const ConfirmProject = ({ keyProject, project }) => {
           Object.entries(project?.partners)?.map(([key, value]: any) => {
             return (
               <div key={key} className="flex flex-col justify-between gap-4 bg-slate-500 text-black p-4 rounded-md">
-                <p className="text-lg font-semibold">{value.fullName}</p>
+                <p className="text-lg font-semibold">{value.name}</p>
                 <div className="flex w-full justify-between font-normal">
                   <p>Amount agreed: </p>
                   <p>{value.amount.toLocaleString('es-ar', { minimumFractionDigits: 2 })}</p>
