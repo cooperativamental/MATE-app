@@ -350,7 +350,7 @@ const Teams = () => {
         <div className="flex flex-col py-8 items-center w-full gap-8">
             <ComponentButton
                 buttonText="Create New Team"
-                buttonStyle="w-48 h-14 ring-1 hover:ring-2 ring-slate-400"
+                buttonStyle="w-48 p-4"
                 buttonEvent={() => {
                     router.push(
                         "/createteam"

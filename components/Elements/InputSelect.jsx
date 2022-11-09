@@ -60,7 +60,9 @@ const InputSelect = (props) => {
                          <p className={`${styleTitle} text-center`}>{title}</p>
                     }
                     <input
-                         className={`${inputStyle} flex bg-slate-800 appearance-none rounded-full w-full h-20 text-xl px-4 ${conditionError ? " shadow-red-600" : "shadow-green-light"} ${type === "date" && "date"}`}
+                         className={`${inputStyle} flex bg-slate-900 appearance-none rounded-full w-full h-20 text-xl px-4 
+                         ring-1 rounded-full caret-slate-100
+                         ${conditionError ? " shadow-red-600" : "shadow-green-light"} ${type === "date" && "date"}`}
                          name={name}
                          onChange={onChange}
                          id={id}

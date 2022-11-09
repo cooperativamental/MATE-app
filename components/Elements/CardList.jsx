@@ -7,8 +7,8 @@ export default function CardList({ list }) {
     const [namePartner, setNamePartner] = useState()
 
     return (
-        <div className="bg-slate-400 shadow w-full sm:rounded-md">
-            <ul role="list" className="divide-y divide-gray-200">
+        <div className="bg-box-color shadow w-full rounded-lg sm:rounded-md">
+            <ul role="list" className="divide-y divide-rose-color">
                 {
                     list.map((position) => {
                         return (
@@ -16,15 +16,15 @@ export default function CardList({ list }) {
                                 key={position.id}
                                 onClick={position.redirect}
                             >
-                                <a href="#" className="block hover:bg-gray-50">
+                                <a href="#" className="block hover:bg-violet-color">
                                     <div className="flex items-center px-4 py-4 sm:px-6">
                                         <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                             <div className="truncate w-3/12">
-                                                <div className="flex text-sm">
-                                                    <p className="truncate font-medium text-indigo-600">{position.name}</p>
+                                                <div className="flex text-lg">
+                                                    <p className="truncate font-medium text-white">{position.name}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex w-3/12 items-center overflow-hidden text-ellipsis text-gray-500">
+                                            <div className="flex w-3/12 items-center overflow-hidden text-sm text-yellow-color">
                                                 <p className=" whitespace-nowrap float-right transition-all duration-500 hover:float-left">
                                                     {position.info}
                                                 </p>
@@ -36,7 +36,7 @@ export default function CardList({ list }) {
                                                         return (
                                                             <div
                                                                 key={partner.id}
-                                                                className="relative flex flex-initial p-1 items-center justify-center w-8 h-8 rounded-full  bg-slate-500 ring-2 ring-white"
+                                                                className="relative flex flex-initial p-1 items-center justify-center w-8 h-8 rounded-full font-thin bg-orange-color"
                                                                 onMouseOver={() => {
                                                                     setNamePartner({
                                                                         ...partner,
@@ -58,7 +58,7 @@ export default function CardList({ list }) {
                                                                             alt={partner.name}
                                                                         />
                                                                         :
-                                                                        <p className=" text-white font-bold">
+                                                                        <p className=" text-white font-light">
                                                                             {
                                                                                 partner.name.split(" ").map(sep => {
                                                                                     return (
@@ -70,7 +70,7 @@ export default function CardList({ list }) {
                                                                 }
                                                                 {
                                                                     namePartner?.key === `${partner.id}${position.id}` &&
-                                                                    <div className="absolute text-black font-bold outline-double outline-4 outline-white -top-14 h-14 rounded-md bg-slate-500 z-20 p-2">
+                                                                    <div className="absolute text-white font-light outline-4 outline-white -top-14 h-14 rounded-md bg-orange-color z-20 p-2">
                                                                         <p>{namePartner.name}</p>
                                                                     </div>
                                                                 }
@@ -84,8 +84,8 @@ export default function CardList({ list }) {
                                                 <div className="w-3/12">
                                                     <ComponentButton
                                                         buttonEvent={position?.button}
-                                                        buttonText="Start Project"
-                                                        buttonStyle="w-min !border-white !border-2 text-slate-700 hover:text-white"
+                                                        buttonText="Start a project"
+                                                        buttonStyle="w-min text-white text-sm hover:text-white"
                                                     />
                                                 </div>
                                             }

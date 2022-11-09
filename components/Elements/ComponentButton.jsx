@@ -15,7 +15,7 @@ const ComponentButton
         } else {
             return (
                 <button className=
-                    {`${buttonStyle || ""} ${conditionDisabled && "bg-gray-500 hover:bg-gray-600" } btn w-full rounded-full active:ring-4`}
+                    {`${buttonStyle || ""} ${conditionDisabled && "bg-gray-500" } btn w-full rounded-full hover:text-white`}
                     onClick={buttonEvent}
                     disabled={conditionDisabled ? "disabled" : undefined}
                 >
