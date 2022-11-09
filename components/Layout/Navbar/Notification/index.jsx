@@ -25,6 +25,7 @@ import RequestPageIcon from '@mui/icons-material/RequestPage';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Favicon from "../../../Favicon"
+import { useMediaQuery } from "../../../../hooks/useMediaQuery"
 
 
 const Notification = () => {
@@ -32,6 +33,8 @@ const Notification = () => {
   const { notification, lastNotification } = useNotification()
   const [countNotification, setCountNotification] = useState()
   const [notiNotViewed, setNotiNotViewed] = useState()
+  const isMedium = useMediaQuery("(min-width:600px)")
+
   const { user } = useAuth()
   const [open, setOpen] = useState()
   const refContainer = useRef()
@@ -77,17 +80,23 @@ const Notification = () => {
   
   const sidebar = {
     openContainer: {
+      display: "flex",
       width: "17rem",
       height: "75vh",
-      display: "flex",
-      backgroundColor: ["#7e22ce", "#000"],
+      justifyContent: "center",
+      top: 0,
+      backgroundColor: ["#3BB89F", "#000"],
+      borderRadius: "0 0 0 1rem",
       transition: {
         duration: 1
       },
     },
     closedContainer: {
+      display: "flex",
       width: "3rem",
-      height: "3rem",
+      height: "1.5rem",
+      borderRadius: (!window.matchMedia("(min-width:600px)").matches || !isMedium) ? "1rem 0 0 1rem" : 0, 
+      justifyContent: "center", 
       transition: {
         duration: 1,
         borderRadius: {
@@ -97,15 +106,17 @@ const Notification = () => {
     },
     open: (width) => {
       return ({
+        width: "100%",
         display: "flex",
         opacity: 1,
         transition: {
-          duration: 1
+          duration: 0.5
         }
       })
     },
     closed: () => {
       return ({
+        width: 0,
         opacity: 0,
         transition: {
           duration: 1,
@@ -120,15 +131,14 @@ const Notification = () => {
     },
     openIcon: {
       rotate: ["0deg", "-6deg", "6deg", "-6deg", "6deg", "0deg"],
-      color: "#7e22ce",
+      color: "rgb(255,255,255)",
       transition: {
-        duration: 1
+        duration: 2
       }
     },
     closeIcon: {
       rotate: ["0deg", "-6deg", "6deg", "-6deg", "6deg", "0deg"],
-      color: "rgb(255,255,255)",
-      // left: ".25rem",
+      color: "#7e22ce",
       transition: {
         duration: 1
       }
@@ -399,22 +409,22 @@ const Notification = () => {
       }
       <motion.div
         variants={sidebar}
-        initial={{ display: "flex", height: "3rem", width: "3rem " }}
+        initial={{ display: "flex", height: "1rem", width: "3rem" }}
         animate={open ? "openContainer" : "closedContainer"}
         ref={refContainer}
-        className="fixed z-30 rounded-[0_0_0_1rem] right-0 top-0 shadow-sm shadow-[#000000] bg-[#7e22ce]"
+        className={`fixed rounded-l-md flex z-30 right-0 top-3 shadow-sm p-0 bg-[#3BB89F]`}
       >
         <motion.div
           variants={sidebar}
-          initial={{ display: "flex", left: ".25rem", top: ".25rem", rotate: 0 }}
+          initial={{ display: "flex", rotate: 0 }}
           animate={[open === true && "openIcon", open === false && "closeIcon", !!lastNotification && "newNoti"]}
-          className="origin-center text-white rotate-0 absolute h-max w-max max-w-max z-10 "
+          className={` text-white rotate-0 h-max w-max max-w-max before:z-10`}
           onClick={() => {
 
             handleNotification()
           }}
         >
-          <NotificationsNoneIcon alt="menu open" sx={{ fontSize: "2.5rem" }} />
+          <NotificationsNoneIcon alt="menu open" sx={{ fontSize: "1.3rem" }} />
           {
             countNotification ?
               <div className="absolute right-0 top-0 bg-red-600 rounded-[50%] w-5 h-5 flex items-center justify-center font-bold">
@@ -428,7 +438,7 @@ const Notification = () => {
         </motion.div>
         <motion.div
           variants={sidebar}
-          initial={{ display: "none", opacity: 0 }}
+          initial={{ display: "none", opacity: 0, width: 0 }}
           animate={open ? "open" : "closed"}
           className="flex flex-col w-full items-center h-full left-0 overflow-hidden rounded-br-2xl mr-[1px] mb-[1px] pt-10"
         >

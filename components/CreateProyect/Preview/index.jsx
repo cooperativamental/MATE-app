@@ -126,8 +126,8 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                             status: false,
                         })
                         router.push({
-                            pathname: "/adminprojects",
-                            query: { type: "NEW_PROJECT", key: pushProject.key }
+                            pathname: "/projects/[id]",
+                            query: { holder: true, id: pushProject.key }
                         })
                     })
                     .catch(err => {

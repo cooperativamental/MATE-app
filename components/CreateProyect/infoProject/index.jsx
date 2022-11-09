@@ -155,7 +155,7 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
 
 
   return (
-    <div className="pt-2 flex flex-col items-center gap-4 w-8/12">
+    <div className="pt-2 flex flex-col items-center gap-8 w-8/12">
       <div className="flex flex-col w-full text-center">
         <InputSelect
           conditionError={errors?.nameProject}
@@ -169,23 +169,8 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
           inputStyle="text-center"
         />
       </div>
-      <div className="flex w-full" >
-        {/* <InputSelect
-              select
-              conditionError={errors?.client}
-              name="fiatOrCrypto"
-              title="Fiat or Crypto"
-              onChange={handlerProject}
-              defaultValue="Fiat Or Cypto"
-              optionDisabled="Fiat Or Cypto"
-              styleSubtitle="text-xs pl-5"
-            >
-              <option value="FIAT">Fiat</option>
-              <option value="CRYPTO">Crypto</option>
-            </InputSelect> */}
 
-      </div>
-      <div className={`flex w-full items-center flex-row gap-8`} >
+      <div className={`flex flex-col  w-full items-center sm:flex-row sm:gap-8`} >
         <InputSelect
           select
           conditionError={errors?.client}
@@ -217,10 +202,10 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
               }
             )
           }}
-          buttonStyle="w-6/12"
+          buttonStyle="sm:w-6/12"
         />
       </div>
-      <div className={`flex w-full items-center flex-row gap-8`} >
+      <div className={`flex w-full items-center flex-col sm:flex-row gap-8`} >
         <div className="flex flex-col w-full  ">
           <InputSelect
             conditionError={errors?.start}

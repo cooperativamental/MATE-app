@@ -168,7 +168,7 @@ const Teams = () => {
                             })
                             return {
                                 id: keyTeamInvite,
-                                info: `Trasury: ${teamInvited.treasury}`,
+                                info: `Trasury: ${teamInvited.treasury} %`,
                                 name: teamInvited.name,
                                 partners: arrPartner,
                                 redirect: () => {
@@ -198,153 +198,6 @@ const Teams = () => {
 
         })()
     }, [db, firestore, user, program?.account?.group, connection, wallet, showTeam])
-
-    // const render = (status) => {
-
-    //     const renderToDatabase = (arr) => {
-    //         return arr.map(([keyTeam, infoTeam]) => {
-    //             return (
-    //                 <Link
-    //                     passHref
-    //                     href={{
-    //                         pathname: "/teams/confirmteam/[team]",
-    //                         query: {
-    //                             team: keyTeam
-    //                         }
-    //                     }}
-    //                     as="/teams"
-    //                     key={keyTeam}
-    //                 >
-    //                     <div
-    //                         className="grid grid-cols-[60%_max-content] w-8/12 justify-between h-32 shadow-md bg-slate-900 shadow-slate-800 text-white rounded-lg p-4 ring-2 hover:ring-4"
-    //                     >
-    //                         <a
-    //                             className="flex row-start-1 h-full justify-between"
-    //                         >
-    //                             <div
-    //                                 className="flex flex-col justify-between"
-    //                             >
-    //                                 <h1 className="w-max text-xl font-bold"> {infoTeam?.name} </h1>
-
-    //                             </div>
-    //                             <p className=" self-center">
-    //                                 {
-    //                                     `Treasury Ratio ${infoTeam?.treasury} %`
-    //                                 }
-    //                             </p>
-    //                         </a>
-    //                     </div>
-    //                 </Link>
-    //             )
-    //         })
-    //     }
-
-    //     const renders = {
-    //         ALL_TEAMS: gloablTeams.length ?
-    //             gloablTeams?.map((infoTeam) => {
-    //                 const team = infoTeam
-    //                 return (
-    //                     <div
-    //                         key={infoTeam.id}
-    //                         className="grid grid-cols-[60%_max-content] w-8/12 justify-between h-32 shadow-md bg-slate-900 shadow-slate-800 text-white rounded-lg p-4 ring-2 hover:ring-4"
-    //                     >
-    //                         <Link
-    //                             passHref
-    //                             href={{
-    //                                 pathname: "/teams/[team]",
-    //                                 query: {
-    //                                     team: infoTeam?.publicKey?.toBase58()
-    //                                 }
-    //                             }}
-    //                             as="/teams"
-    //                         >
-    //                             <a
-    //                                 className="flex row-start-1 h-full justify-between"
-    //                             >
-    //                                 <div
-    //                                     className="flex flex-col justify-between"
-    //                                 >
-    //                                     <h1 className="w-max text-xl font-bold"> {team.name} </h1>
-    //                                     <div className="flex -space-x-2">
-    //                                         {
-    //                                             !!Object.keys(infoTeam.partners).length &&
-    //                                             Object.entries(infoTeam.partners)
-    //                                                 .map(([keyUser, user]) => {
-
-    //                                                     return (
-    //                                                         <div
-    //                                                             key={keyUser}
-    //                                                             className="relative flex justify-center items-center h-8 w-8 bg-slate-900 rounded-full ring-1 ring-white"
-    //                                                             onMouseOver={() => {
-    //                                                                 setInfoUser({
-    //                                                                     ...user,
-    //                                                                     key: `${keyUser}${infoTeam.id}`
-    //                                                                 })
-    //                                                             }}
-    //                                                             onMouseOut={() => {
-    //                                                                 setInfoUser()
-    //                                                             }}
-    //                                                         >
-    //                                                             <p className=" text-white font-bold">
-    //                                                                 {
-    //                                                                     user.name.split(" ").map(sep => {
-    //                                                                         return (
-    //                                                                             sep[0]
-    //                                                                         )
-    //                                                                     })
-    //                                                                 }
-    //                                                             </p>
-    //                                                             {
-    //                                                                 infoUser?.key === `${keyUser}${infoTeam.id}` &&
-    //                                                                 <div className="absolute text-black font-bold outline-double outline-4 outline-white -top-12 rounded-md bg-slate-500 h-max z-20 p-2">
-    //                                                                     <p>{infoUser.name}</p>
-    //                                                                 </div>
-    //                                                             }
-    //                                                         </div>
-    //                                                     )
-    //                                                 })
-    //                                         }
-    //                                     </div>
-    //                                 </div>
-    //                                 <p className=" self-center">
-    //                                     {
-    //                                         `Treasury Ratio ${team?.ratio / 100} %`
-    //                                     }
-    //                                 </p>
-    //                             </a>
-    //                         </Link>
-    //                         {
-    //                             infoTeam.isMember &&
-    //                             <ComponentButton
-    //                                 buttonText="Start Project"
-    //                                 buttonStyle="w-max h-full ring-1 hover:ring-2 hover:bg-slate-800 ring-slate-400"
-    //                                 buttonEvent={() => {
-    //                                     router.push(
-    //                                         {
-    //                                             pathname: "/createproject",
-    //                                             query: {
-    //                                                 team: infoTeam.publicKey.toBase58()
-    //                                             },
-    //                                         },
-    //                                         "/createproject",
-    //                                         {
-    //                                             shallow: true
-    //                                         }
-    //                                     )
-    //                                 }}
-    //                             />
-    //                         }
-    //                     </div>
-    //                 )
-    //             })
-    //             :
-    //             <></>
-    //         ,
-    //         CONTRACT_RECEIVED: teamsInvite && renderToDatabase(Object.entries(teamsInvite)),
-    //         SEND_CONTRACTS: teamPendingToConfirm && renderToDatabase(Object.entries(teamPendingToConfirm)),
-    //     }
-    //     return renders[status]
-    // }
 
     return (
         <div className="flex flex-col py-8 items-center w-full gap-8">
@@ -379,7 +232,7 @@ const Teams = () => {
                         <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
                     </div>
                     :
-                    <div className="w-8/12">
+                    <div className="w-full">
                         <CardList list={gloablTeams} />
                     </div>
             }

@@ -24,7 +24,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 const Navbar = () => {
   const db = getDatabase()
   const router = useRouter()
-  const isMedium = useMediaQuery("(min-width: 480px)")
+  const isMedium = useMediaQuery("(min-width: 600px)")
   const { user } = useAuth()
   const { connection } = useConnection()
   const { publicKey } = useWallet()
@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <>
 
-      <div className="flex relative items-center justify-between w-full px-[3.5rem] h-[3rem] z-10">
+      <div className="flex relative items-center justify-between bg-box-color w-full px-[3.5rem] h-[3rem] z-10">
         {/* <div className='flex ml-4 gap-2'>
           <Link href="/teams" >
             <a
@@ -83,7 +83,7 @@ const Navbar = () => {
           isMedium &&
           <div className='flex absolute right-9 mr-3 gap-2'>
             <WalletMultiButton
-              className="!h-6 !bg-purple-700 !rounded-r-none !rounded-l-xl "
+              className="!h-6 !bg-gradient-to-r from-blue-color to-green-color !rounded-r-none !rounded-l-xl "
             >
               {
                 (!publicKey || !connection) &&
