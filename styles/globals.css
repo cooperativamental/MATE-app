@@ -40,6 +40,14 @@ a {
     hover:bg-gradient-to-r hover:from-green-color hover:to-blue-color
     hover:text-white
   }
+  .btn2 {
+    @apply font-medium text-xl px-6 justify-center items-center min-w-max h-14 text-white w-40 cursor-pointer select-none bg-violet-color
+    active:translate-y-2 active:[box-shadow:0_0px_0_0_#64748b,0_0px_0_0_#1b70f841] active:border-[0px] active:bg-[#c849ee]
+    transition-all duration-300 [box-shadow:0_5px_0_0_#64748b,0_5px_0_0_#1b70f841]
+    rounded-full  border-[1px] border-slate-800
+    
+    hover:text-white
+  }
   .btn-back{
     @apply sticky grid place-content-center self-start h-[2rem] w-[2rem] max-h-[2rem] max-w-[2rem] top-4 rounded-full border-2 border-white
   }

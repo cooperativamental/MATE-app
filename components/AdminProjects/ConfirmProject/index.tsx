@@ -176,6 +176,8 @@ const ConfirmProject = ({ keyProject, project }) => {
           :
           <>
             <ComponentButton
+              btn2={false}
+              btn3={false}
               isBack={false}
               routeBack=""
               buttonText="Confirm & Sign Project"

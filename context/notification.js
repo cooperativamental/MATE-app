@@ -25,7 +25,7 @@ const NotiProvider = ({ children }) => {
   const db = getDatabase();
   useEffect(() => {
     if (user) {
-      onValue(query(ref(db, `notifications/${user?.uid}/`), orderByValue("createdAt"), limitToLast(1)),
+      const unsub = onValue(query(ref(db, `notifications/${user?.uid}/`), orderByValue("createdAt"), limitToLast(1)),
         (res => {
           if (res.hasChildren()) {
             if (Object.values(res.val()).find(noti => noti.showCard === false)) {
@@ -78,6 +78,7 @@ const NotiProvider = ({ children }) => {
       });
 
       return () => {
+        unsub()
         unsubscribe();
       };
     }

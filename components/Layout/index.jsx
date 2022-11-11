@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
   const { user, firestore } = useAuth()
   const router = useRouter()
   const { openers } = useBalance()
-  const paths = ['/login', '/register', '/', '/resetPass', '/checkout/[prjID]'];
+  const paths = ['/register', '/', '/resetPass', '/checkout/[prjID]'];
 
   const existPath = paths.find(path => path === router.route.split('?')[0])
 
@@ -71,6 +71,7 @@ const Layout = ({ children }) => {
             <main className={`overflow-y-auto  flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
               {children}
             </main>
+            
           </div>
         </div>
       </PopUpProvider>

@@ -59,12 +59,12 @@ const UpdateUser = (props) => {
                 handlePopUp({
                     text: "Successful update",
                     title: `Update User`,
-                  })
+                })
             }).catch((error) => {
                 handlePopUp({
                     text: "the change could not be made",
                     title: `Update User`,
-                  })
+                })
             });
         })
             .catch(error => {
@@ -72,7 +72,7 @@ const UpdateUser = (props) => {
                 handlePopUp({
                     text: "The current password does not match the one registered",
                     title: `Update User`,
-                  })
+                })
             })
     }
 
@@ -101,10 +101,14 @@ const UpdateUser = (props) => {
                         onChange={handleUser}
                     />
                 </div>
-                <button onClick={confirmHandleUser}>Modificar datos de usuario</button>
+                <ComponentButton
+                    btn2
+                    buttonEvent={confirmHandleUser}
+                    buttonText="Modificar datos de usuario"
+                />
 
                 <div
-                    className={`flex justify-between bg-transparent border-2 shadow-sm rounded-xl w-full text-xl ${error?.password ? "border-red" : null}`}
+                    className={`flex justify-between bg-transparent gap-4 border-2 border-slate-600 shadow-sm rounded-full w-full text-xl ${error?.password ? "border-red" : null}`}
                 >
                     <InputSelect
                         inputStyle="h-16 bg-transparent"
@@ -119,12 +123,12 @@ const UpdateUser = (props) => {
                         }
                     >
                         {
-                            !visiblePass ? <RemoveRedEyeIcon color="disabled" /> : <VisibilityOffIcon color="disabled" />
+                            !visiblePass ? <RemoveRedEyeIcon color="white" /> : <VisibilityOffIcon color="white" />
                         }
                     </button>
                 </div>
                 <div
-                    className="flex justify-between bg-transparent border-2 shadow-sm rounded-xl w-full text-xl"
+                    className="flex justify-between bg-transparent shadow-sm gap-4 border-2 border-slate-600 rounded-full w-full text-xl"
                 >
                     <InputSelect
                         inputStyle="h-16 bg-transparent"
@@ -138,7 +142,7 @@ const UpdateUser = (props) => {
                             setVisible(!visiblePass)}
                     >
                         {
-                            !visiblePass ? <RemoveRedEyeIcon color="disabled" /> : <VisibilityOffIcon color="disabled" />
+                            !visiblePass ? <RemoveRedEyeIcon color="white" /> : <VisibilityOffIcon color="white" />
                         }
                     </button>
                 </div>
@@ -149,13 +153,13 @@ const UpdateUser = (props) => {
             </div>
         )
     } else {
-        return(
-        <div className=" flex  flex-col items-center justify-center w-11/12 h-96 mt-4 ">
-            <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
-        </div>
+        return (
+            <div className=" flex  flex-col items-center justify-center w-11/12 h-96 mt-4 ">
+                <div className="animate-spin border-4 border-slate-300 border-l-4 border-l-[#5A31E1] rounded-[50%] h-10 w-10 "></div>
+            </div>
         )
     }
-    
+
 }
 
 export default UpdateUser
