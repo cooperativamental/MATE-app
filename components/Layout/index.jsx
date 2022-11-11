@@ -71,6 +71,7 @@ const Layout = ({ children }) => {
             <main className={`overflow-y-auto  flex justify-center ${existPath ? "h-screen" : "h-[calc(100vh_-_3rem)]"} scrollbar`} >
               {children}
             </main>
+            
           </div>
         </div>
       </PopUpProvider>
