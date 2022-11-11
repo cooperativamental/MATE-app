@@ -92,7 +92,6 @@ const Navbar = () => {
             </WalletMultiButton>
           </div>
         }
-
       </div>
       {
         user ?
