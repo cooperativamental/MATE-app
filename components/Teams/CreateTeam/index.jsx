@@ -271,6 +271,7 @@ const CreateTeams = () => {
       });
   }
 
+  console.log(errors)
 
   return (
     <div className="flex flex-col w-6/12 items-center gap-8 pb-4 h-min mt-12">

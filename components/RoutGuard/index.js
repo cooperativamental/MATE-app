@@ -38,33 +38,21 @@ export const RouteGuard = ({ children }) => {
       } 
       else if (publicPaths.includes(router.route)) {
         setAuthorized(true);
-
       } 
       else {
-        
         setAuthorized(false);
         router.push({
-          pathname: "/login",
+          pathname: "/",
           query: { returnUrl: url },
         });
       }
     } else {
-      if (path?.split("/")[1] === "login" || path?.split("/")[1] === "register") {
+      if (path === "/" || path?.split("/")[1] === "register") {
         setAuthorized(false);
         router.push({
           pathname: "/teams",
         });
       }
-      // else if (path.split("/")[1] === "admin") {
-      //   if (user?.priority !== "ADMIN") {
-      //     setAuthorized(false);
-      //     router.push({
-      //       pathname: "/groups",
-      //     });
-      //   } else {
-      //     setAuthorized(true);
-      //   }
-      // } 
       else if (publicPaths?.includes(router.route) && router.query.returnUrl) {
         setAuthorized(false);
         router.push(router.query.returnUrl);

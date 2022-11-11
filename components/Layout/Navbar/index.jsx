@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <>
 
-      <div className="flex relative items-center justify-between bg-box-color w-full px-[3.5rem] h-[3rem] z-10">
+      <div className="flex relative items-center justify-between bg-box-color w-full pr-[3.5rem] h-[3rem] z-10">
         {/* <div className='flex ml-4 gap-2'>
           <Link href="/teams" >
             <a
@@ -75,7 +75,7 @@ const Navbar = () => {
 
 
         <p
-          className="flex absolute left-1/2 -translate-x-[50%] h-full text-center text-lg font-semibold p-4"
+          className="flex absolute bg-gradient-to-r from-green-color to-blue-color rounded-r-2xl px-4 text-center text-lg font-semibold ml-10 sm:m-0"
         >
           gm, {user?.name}
         </p>

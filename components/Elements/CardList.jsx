@@ -83,6 +83,7 @@ export default function CardList({ list }) {
                                         position?.button &&
                                         <div className="sm:w-3/12">
                                             <ComponentButton
+                                                btn2
                                                 buttonEvent={position?.button}
                                                 buttonText="Start a project"
                                                 buttonStyle=" max-w-md w-min text-white text-sm hover:text-white"

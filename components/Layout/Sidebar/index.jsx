@@ -1,12 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link"
 import { useRouter } from "next/router";
+import Image from "next/image"
+
 import { useAuth } from "../../../context/auth"
-import SettingsIcon from '@mui/icons-material/Settings';
 import { motion, useTransform, useMotionValue } from "framer-motion"
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { Bars3Icon } from "@heroicons/react/20/solid"
 import { useMediaQuery } from "../../../hooks/useMediaQuery";
+
+import LogoMate from "../../../public/mate.svg"
+import LogoMateJS from "../../../public/mate.js"
+
 
 const Menu = ({ openMenu, closeSideBar }) => {
   const router = useRouter()
@@ -37,7 +41,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
     };
   }, [refContainer]);
 
-  const sidebar = 
+  const sidebar =
   {
     openContainer: {
       width: "15rem",
@@ -60,23 +64,23 @@ const Menu = ({ openMenu, closeSideBar }) => {
       },
     },
     open: {
-        display: "flex",
-        opacity: 1,
-        transition: {
-          duration: 1
-        }
+      display: "flex",
+      opacity: 1,
+      transition: {
+        duration: 1
+      }
     },
     closed: {
-        opacity: 0,
-        transition: {
-          duration: 1,
-          opacity: {
-            duration: 0.5
-          }
-        },
-        transitionEnd: {
-          display: "none",
-        },
+      opacity: 0,
+      transition: {
+        duration: 1,
+        opacity: {
+          duration: 0.5
+        }
+      },
+      transitionEnd: {
+        display: "none",
+      },
     },
     openIcon: {
       color: "#7e22ce",
@@ -101,8 +105,8 @@ const Menu = ({ openMenu, closeSideBar }) => {
       variants={sidebar}
       // initial={false}
 
-      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#1A1735" } : { height: "3rem", width: "3rem", backgroundColor: "#BA30E5" } }
-      animate={!window.matchMedia("(min-width:600px)").matches ?  (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#1A1735" }}
+      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#1A1735" } : { height: "3rem", width: "3rem", backgroundColor: "#BA30E5" }}
+      animate={!window.matchMedia("(min-width:600px)").matches ? (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#1A1735" }}
       // custom={whidth}
       ref={refContainer}
       className={`${(window.matchMedia("(min-width:600px)").matches && isMedium) ? "static" : "fixed"}  z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] `}
@@ -110,11 +114,11 @@ const Menu = ({ openMenu, closeSideBar }) => {
       <motion.div
         variants={sidebar}
 
-        initial={ window.matchMedia("(min-width:600px)").matches && { display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
-        animate={(open  ? "openIcon" : "closeIcon")}
+        initial={window.matchMedia("(min-width:600px)").matches && { display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
+        animate={(open ? "openIcon" : "closeIcon")}
         className="origin-center text-white rotate-180 absolute h-max w-max max-w-max z-10 "
       >
-        <Bars3Icon 
+        <Bars3Icon
           onClick={() => { setOpen(!open) }}
           alt="menu open"
           className="md:hidden h-10"
@@ -122,28 +126,29 @@ const Menu = ({ openMenu, closeSideBar }) => {
       </motion.div>
       <motion.div
         variants={sidebar}
-        initial={window.matchMedia("(min-width:600px)").matches || isMedium ?  { display: "flex", opacity: 1 } :{ display: "none", opacity: 0 } }
-        animate={!window.matchMedia("(min-width:600px)").matches ? (open  ? "open" : "closed") : "open"}
-        className=" flex  flex-col h-full left-0 overflow-hidden rounded-br-2xl mr-[1px] mb-[1px] pt-10 w-full "
+        initial={window.matchMedia("(min-width:600px)").matches || isMedium ? { display: "flex", opacity: 1 } : { display: "none", opacity: 0 }}
+        animate={!window.matchMedia("(min-width:600px)").matches ? (open ? "open" : "closed") : "open"}
+        className=" flex  flex-col h-full left-0 overflow-hidden rounded-br-2xl mr-[1px] mb-[1px] w-full "
       >
-        {user &&
-          <div className="flex gap-9">
-            <p className="flex items-start text-sm font-semibold pl-2">Welcome  {`${user?.displayName}`}</p>
+        {
+          user &&
+          <div className="flex items-center justify-center h-20 w-full rounded-b-[3.5rem] bg-green-color gap-9">
+            <LogoMateJS rightLogo="white"/>
+            {/* <p className="flex items-start text-sm font-semibold pl-2">Welcome  {`${user?.displayName}`}</p> */}
           </div>
         }
         <ul className="flex h-full flex-col items-start mt-5 overflow-y-auto overflow-x-hidden scrollbar">
-
           <hr className=" h-[1px] bg-slate-300 border-[1px] w-full" />
           <Link href="/teams" passHref>
             <li className={` cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/teams" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
               <a>Teams</a>
             </li>
           </Link>
-            <Link href="/projects" passHref>
-              <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/projects" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
-                <a>Projects</a>
-              </li>
-            </Link>
+          <Link href="/projects" passHref>
+            <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/projects" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
+              <a>Projects</a>
+            </li>
+          </Link>
 
           <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/setting" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
             <button
