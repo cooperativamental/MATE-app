@@ -50,6 +50,9 @@ const Notification = () => {
     }
   }, [notification])
 
+
+
+
   const handleNotification = () => {
     if (notiNotViewed) {
       Object.entries(notification).forEach(([key, noti]) => {
@@ -83,7 +86,6 @@ const Notification = () => {
       display: "flex",
       width: "17rem",
       height: "75vh",
-      justifyContent: "center",
       top: 0,
       backgroundColor: ["#3BB89F", "#000"],
       borderRadius: "0 0 0 1rem",
@@ -424,10 +426,10 @@ const Notification = () => {
             handleNotification()
           }}
         >
-          <NotificationsNoneIcon alt="menu open" sx={{ fontSize: "1.3rem" }} />
+          <NotificationsNoneIcon alt="menu open" sx={{ fontSize: "1.25rem" }} />
           {
             countNotification ?
-              <div className="absolute right-0 top-0 bg-red-600 rounded-[50%] w-5 h-5 flex items-center justify-center font-bold">
+              <div className="absolute right-0 top-0 bg-red-600 rounded-[50%] text-xs w-3 h-3 flex items-center justify-center font-bold">
                 {
                   countNotification
                 }
