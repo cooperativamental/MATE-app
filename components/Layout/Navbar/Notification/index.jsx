@@ -87,7 +87,7 @@ const Notification = () => {
       width: "17rem",
       height: "75vh",
       top: 0,
-      backgroundColor: ["#3BB89F", "#000"],
+      backgroundColor: ["#FA9972", "#000"],
       borderRadius: "0 0 0 1rem",
       transition: {
         duration: 1
@@ -414,7 +414,7 @@ const Notification = () => {
         initial={{ display: "flex", height: "1rem", width: "3rem" }}
         animate={open ? "openContainer" : "closedContainer"}
         ref={refContainer}
-        className={`fixed rounded-l-md flex z-30 right-0 top-3 shadow-sm p-0 bg-[#3BB89F]`}
+        className={`fixed rounded-l-md flex z-30 right-0 top-3 shadow-sm p-0 bg-orange-color`}
       >
         <motion.div
           variants={sidebar}
