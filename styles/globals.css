@@ -32,20 +32,27 @@ a {
 @layer components {
   .btn {
     @apply font-medium text-xl px-6 justify-center items-center min-w-max h-14 text-white 
-    w-40 bg-gradient-to-r from-blue-color to-green-color cursor-pointer select-none
-    active:translate-y-2  active:[box-shadow:0_0px_0_0_#64748b,0_0px_0_0_#1b70f841]
+    w-40 bg-blue-color cursor-pointer select-none
+    active:translate-y-1 
+    active:[box-shadow:0_0_10px_0_#6221E8,0_0_5px_0_#BA30E5]
     active:border-[0px]
-    transition-all duration-300 [box-shadow:0_5px_0_0_#64748b,0_5px_0_0_#1b70f841]
-    rounded-full  border-[1px] border-slate-800
-    hover:bg-gradient-to-r hover:from-green-color hover:to-blue-color
+    transition-all duration-300 
+    [box-shadow:0_1px_0_0_#BA30E5,0_1px_0_0_#6221E8]
+    rounded-full  border-[1px] 
+    border-violet-color
+    hover:bg-gradient-to-b hover:from-violet-color hover:to-blue-color
     hover:text-white
   }
   .btn2 {
-    @apply font-medium text-xl px-6 justify-center items-center min-w-max h-14 text-white w-40 cursor-pointer select-none bg-violet-color
-    active:translate-y-2 active:[box-shadow:0_0px_0_0_#64748b,0_0px_0_0_#1b70f841] active:border-[0px] active:bg-[#c849ee]
-    transition-all duration-300 [box-shadow:0_5px_0_0_#64748b,0_5px_0_0_#1b70f841]
-    rounded-full  border-[1px] border-slate-800
-    
+    @apply font-medium text-xl px-6 justify-center items-center min-w-max h-12 text-white 
+    w-40 cursor-pointer select-none bg-green-color
+    active:translate-y-1 
+    active:[box-shadow:0_0_5px_0_#3BB89F,0_0_5px_0_#1A1735] 
+    active:border-[0px] 
+    transition-all duration-300 
+    [box-shadow:0_1px_0_0_#1A1735,0_1px_0_0_#1A1735]
+    rounded-full  border-[1px] 
+    hover:bg-gradient-to-b hover:from-yellow-color hover:to-green-color
     hover:text-white
   }
   .btn-back{
