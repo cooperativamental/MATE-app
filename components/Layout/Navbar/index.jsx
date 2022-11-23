@@ -75,7 +75,9 @@ const Navbar = () => {
 
 
         <p
-          className="flex absolute h-[1.5rem] bg-gradient-to-r from-green-color to-blue-color rounded-r-2xl px-4 text-center font-semibold ml-10 sm:m-0"
+
+          className="flex absolute bg-gradient-to-r from-back-color to-blue-color rounded-r-full h-8 px-4 text-center text-md font-light ml-10 sm:m-0"
+
         >
           gm, {user?.name}
         </p>
@@ -83,7 +85,7 @@ const Navbar = () => {
           isMedium &&
           <div className='flex absolute right-9 mr-3 gap-2'>
             <WalletMultiButton
-              className="!h-6 !bg-gradient-to-r from-blue-color to-green-color !rounded-r-none !rounded-l-xl "
+              className="!h-6 !bg-gradient-to-r from-blue-color to-orange-color !rounded-r-none !rounded-l-full"
             >
               {
                 (!publicKey || !connection) &&
