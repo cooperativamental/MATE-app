@@ -212,17 +212,19 @@ const Teams = () => {
             />
             <HeadBar
                 event={(value) => {
-                    setLoading(true)
-                    setShowTeams(value)
-                    const setTab = tabs.map(tab => {
-                        if (tab.value === value) {
-                            tab.current = true
-                        } else {
-                            tab.current = false
-                        }
-                        return tab
-                    })
-                    setTabs(setTab)
+                    if(value !== showTeam){
+                        setLoading(true)
+                        setShowTeams(value)
+                        const setTab = tabs.map(tab => {
+                            if (tab.value === value) {
+                                tab.current = true
+                            } else {
+                                tab.current = false
+                            }
+                            return tab
+                        })
+                        setTabs(setTab)
+                    }
                 }}
                 tabs={tabs}
             />

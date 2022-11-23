@@ -69,7 +69,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalBruto: (value + value * ((teams.ratio) / 10000)),
+                totalBruto: Number((value + value * ((teams.ratio) / 10000)).toFixed(3)),
                 partners: {
                     ...project.partners,
                     [user.uid]: {
@@ -83,7 +83,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalNeto: (value - value * ((teams.ratio) / 10000)),
+                totalNeto: Number((value - value * ((teams.ratio) / 10000)).toFixed(3)),
                 partners: {
                     ...project.partners,
                     [user.uid]: {
