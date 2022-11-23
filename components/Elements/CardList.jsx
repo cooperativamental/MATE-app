@@ -14,7 +14,7 @@ export default function CardList({ list }) {
                         return (
                             <li
                                 key={position.id}
-                                className="block hover:bg-violet-color"
+                                className="block hover:bg-rose-color"
                             >
                                 <div  className="flex items-center px-4 py-4 sm:px-6">
                                     <div onClick={position.redirect} className="cursor-pointer h-full min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">

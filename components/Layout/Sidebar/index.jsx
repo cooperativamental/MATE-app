@@ -129,25 +129,28 @@ const Menu = ({ openMenu, closeSideBar }) => {
       >
         {
           user &&
-          <div className="flex items-center justify-center h-20 w-full rounded-b-[3.5rem] bg-green-color gap-9">
+          <div className="flex items-center justify-center h-20 w-full rounded-b-full bg-back-color gap-9">
             <LogoMateJS rightLogo="white"/>
             {/* <p className="flex items-start text-sm font-semibold pl-2">Welcome  {`${user?.displayName}`}</p> */}
           </div>
         }
         <ul className="flex h-full flex-col items-start mt-5 overflow-y-auto overflow-x-hidden scrollbar">
-          <hr className=" h-[1px] bg-slate-300 border-[1px] w-full" />
+          <hr className=" h-[1px] bg-back-color border-[1px] w-full border-rose-color" />
           <Link href="/teams" passHref>
-            <li className={` cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/teams" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
+            <li className={` cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 hover:bg-rose-color
+            ${router.asPath.split("?")[0] === "/teams" ? "bg-rose-color text-back-color" : null}`}>
               <a>Teams</a>
             </li>
           </Link>
           <Link href="/projects" passHref>
-            <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/projects" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`} >
+            <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 hover:bg-rose-color
+            ${router.asPath.split("?")[0] === "/projects" ? "bg-rose-color text-back-color" : null}`} >
               <a>Projects</a>
             </li>
           </Link>
 
-          <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 ${router.asPath.split("?")[0] === "/setting" ? "bg-[#F2EBFE] text-[#7e22ce]" : null}`}>
+          <li className={`cursor-pointer flex w-full h-12 text-[1rem] font-medium items-center pl-4 hover:bg-rose-color
+          ${router.asPath.split("?")[0] === "/setting" ? "bg-rose-color text-back-color" : null}`}>
             <button
               onClick={() => { router.push("/setting") }}
             >
@@ -162,7 +165,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
               }}>Sign Out</button>
           </li>
         </ul>
-        <p className=" flex items-end justify-center text-sm border-b-[1px] mb-5 font-bold text-white" >Mate Protocol</p>
+        <p className=" flex items-end justify-center text-sm border-b-[1px] h-10 bg-back-color mb-5 font-bold text-white" >Mate Protocol</p>
       </motion.div>
     </motion.div>
 
