@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link"
 import { useRouter } from "next/router";
-import Image from "next/image"
 
 import { useAuth } from "../../../context/auth"
-import { motion, useTransform, useMotionValue } from "framer-motion"
+import { motion } from "framer-motion"
 import { Bars3Icon } from "@heroicons/react/20/solid"
 import { useMediaQuery } from "../../../hooks/useMediaQuery";
 
@@ -46,21 +45,18 @@ const Menu = ({ openMenu, closeSideBar }) => {
     openContainer: {
       width: "15rem",
       height: "90vh",
-      backgroundColor: ["#BA30E5", "#131128"],
+      top: 0,
+      backgroundColor: ["#3BB89F", "#131128"],
       borderRadius: "0 0 1rem 0",
       transition: {
-        duration: 1
+        duration: 1,
       },
     },
     closedContainer: {
       width: "3rem",
-      height: "3rem",
-      borderRadius: "0 0 1rem 0",
+      height: "1.5rem",
       transition: {
         duration: 1,
-        borderRadius: {
-          duration: 1
-        }
       },
     },
     open: {
@@ -83,16 +79,17 @@ const Menu = ({ openMenu, closeSideBar }) => {
       },
     },
     openIcon: {
-      color: "#7e22ce",
+      color: "rgb(255,255,255)",
+      right: 0,
       rotate: 360,
       transition: {
-        duration: 1
+        duration: 1,
+        right: 2
       }
     },
     closeIcon: {
-      color: "rgb(255,255,255)",
+      color: "#7e22ce",
       rotate: 180,
-      right: ".25rem",
       transition: {
         duration: 1
       }
@@ -105,23 +102,23 @@ const Menu = ({ openMenu, closeSideBar }) => {
       variants={sidebar}
       // initial={false}
 
-      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#1A1735" } : { height: "3rem", width: "3rem", backgroundColor: "#BA30E5" }}
+      initial={window.matchMedia("(min-width:600px)").matches ? { height: "100vh", width: "15%", backgroundColor: "#1A1735" } : { height: "1.5rem", width: "3rem", backgroundColor: "#3BB89F" }}
       animate={!window.matchMedia("(min-width:600px)").matches ? (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#1A1735" }}
       // custom={whidth}
       ref={refContainer}
-      className={`${(window.matchMedia("(min-width:600px)").matches && isMedium) ? "static" : "fixed"}  z-30 rounded-[0_0_1rem_0] left-0 top-0 shadow-sm shadow-[#000000] `}
+      className={`${(window.matchMedia("(min-width:600px)").matches && isMedium) ? "static" : "fixed"}  z-30 left-0 top-3 shadow-sm shadow-[#000000] `}
     >
       <motion.div
         variants={sidebar}
 
-        initial={window.matchMedia("(min-width:600px)").matches && { display: "flex", rotate: 180, right: ".25rem", top: ".25rem" }}
+        initial={window.matchMedia("(min-width:600px)").matches && { display: "flex", rotate: 180, top: ".25rem" }}
         animate={(open ? "openIcon" : "closeIcon")}
-        className="origin-center text-white rotate-180 absolute h-max w-max max-w-max z-10 "
+        className="flex items-center text-white right-1/4 rotate-180 absolute h-max w-max max-w-max z-10 "
       >
         <Bars3Icon
           onClick={() => { setOpen(!open) }}
           alt="menu open"
-          className="md:hidden h-10"
+          className="md:hidden h-5"
         />
       </motion.div>
       <motion.div
