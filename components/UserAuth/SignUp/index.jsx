@@ -85,13 +85,13 @@ const SignUp = () => {
                 onChange={userChange}
                 inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
             />
-            <InputSelect
+            {/* <InputSelect
                 title="Name"
                 name="name"
                 value={user?.name}
                 onChange={userChange}
                 inputStyle={`h-16 ring-1 rounded-full text-center caret-slate-100`}
-            />
+            /> */}
             <InputSelect
                 title="Work Email"
                 type="text"

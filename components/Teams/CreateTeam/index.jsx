@@ -16,17 +16,21 @@ import {
 import { doc, updateDoc, collection, arrayUnion, getDocs, getDoc, where, query as queryFirestore } from "firebase/firestore"
 
 import { useAuth } from "../../../context/auth";
-
+import { useHost } from "../../../context/host";
 import { usePopUp } from "../../../context/PopUp"
 import InputSelect from "../../Elements/InputSelect"
 import ComponentButton from "../../Elements/ComponentButton";
 import { MultiSelectPartners } from "../../MultiSelectPartners";
 import { sendEmail } from "../../../functions/sendMail";
+import Image from "next/image";
+import { EnvelopeIcon, MinusIcon } from "@heroicons/react/20/solid";
 
 const CreateTeams = () => {
   const db = getDatabase()
   const { firestore, user } = useAuth()
   const router = useRouter()
+  const {host} = useHost()
+
   const { handlePopUp } = usePopUp()
 
   const { connection } = useConnection()
@@ -37,6 +41,7 @@ const CreateTeams = () => {
   const [errors, setErrors] = useState({})
   const [listPartners, setListPartners] = useState()
   const [listMate, setListMate] = useState()
+  const [notRegistered, setNotRegistered] = useState([])
   const [team, setTeam] = useState({
     status: "INVITE",
     name: "",
@@ -98,7 +103,6 @@ const CreateTeams = () => {
 
     if (!usersWallet.empty) {
       usersWallet.forEach(user => {
-
         if (!listPartners[user.id]) {
           resMates = {
             ...resMates,
@@ -126,6 +130,18 @@ const CreateTeams = () => {
       })
     }
 
+    if (usersWallet.empty && usersEmail.empty) {
+      if (
+        searchMate.match(
+          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      ) {
+        setNotRegistered([
+          ...notRegistered,
+          searchMate
+        ])
+      }
+    }
 
     if (listPartners && Object.keys(listPartners).length) {
       setListMate({
@@ -138,8 +154,6 @@ const CreateTeams = () => {
       })
     }
   }
-
-
   const teamChange = (e) => {
     if (e.target.name === "treasury") {
       setTeam({
@@ -153,6 +167,38 @@ const CreateTeams = () => {
       });
     }
   };
+
+  const sendInviteMate = (keyTeam) => {
+    notRegistered.map((email) => {
+      const pushInviteTeam = push(ref(db, `inviteTeam`))
+      set(pushInviteTeam,
+        {
+          key: keyTeam,
+          name: team.name,
+          email: email
+        }
+      )
+      .then(()=>{
+        sendEmail(
+          {
+            from: {
+              name: user.name,
+              email: user.email
+            },
+            to: {
+              email: email
+            },
+            subject: "New team invitation",
+            redirect: `${host}/register`,
+            text: [
+              `Member: ${user.name},`,
+              `Invites you to join ${team.name}.`
+            ],
+          }
+        )
+      })
+    })
+  }
 
   const sendProposal = (keyTeam) => {
     return new Promise((resolve, reject) => {
@@ -168,8 +214,6 @@ const CreateTeams = () => {
                 set(pushNoti,
                   {
                     type: "INVITE_TEAM",
-                    projectID: keyTeam,
-                    projectCreator: user?.displayName,
                     nameTeam: team.name,
                     viewed: false,
                     open: false,
@@ -189,7 +233,7 @@ const CreateTeams = () => {
                           email: valuePartner.email
                         },
                         subject: "New team invitation",
-                        redirect: `${host}/projects/${keyTeam}`,
+                        redirect: `${host}/teams/${keyTeam}`,
                         text: [
                           `Member: ${user.name},`,
                           `Invites you to join ${team.name}.`
@@ -228,12 +272,14 @@ const CreateTeams = () => {
       ...team,
       guests: listPartners,
       createdAt: serverTimestamp(),
+      invitedNotRegistered: notRegistered
     })
       .then((snapshot) => {
         set(ref(db, "users/" + user.uid + "/teamCreator/" + pushTeam.key), {
           name: team.name,
           status: "INVITE"
         })
+        sendInviteMate(pushTeam.key)
         sendProposal(pushTeam.key)
           .then(res => {
             setTeam({
@@ -271,8 +317,6 @@ const CreateTeams = () => {
       });
   }
 
-  console.log(errors)
-
   return (
     <div className="flex flex-col w-6/12 items-center gap-8 pb-4 h-min mt-12">
       <h1 className=" text-xl font-medium">New Team</h1>
@@ -308,20 +352,7 @@ const CreateTeams = () => {
         subtitle="Set a slice of the projects budget for later rewards and bonuses."
         inputStyle="text-center"
       />
-      {/* <MultiSelect
-                label="Search your Team Mate"
-                options={listMate}
-                searchFunction={setSearchMate}
-                selectState={listPartners}
-                setSelectState={setListPartners}
-            /> */}
-      {/*           <WalletMultiButton>Connect Wallet</WalletMultiButton>
-
-            {
-                (!!connection && !!publicKey) &&
-                <> */}
       <h2 className="mt-1 text-xl text-white font-bold">Invite Mate Protocol users to join your team.</h2>
-
       <MultiSelectPartners
         options={listMate}
         setOptions={setListMate}
@@ -330,18 +361,40 @@ const CreateTeams = () => {
         selectState={listPartners}
         setSelectState={setListPartners}
       />
+      <div className="w-full">
+        <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {
+            notRegistered?.map(emailInvite => (
+              <li
+                key={emailInvite}
+                className={`group outline-none ring-2 ring-indigo-500 ring-offset-2 flex w-full items-center h-12 justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 hover:text-gray-900`}
+              >
+                <div className="flex min-w-0 flex-1 pl-2 items-center space-x-3">
+                  <span className="block truncate text-sm font-medium">{emailInvite}</span>
+                </div>
+                <EnvelopeIcon
+                  className="h-full"
+                />
+                <MinusIcon
+                  onClick={() => {
+                    const notInvite = notRegistered.filter((email)=>
+                      email !== emailInvite 
+                    )
+                    setNotRegistered(notInvite)
+                  }}
+                  className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
       <ComponentButton
         // className="flex h-12 w-max bg-[#5A31E1] rounded-xl text-3xl text-white font-medium items-center p-6 "
         buttonEvent={createTeam}
         buttonText="Send Invites"
         conditionDisabled={errors && Object.values(errors).find(prop => !!prop)}
       />
-      {/* </>
-            } */}
-
-
-
-
     </div>
   );
 }

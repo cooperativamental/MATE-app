@@ -5,7 +5,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { getDatabase, ref, child, get, set } from "firebase/database";
+import { getDatabase, ref, child, get, set, query, orderByChild, equalTo, update, serverTimestamp, push } from "firebase/database";
 import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore"
 import { auth, registerAuth, deleteAppAuth, dbFirestore } from "../firebase/client";
 
@@ -30,6 +30,53 @@ const AuthProvider = ({ children }) => {
         if (resUser && dbFirestore) {
           const unSubscribeSnapshot = onSnapshot(doc(dbFirestore, "users", resUser.uid),
             async (res) => {
+              console.log(res.data())
+              const existInvite = await get(query(ref(db, "inviteTeam"), orderByChild("email"), equalTo(res.data().email)))
+              if (existInvite.exists()) {
+                const invitation = Object.entries(existInvite.val())
+                invitation.map(async ([key, valueTeam]) => {
+
+                  await update(ref(db, `team/${valueTeam.key}/guests/${resUser.uid}`),
+                    {
+
+                      email: resUser.email,
+                      name: res.data().name,
+                      status: "INVITED"
+
+                    }
+                  )
+                  const getNotRegistered = await (await get(ref(db, `team/${valueTeam.key}/invitedNotRegistered/`))).val()
+                  const clearNotRegisteredOnTeam = getNotRegistered.filter( email => email !== resUser.email )
+                  await update(ref(db, `team/${valueTeam.key}/`), 
+                  {
+                    invitedNotRegistered: clearNotRegisteredOnTeam
+                  })
+
+                  set(ref(db, "users/" + resUser.uid + "/teamInvite/" + valueTeam.key), {
+                    status: "INVITE",
+                    createdAt: serverTimestamp(),
+                  })
+                    .then(async () => {
+                      const pushNoti = push(ref(db, `notifications/${resUser.uid}`))
+                      set(pushNoti,
+                        {
+                          type: "INVITE_TEAM",
+                          nameTeam: valueTeam.name,
+                          viewed: false,
+                          open: false,
+                          showCard: false,
+                          createdAt: serverTimestamp()
+                        }
+                      )
+                      await update(ref(db, "inviteTeam"),
+                        {
+                          [key]: null
+                        }
+                      )
+                    })
+                })
+              }
+
               await updateProfile(auth.currentUser, {
                 displayName: res.data().name,
               });
@@ -45,7 +92,7 @@ const AuthProvider = ({ children }) => {
               }
               setUser(addProperties);
             })
-            return ()=> unSubscribeSnapshot()
+          return () => unSubscribeSnapshot()
         } else {
           setUser(null);
         }

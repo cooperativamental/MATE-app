@@ -17,13 +17,14 @@ import RequestMoney from "/public/RequestMoney.svg"
 import Approve from "/public/Approve.png"
 import SalaryMale from "/public/Salarymale.png"
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import GroupsIcon from '@mui/icons-material/Groups';
+// import GroupsIcon from '@mui/icons-material/Groups';
 import AcceptProject from "/public/AcceptProject.svg"
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import PaidIcon from '@mui/icons-material/Paid';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import { UserGroupIcon, DocumentPlusIcon } from "@heroicons/react/24/outline"
 import Favicon from "../../../Favicon"
 import { useMediaQuery } from "../../../../hooks/useMediaQuery"
 
@@ -164,7 +165,7 @@ const Notification = () => {
             }
           }}
           as="/projects"
-          Icon={() => <GroupsIcon color="disabled" />}
+          Icon={() => <DocumentPlusIcon className=" w-6" />}
           title={value.projectHolder}
           text={`Invites you to join "${value.nameProject}" for ${value.client}`}
           keyNoti={key}
@@ -392,6 +393,17 @@ const Notification = () => {
           as="/wallet"
           Icon={MonetizationOnIcon}
           title={"Currency exchange failed"}
+          text={`Exchange for ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} was rejected.`}
+          keyNoti={key}
+          open={value.open}
+          key={key}
+        />,
+        invite_team:
+        <CardListNotification
+          href={`/teams`}
+          as="/teams"
+          Icon={() => <UserGroupIcon className="w-8 h-6"/>}
+          title={`Invitation to the ${value.nameTeam} team`}
           text={`Exchange for ${value?.currency && value?.withdrawal?.toLocaleString('es-ar', { style: 'currency', currency: value.currency, minimumFractionDigits: 2 })} was rejected.`}
           keyNoti={key}
           open={value.open}

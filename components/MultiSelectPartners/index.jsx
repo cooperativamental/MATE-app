@@ -97,7 +97,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
                             [partnerKey]: partner
                           })
                         }}
-                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" 
+                      />
 
                     </span>
                   }

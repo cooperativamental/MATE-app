@@ -164,6 +164,7 @@ const ConfirmTeam = () => {
             })
     }
 
+
     return (
         <div className="flex flex-col py-8 h-min w-6/12 gap-8">
             <div className="flex w-full justify-between items-center">
@@ -220,7 +221,7 @@ const ConfirmTeam = () => {
                                                         buttonStyle="ring-white"
                                                     />
                                                     :
-                                                              <WalletMultiButton>Connect Wallet</WalletMultiButton>
+                                                    <WalletMultiButton>Connect Wallet</WalletMultiButton>
 
                                             )
 
@@ -233,6 +234,31 @@ const ConfirmTeam = () => {
                     }
                 </div>
             </div>
+            <div className="flex flex-col gap-4">
+                <p className="text-xl font-bold">Associate Members</p>
+                <div className="flex flex-col gap-8">
+                    {
+                        team?.invitedNotRegistered?.map( invited => {
+                            return (
+                                <div
+                                    key={invited}
+                                    className={`flex justify-between w-full ring-2 ring-slate-200 p-4 rounded-lg "bg-yellow-600"`}
+                                >
+                                    <p className="font-semibold">
+                                        {invited}
+                                    </p>
+                                    <div className="flex items-center gap-4">
+                                        <p>
+                                            Not Registered
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+
             {
                 team?.teamCreator?.[user.uid] &&
                 (
