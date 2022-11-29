@@ -68,6 +68,7 @@ const Teams = () => {
                                         }
                                     })
                                     const teamsIsOrNotMember = res.map(team => {
+                                        console.log(team.publicKey.toBase58())
                                         let data = {
                                             id: team.publicKey.toBase58(),
                                             name: team.account.name,

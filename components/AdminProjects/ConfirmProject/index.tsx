@@ -101,7 +101,7 @@ const ConfirmProject = ({ keyProject, project }) => {
       update(ref(db, `projects/${keyProject}`),
         {
           status: "INVOICE_PENDING",
-          treasuryKey: respCreateProjectWeb3.keyTreasury.publicKey
+          treasuryKey: respCreateProjectWeb3.keyTreasury
         })
       console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
       handlePopUp({

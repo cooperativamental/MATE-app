@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
-import { Program } from "@project-serum/anchor";
-import { PublicKey, SystemProgram } from "@solana/web3.js"
+import * as web3 from "@solana/web3.js"
+import { SystemProgram } from "@solana/web3.js"
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { useConnection } from "@solana/wallet-adapter-react"
 import { useProgram } from "../hooks/useProgram/index"
@@ -12,8 +12,10 @@ export const useCreateWeb3 = () => {
     const { program } = useProgram({ connection, wallet });
 
     const createProject = async ({ name, group, projectType, reserve, payments, currency, amount, startDate, endDate, client }) => {
-        const keyProject = anchor.web3.Keypair.generate();
-        const keyTreasury = anchor.web3.Keypair.generate();
+        const [pdaPublicKey] = web3.PublicKey.findProgramAddressSync(
+            [Buffer.from("project"), Buffer.from(name), Buffer.from(group)],
+            program.programId,
+          )
         const tx = await program.rpc
             .createProject(
                 name,
@@ -29,19 +31,17 @@ export const useCreateWeb3 = () => {
                 client,
                 {
                     accounts: {
-                        project: keyProject.publicKey,
-                        treasury: keyTreasury.publicKey,
+                        project: pdaPublicKey,
                         initializer: wallet.publicKey,
                         systemProgram: SystemProgram.programId,
-                    },
-                    signers: [keyProject]
+                    }
                 }
             )
 
         return {
             tx,
-            keyProject: keyProject.publicKey.toBase58(),
-            keyTreasury: keyTreasury
+            keyProject: pdaPublicKey.toBase58(),
+            keyTreasury: pdaPublicKey
         }
     }
 

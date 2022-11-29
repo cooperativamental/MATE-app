@@ -8,17 +8,12 @@
         {
           "name": "group",
           "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "treasury",
-          "isMut": false,
           "isSigner": false
         },
         {
-          "name": "initializer",
+          "name": "payer",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "systemProgram",
@@ -49,17 +44,12 @@
         {
           "name": "project",
           "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "treasury",
-          "isMut": false,
           "isSigner": false
         },
         {
-          "name": "initializer",
+          "name": "payer",
           "isMut": true,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "systemProgram",
@@ -93,10 +83,6 @@
           }
         },
         {
-          "name": "next",
-          "type": "string"
-        },
-        {
           "name": "currency",
           "type": "string"
         },
@@ -115,6 +101,37 @@
         {
           "name": "client",
           "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "useProjectTreasury",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
         }
       ]
     },
@@ -201,10 +218,6 @@
             "type": "string"
           },
           {
-            "name": "treasury",
-            "type": "publicKey"
-          },
-          {
             "name": "ratio",
             "type": "u16"
           },
@@ -213,6 +226,10 @@
             "type": {
               "vec": "publicKey"
             }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
           }
         ]
       }
@@ -233,10 +250,6 @@
           {
             "name": "projectType",
             "type": "string"
-          },
-          {
-            "name": "treasury",
-            "type": "publicKey"
           },
           {
             "name": "ratio",
@@ -263,6 +276,10 @@
             "type": "u64"
           },
           {
+            "name": "commonExpenses",
+            "type": "u64"
+          },
+          {
             "name": "startDate",
             "type": "u64"
           },
@@ -275,8 +292,12 @@
             "type": "publicKey"
           },
           {
-            "name": "next",
-            "type": "string"
+            "name": "milestones",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
           }
         ]
       }
@@ -300,8 +321,19 @@
       }
     }
   ],
-  
+  "events": [
+    {
+      "name": "GroupChanged",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "index": false
+        }
+      ]
+    }
+  ],
   "metadata": {
-    "address": "HYu4TWwt1AQjsRkhLyv1EpXYKYUVBnWGxmkixJq4QgVF"
+    "address": "9J76wGuSfdWBbJma8hCTiskqyv5rTSt1y1D8JaBxMmMQ"
   }
 }
