@@ -151,7 +151,7 @@ const Teams = () => {
 
                         Promise.all(getInfoTeamCreator)
                             .then((res) => {
-                                setTeams(res)
+                                setTeams(res.reverse())
                                 setLoading(false)
                             })
                     }
@@ -188,7 +188,7 @@ const Teams = () => {
                         })
                         Promise.all(getInfoTeamInvite)
                             .then((res) => {
-                                setTeams(res)
+                                setTeams(res.reverse())
                                 setLoading(false)
                             })
                     }

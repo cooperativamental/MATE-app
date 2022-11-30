@@ -210,7 +210,7 @@ const Notification = () => {
           href={{
             pathname: "/adminprojects",
             query: {
-              prj: value.projectID
+              id: value.projectID
             }
           }}
           as="/adminprojects"

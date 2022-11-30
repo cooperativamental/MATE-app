@@ -224,6 +224,7 @@ const Team = () => {
                     <div className="flex flex-col gap-8">
                         {
                             Object.entries(projects).map(([keyProject, project]) => {
+                                console.log(keyProject)
                                 return (
                                     <Link
                                         key={keyProject}

@@ -201,6 +201,7 @@ const AdminProjects = ({ prj }) => {
       </div>
     )
   } else {
+    console.log("rerutn?", project?.status?.toLowerCase())
     return (
         objRender[project?.status?.toLowerCase()]
     )
