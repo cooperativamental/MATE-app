@@ -34,7 +34,7 @@ const CallProject = ({ keyProject }) => {
       const unsubscribe = onValue(ref(db, `wallet/${user?.uid}`),
         async (res) => {
           const resTeamWeb3 = await program?.account?.group?.all()
-          const findTeam = resTeamWeb3?.find(team => team.publicKey.toBase58() === project?.team)
+          const findTeam = resTeamWeb3?.find(team => team.account.name === project?.team)
           const convertWalletsInTeam = findTeam?.account?.members?.map(member => member.toBase58())
           const filterWalletInTeam = Object.entries(res.val()).filter(([keyWallet, wallet]) => convertWalletsInTeam?.includes(wallet.publicKey))
           const objWalletsInTeam = Object.fromEntries(filterWalletInTeam)

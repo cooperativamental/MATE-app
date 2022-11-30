@@ -102,6 +102,7 @@ const AdminProjects = ({ prj }) => {
 
   useEffect(() => {
     if (user) {
+      console.log(router)
       if (router.query.id) {
         setKeyProject(router.query.id)
       }
@@ -201,7 +202,6 @@ const AdminProjects = ({ prj }) => {
       </div>
     )
   } else {
-    console.log("rerutn?", project?.status?.toLowerCase())
     return (
         objRender[project?.status?.toLowerCase()]
     )

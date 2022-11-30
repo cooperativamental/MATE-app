@@ -109,7 +109,7 @@ const ConfirmTeam = () => {
             //     treasury: group.treasury / 100
             // })
             await updateDoc(doc(firestore, "users", user.uid), {
-                team: arrayUnion(groupPublicKey.toBase58())
+                team: team.name
             })
             await update(ref(db, `team/${router.query.team}/`),
                 {
@@ -122,7 +122,7 @@ const ConfirmTeam = () => {
                 })
             Object.keys(team?.guests).map(async (keyPartner) => {
                 await updateDoc(doc(firestore, "users", keyPartner), {
-                    team: arrayUnion(groupPublicKey.toBase58())
+                    team: team.name
                 })
             })
             console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`);
@@ -145,7 +145,7 @@ const ConfirmTeam = () => {
                     router.push({
                         pathname: "/teams/[team]",
                         query: {
-                            team: groupPublicKey.toBase58()
+                            team: team.name
                         }
                     })
                 }

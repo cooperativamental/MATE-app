@@ -12,6 +12,7 @@ export const useCreateWeb3 = () => {
     const { program } = useProgram({ connection, wallet });
 
     const createProject = async ({ name, group, projectType, reserve, payments, currency, amount, startDate, endDate, client }) => {
+        console.log(group.length)
         const [pdaPublicKey] = web3.PublicKey.findProgramAddressSync(
             [Buffer.from("project"), Buffer.from(name), Buffer.from(group)],
             program.programId,

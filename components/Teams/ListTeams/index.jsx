@@ -41,7 +41,7 @@ const Teams = () => {
                     const resTeamsWeb3 = await program?.account?.group?.all()
                     if (resTeamsWeb3?.length) {
                         const listTeams = resTeamsWeb3?.map(async team => {
-                            const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
+                            const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.account.name)))
                             let partners = []
                             resUsers.forEach(user => {
                                 partners = [
@@ -79,7 +79,7 @@ const Teams = () => {
                                                 {
                                                     pathname: "/createproject",
                                                     query: {
-                                                        team: team.publicKey.toBase58()
+                                                        team: team.account.name
                                                     },
                                                 },
                                                 "/createproject",
@@ -94,7 +94,7 @@ const Teams = () => {
                                                     {
                                                         pathname: "/teams/[team]",
                                                         query: {
-                                                            team: team.publicKey?.toBase58()
+                                                            team: team.account.name
                                                         }
                                                     },
                                                     "/teams",

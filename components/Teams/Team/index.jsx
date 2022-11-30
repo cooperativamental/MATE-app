@@ -74,14 +74,13 @@ const Team = () => {
     //         }
     //     })
     // }
-
     useEffect(() => {
 
         if (program?.account?.group) {
             (async () => {
                 const resTeamWeb3 = await program?.account?.group.all()
-                const teamQuery = resTeamWeb3?.find(team => team.publicKey.toBase58() === router.query.team)
-                const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("team", "array-contains", teamQuery?.publicKey?.toBase58())),
+                const teamQuery = resTeamWeb3?.find(team => team.account.name === router.query.team)
+                const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("team", "array-contains", teamQuery?.account.name)),
                     (resUsers) => {
                         let users = {}
 
@@ -232,7 +231,7 @@ const Team = () => {
                                         href={{
                                             pathname: "/adminprojects",
                                             query: {
-                                                prj: keyProject
+                                                id: keyProject
                                             }
                                         }}
                                         as="/adminprojects"

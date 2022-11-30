@@ -32,7 +32,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
         if (program?.account?.group && user) {
             (async () => {
                 const resTeamsWeb3 = await program?.account?.group.all()
-                const findTeam = resTeamsWeb3?.find(team => team.publicKey.toBase58() === router.query.team) 
+                const findTeam = resTeamsWeb3?.find(team => team.account.name === router.query.team) 
                 getDocs(queryFirestore(collection(firestore, 'users'), where("team", "array-contains", router.query.team)))
                     .then((resUsers) => {
                         let listUsers = {}
