@@ -42,7 +42,7 @@ export const MultiSelect = ({ label, options, searchFunction, setSelectState, se
                 return (
                   <div key={key} className="flex items-center w-max gap-4 text-white rounded-full px-3 bg-black ring-1">
                     <p>
-                      {select.name}
+                      {select?.name}
                     </p>
                     {
                       blockOption !== key &&

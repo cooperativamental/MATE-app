@@ -20,7 +20,7 @@ const Teams = () => {
     const router = useRouter()
     const { user, firestore } = useAuth()
     const [showTeam, setShowTeams] = useState("ALL_TEAMS")
-    const [gloablTeams, setTeams] = useState()
+    const [gloablTeams, setTeams] = useState([])
     const [tabs, setTabs] = useState([
         { name: 'All Teams', current: true, value: "ALL_TEAMS" },
         { name: 'Hosting', current: false, value: "SEND_CONTRACTS" },
@@ -37,11 +37,10 @@ const Teams = () => {
         (async () => {
             try {
                 if (showTeam === "ALL_TEAMS") {
-
                     const resTeamsWeb3 = await program?.account?.group?.all()
                     if (resTeamsWeb3?.length) {
                         const listTeams = resTeamsWeb3?.map(async team => {
-                            const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.publicKey?.toBase58())))
+                            const resUsers = await getDocs(queryFirestore(collection(firestore, "users"), where("team", "array-contains", team?.account.name)))
                             let partners = []
                             resUsers.forEach(user => {
                                 partners = [
@@ -61,7 +60,7 @@ const Teams = () => {
                             Promise.all(listTeams)
                                 .then(res => {
                                     res.sort((a) => {
-                                        if (user?.team?.includes(a.publicKey.toBase58())) {
+                                        if (user?.team?.includes(a.account.name)) {
                                             return -1
                                         } else {
                                             return 1
@@ -69,31 +68,31 @@ const Teams = () => {
                                     })
                                     const teamsIsOrNotMember = res.map(team => {
                                         let data = {
-                                            id: team.publicKey.toBase58(),
+                                            id: team.account.name,
                                             name: team.account.name,
                                             info: `Treasury ${team.account.ratio / 100}`,
                                             partners: team.partners,
                                             button: () =>
-                                            router.push(
-                                                {
-                                                    pathname: "/createproject",
-                                                    query: {
-                                                        team: team.publicKey.toBase58()
+                                                router.push(
+                                                    {
+                                                        pathname: "/createproject",
+                                                        query: {
+                                                            team: team.account.name
+                                                        },
                                                     },
-                                                },
-                                                "/createproject",
-                                                {
-                                                    shallow: true
-                                                }
-                                            )
-        
-                                        ,
+                                                    "/createproject",
+                                                    {
+                                                        shallow: true
+                                                    }
+                                                )
+
+                                            ,
                                             redirect: () => {
                                                 router.push(
                                                     {
                                                         pathname: "/teams/[team]",
                                                         query: {
-                                                            team: team.publicKey?.toBase58()
+                                                            team: team.account.name
                                                         }
                                                     },
                                                     "/teams",
@@ -111,8 +110,9 @@ const Teams = () => {
                                         return data
                                     })
                                     setTeams(teamsIsOrNotMember)
-                                    setLoading(false)
                                 })
+                        } else {
+                            setTeams([])
                         }
                     }
                 }
@@ -150,9 +150,10 @@ const Teams = () => {
 
                         Promise.all(getInfoTeamCreator)
                             .then((res) => {
-                                setTeams(res)
-                                setLoading(false)
+                                setTeams(res.reverse())
                             })
+                    } else {
+                        setTeams([])
                     }
                 }
                 if (showTeam === "CONTRACT_RECEIVED") {
@@ -187,15 +188,16 @@ const Teams = () => {
                         })
                         Promise.all(getInfoTeamInvite)
                             .then((res) => {
-                                setTeams(res)
-                                setLoading(false)
+                                setTeams(res.reverse())
                             })
+                    } else {
+                        setTeams([])
                     }
                 }
             } catch (error) {
                 console.log(error)
             }
-
+            setLoading(false)
         })()
     }, [db, firestore, user, program?.account?.group, connection, wallet, showTeam])
 
@@ -212,7 +214,7 @@ const Teams = () => {
             />
             <HeadBar
                 event={(value) => {
-                    if(value !== showTeam){
+                    if (value !== showTeam) {
                         setLoading(true)
                         setShowTeams(value)
                         const setTab = tabs.map(tab => {
@@ -238,13 +240,6 @@ const Teams = () => {
                         <CardList list={gloablTeams} />
                     </div>
             }
-
-            <div className="flex flex-col py-4 items-center h-full w-full gap-8 overflow-y-auto scrollbar">
-
-                {/* {
-                    render(showTeam)
-                } */}
-            </div>
 
 
         </div>

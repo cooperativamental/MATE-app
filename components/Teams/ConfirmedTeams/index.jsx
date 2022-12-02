@@ -8,6 +8,8 @@ import { equalTo, get, getDatabase, ref, orderByChild, query, onValue, update } 
 import { getDocs, collection, getDoc, updateDoc, doc, where, query as queryFirestore, arrayUnion, onSnapshot } from "firebase/firestore"
 
 import * as anchor from "@project-serum/anchor";
+import * as web3 from "@solana/web3.js"
+
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
@@ -82,8 +84,10 @@ const ConfirmTeam = () => {
                 .map(partner => {
                     return new PublicKey(partner?.wallet)
                 })
-            const keyTeam = anchor.web3.Keypair.generate();
-            const keyTreasury = anchor.web3.Keypair.generate();
+            const [groupPublicKey] = web3.PublicKey.findProgramAddressSync(
+                [Buffer.from("group"), Buffer.from(team.name)],
+                program.programId,
+            )
             const tx = await program.rpc
                 .createGroup(
                     team.name,
@@ -91,12 +95,10 @@ const ConfirmTeam = () => {
                     partnersConfirmed, //reemplazar por wallets-
                     {
                         accounts: {
-                            group: keyTeam.publicKey,
-                            treasury: keyTreasury.publicKey,
-                            initializer: wallet.publicKey,
+                            group: groupPublicKey,
+                            payer: wallet.publicKey,
                             systemProgram: SystemProgram.programId,
-                        },
-                        signers: [keyTeam]
+                        }
                     }
                 )
             // const groupRef = ref(db, "groups/");
@@ -107,7 +109,7 @@ const ConfirmTeam = () => {
             //     treasury: group.treasury / 100
             // })
             await updateDoc(doc(firestore, "users", user.uid), {
-                team: arrayUnion(keyTeam.publicKey.toBase58())
+                team: team.name
             })
             await update(ref(db, `team/${router.query.team}/`),
                 {
@@ -120,7 +122,7 @@ const ConfirmTeam = () => {
                 })
             Object.keys(team?.guests).map(async (keyPartner) => {
                 await updateDoc(doc(firestore, "users", keyPartner), {
-                    team: arrayUnion(keyTeam.publicKey.toBase58())
+                    team: team.name
                 })
             })
             console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`);
@@ -143,7 +145,7 @@ const ConfirmTeam = () => {
                     router.push({
                         pathname: "/teams/[team]",
                         query: {
-                            team: keyTeam.publicKey.toBase58()
+                            team: team.name
                         }
                     })
                 }
@@ -238,7 +240,7 @@ const ConfirmTeam = () => {
                 <p className="text-xl font-bold">Associate Members</p>
                 <div className="flex flex-col gap-8">
                     {
-                        team?.invitedNotRegistered?.map( invited => {
+                        team?.invitedNotRegistered?.map(invited => {
                             return (
                                 <div
                                     key={invited}
@@ -270,7 +272,7 @@ const ConfirmTeam = () => {
                         :
                         <div className="flex flex-col w-full items-center">
                             <p>Sign Team Smart Contract on Solana</p>
-                                      <WalletMultiButton>Connect Wallet</WalletMultiButton>
+                            <WalletMultiButton>Connect Wallet</WalletMultiButton>
 
                         </div>
                 )

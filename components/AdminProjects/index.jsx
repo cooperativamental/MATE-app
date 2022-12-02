@@ -39,69 +39,62 @@ const AdminProjects = ({ prj }) => {
 
   const { connection } = useConnection()
 
-  const objRender = {
-    announcement:
-      <ConfirmProject
-        keyProject={keyProject}
-        project={project}
-      />,
-    revision_partner:
-      <Revision
-        keyProject={keyProject}
-        project={project}
-      />,
-    // invoice_pending:
-    //   <InvoiceCall
-    //     project={project}
-    //     keyProject={keyProject}
-    //   />,
-    // invoice_call:
-    //   router.pathname === "/admin/project" ?
-    //     <InvoiceOrder
-    //       group={group}
-    //       project={project}
-    //       keyProject={keyProject}
-    //     />
-    //     :
-    //     <ProjectSheets keyProject={keyProject} project={project} />
+  const render = (status) => {
 
-    // ,
-    // invoice_order:
-    //   router.pathname === "/admin/project" ?
-    //     <BillCollected
-    //       group={group}
-    //       project={project}
-    //       keyProject={keyProject}
-    //     />
-    //     :
-    //     <ProjectSheets keyProject={keyProject} project={project} />
+    const objRender = {
+      announcement:
+        <ConfirmProject
+          keyProject={keyProject}
+          project={project}
+        />,
+      revision_partner:
+        <Revision
+          keyProject={keyProject}
+          project={project}
+        />,
+      invoice_pending:
+        <CollectPending
+          project={project}
+          keyProject={keyProject}
+        />,
+      awaiting_payment:
+        <ProjectSheets
+          keyProject={keyProject}
+          project={project}
+        />
+      ,
+      bill_collected:
+        <SalarySettlement
+          keyProject={keyProject}
+          project={project}
+        />,
+      paid:
+        <CollectCall
+          keyProject={keyProject}
+          project={project}
+        />
+    }
+    const proxy = new Proxy(objRender, {
+      get: (target, prop) => {
+        if (prop in target) {
+          return target[prop]
+        } else {
+          return (
+            <ProjectSheets
+              keyProject={keyProject}
+              project={project}
+            />
+          )
+        }
+      }
+    })
 
-    // ,
-    invoice_pending:
-      <CollectPending
-        project={project}
-        keyProject={keyProject}
-      />,
-    awaiting_payment:
-      <ProjectSheets
-        keyProject={keyProject}
-        project={project}
-      />
-    ,
-    bill_collected:
-      <SalarySettlement
-        keyProject={keyProject}
-        project={project}
-      />,
-    paid:
-      <CollectCall
-        keyProject={keyProject}
-        project={project}
-      />
+    return proxy[status]
   }
 
   useEffect(() => {
     if (user) {
+      console.log(router)
       if (router.query.id) {
         setKeyProject(router.query.id)
       }
@@ -152,6 +145,7 @@ const AdminProjects = ({ prj }) => {
 
   useEffect(() => {
     if (keyProject && user) {
+      console.log(keyProject)
       const unsubscribe = onValue(ref(db, `projects/${keyProject}`), res => {
         if (res.hasChildren()) {
           setProject(res.val())
@@ -164,21 +158,22 @@ const AdminProjects = ({ prj }) => {
     }
   }, [db, user, keyProject])
 
-  useEffect(() => {
-    if (keyProject && user && project.treasuryKey) {
-      const interval = setInterval(async () => {
-        try {
-          const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
-          if (bal && project.status !== "PAID") {
-            update(ref(db, `projects/${keyProject}`), { status: "PAID" })
-          }
-        } catch (e) {
-          console.error('Unknown error', e)
-        }
-      }, 500)
-      return () => clearInterval(interval)
-    }
-  }, [project])
+  // useEffect(() => {
+  //   if (keyProject && user && project.treasuryKey) {
+  //     const interval = setInterval(async () => {
+  //       try {
+  //         const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
+  //         console.log(bal)
+  //         if (bal && project.status !== "PAID") {
+  //           update(ref(db, `projects/${keyProject}`), { status: "PAID" })
+  //         }
+  //       } catch (e) {
+  //         console.error('Unknown error', e)
+  //       }
+  //     }, 500)
+  //     return () => clearInterval(interval)
+  //   }
+  // }, [project])
 
   const handleInfoProject = async (propProject) => {
     router.push({
@@ -194,6 +189,8 @@ const AdminProjects = ({ prj }) => {
     );
   }
 
+  console.log(project)
+
   if (loading) {
     return (
       <div className=" flex  flex-col items-center justify-center w-11/12 h-96  ">
@@ -202,7 +199,7 @@ const AdminProjects = ({ prj }) => {
     )
   } else {
     return (
-        objRender[project?.status?.toLowerCase()]
+      render(project?.status?.toLowerCase())
     )
   }
 };

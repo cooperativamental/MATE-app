@@ -9,7 +9,7 @@ const PageAdminProjects = () => {
     <>
     <div className="mt-8">
       {
-        router.query.prj &&
+        router.query.id &&
         <ComponentButton
           isBack
           routeBack={() => router.back()}

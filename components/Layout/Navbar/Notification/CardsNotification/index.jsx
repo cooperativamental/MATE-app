@@ -65,7 +65,7 @@ export const CardsNotification = () => {
                                     href={{
                                         pathname: "/adminprojects",
                                         query: {
-                                            prj: value.projectID
+                                            id: value.projectID
                                         }
                                     }}
                                     as="/adminprojects"
