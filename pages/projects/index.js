@@ -122,7 +122,7 @@ const PageHomeProjects = () => {
                   setLoading(false)
                 } else {
                   setLoading(false)
-                  setListProjects(false)
+                  setListProjects([])
                 }
               })
             return () => unsub()
@@ -140,6 +140,8 @@ const PageHomeProjects = () => {
     }
 
   }, [db, router.query.key, router.query.prj, showProject, user]);
+
+  console.log(listProjects)
 
   return (
     <div className="flex flex-col w-8/12 items-center gap-8">

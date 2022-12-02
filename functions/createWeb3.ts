@@ -23,8 +23,7 @@ export const useCreateWeb3 = () => {
                 group,
                 projectType,
                 reserve,
-                payments,
-                "",
+                payments,               
                 currency,
                 new anchor.BN(amount),
                 new anchor.BN(startDate),
@@ -33,7 +32,7 @@ export const useCreateWeb3 = () => {
                 {
                     accounts: {
                         project: pdaPublicKey,
-                        initializer: wallet.publicKey,
+                        payer: wallet.publicKey,
                         systemProgram: SystemProgram.programId,
                     }
                 }

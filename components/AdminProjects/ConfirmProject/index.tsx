@@ -65,8 +65,6 @@ const ConfirmProject = ({ keyProject, project }) => {
     }
   }, [db, user, keyProject, publicKey])
 
-  console.log(errors)
-
 
   const confirmProject = async () => {
     // if(!errors?.confirm){

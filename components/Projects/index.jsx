@@ -18,7 +18,7 @@ const Projects = ({ projects, fnProjects, queryId }) => {
 
   const selectProject = ({ id, project }) => {
     fnProjects(id),
-    setSelected(id)
+      setSelected(id)
   };
 
 

@@ -16,10 +16,11 @@ import ComponentButton from "../../Elements/ComponentButton"
 
 import { useConnection } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
+import { useHost } from "../../../context/host"
 
 export const CollectCall = ({ project, team, keyProject }) => {
     const db = getDatabase()
-
+    const { host } = useHost()
     const { connection } = useConnection()
 
     const [balance, setBalance] = useState()
@@ -51,34 +52,27 @@ export const CollectCall = ({ project, team, keyProject }) => {
     }, [])
 
     const confirmInvoice = () => {
-        const invoice_call = {
-            status: "COLLECT_ORDER",
-            amountToInvoice: fnAmountToInvoice(),
-        }
-        const { textEmail, ...resObj } = invoice_call
+        update(ref(db, `projects/${keyProject}`), { status: "COLLECT_ORDER" })
+            .then(res => {
+                sendEmail({
+                    ...invoice_call.textEmail({
+                        nameProject: project.nameProject,
+                    }),
+                    from: {
+                        name: user.name,
+                        email: user.email
+                    },
+                    to: {
+                        ...Object.values(project.projectHolder)
+                            .map(values => ({
+                                name: values.name,
+                                email: values.email
+                            }))[0]
+                    },
+                    redirect: `${host}`
+                })
 
-        update(ref(db, `projects/${keyProject}`), resObj)
-        //     .then(res => {
-
-        // sendEmail({
-        //     ...invoice_call.textEmail({
-        //         nameProject: project.nameProject,
-        //     }),
-        //     from: {
-        //         name: user.name,
-        //         email: user.email
-        //     },
-        //     to: {
-        //         ...Object.values(project.projectHolder)
-        //             .map(values => ({
-        //                 name: values.name,
-        //                 email: values.email
-        //             }))[0]
-        //     },
-        //     redirect: `${host}`
-        // })
-
-        // })
+            })
     }
 
     return (
