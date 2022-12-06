@@ -17,7 +17,7 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { getDatabase, ref, get, set, push, query, orderByChild, equalTo } from "firebase/database";
 
 import { useBalance } from "../../../context/contextBalance";
-import { useMediaQuery } from "../../../hooks/useMediaQuery";
+import useMediaQuery from "../../../hooks/useMediaQuery";
 
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 

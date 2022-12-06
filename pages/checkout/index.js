@@ -3,8 +3,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Keypair, Transaction } from "@solana/web3.js";
 import { useEffect, useMemo, useState } from "react";
-// (TS) import { MakeTransactionInputData, MakeTransactionOutputData } from "./api/makeTransaction";
-import { findTransactionSignature, FindTransactionSignatureError } from "@solana/pay";
+
 
 export default function Checkout() {
   const { connection } = useConnection();

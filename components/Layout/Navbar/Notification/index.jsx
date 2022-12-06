@@ -26,7 +26,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import { UserGroupIcon, DocumentPlusIcon } from "@heroicons/react/24/outline"
 import Favicon from "../../../Favicon"
-import { useMediaQuery } from "../../../../hooks/useMediaQuery"
+import useMediaQuery from "../../../../hooks/useMediaQuery"
 
 
 const Notification = () => {

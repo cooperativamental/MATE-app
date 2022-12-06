@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../../context/auth"
 import { motion } from "framer-motion"
 import { Bars3Icon } from "@heroicons/react/20/solid"
-import { useMediaQuery } from "../../../hooks/useMediaQuery";
+import useMediaQuery from "../../../hooks/useMediaQuery";
 
 import LogoMate from "../../../public/mate.svg"
 import LogoMateJS from "../../../public/mate.js"
