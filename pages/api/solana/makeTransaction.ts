@@ -2,7 +2,7 @@ import { createTransferCheckedInstruction, getAssociatedTokenAddress, getMint, g
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"
 import { clusterApiUrl, Connection, Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js"
 import { NextApiRequest, NextApiResponse } from "next"
-import { couponAddress, shopAddress, usdcAddress } from "../../lib/addresses"
+import { couponAddress, shopAddress, usdcAddress } from "../../../lib/addresses"
 import BigNumber from "bignumber.js";
 import base58 from 'bs58'
 import * as anchor from "@project-serum/anchor";
