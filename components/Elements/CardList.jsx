@@ -6,8 +6,6 @@ import ComponentButton from "./ComponentButton"
 export default function CardList({ list }) {
     const [namePartner, setNamePartner] = useState()
 
-    console.log(list)
-
     if (!list.length) {
         return (
             <div className="flex w-full justify-center items-center">
