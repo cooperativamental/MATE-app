@@ -12,7 +12,8 @@ import { MakeTransactionInputData, MakeTransactionOutputData } from "../api/sola
 
 const Comment = () => {
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [pda, setPda] = useState<String | null>();
+  const [pda, setPda] = useState<string | null>();
+  const [url, setUrl] = useState<string | null>()
   const { connection } = useConnection()
   const wallet = useAnchorWallet();
   const { program } = useProgram({ connection, wallet });
@@ -39,7 +40,7 @@ const Comment = () => {
     const body: MakeTransactionInputData = {
       account: publicKey.toString(),
     }
-
+    setUrl(`/api/makeTransaction?${searchParams.toString()}`)
     const response = await fetch(`/api/makeTransaction?${searchParams.toString()}`, {
       method: 'POST',
       headers: {
@@ -68,15 +69,9 @@ useEffect(()=>{
       program.programId,
     )
     setPda(pdaPublicKey.toString())
-    const urlParams = {
-      recipient: new PublicKey(pda?? "CUtKCTar8gb5VYCDWbX5yFMVrhbnod9aCNf4cfhD2qPK"),
-      pdaPublicKey: pda,
-      label: "Mate Protocol",
-      message: "Thanks for using the Mate Protocol",
-    }
+
 
     // Encode the params into the format shown
-    const url = encodeURL(urlParams)
     console.log({ url })
     const qr = createQR(url, 512, 'transparent')
     if (qrRef.current) {
@@ -85,6 +80,7 @@ useEffect(()=>{
     }
   }
 },[slug, program])
+
 useEffect(() => {
   getTransaction()
 }, [publicKey])
