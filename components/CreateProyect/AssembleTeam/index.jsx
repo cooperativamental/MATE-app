@@ -32,7 +32,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
         if (program?.account?.group && user) {
             (async () => {
                 const resTeamsWeb3 = await program?.account?.group.all()
-                const findTeam = resTeamsWeb3?.find(team => team.account.name === router.query.team) 
+                const findTeam = resTeamsWeb3?.find(team => team.publicKey.toBase58() === router.query.team) 
                 getDocs(queryFirestore(collection(firestore, 'users'), where("team", "array-contains", router.query.team)))
                     .then((resUsers) => {
                         let listUsers = {}
@@ -201,7 +201,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                         return (
                             <div key={key} className={`flex flex-col rounded-xl border-[1px] border-white bg-zinc-800 shadow-lg shadow-zinc-700 p-2 gap-2`}>
                                 <label className="flex flex-row justify-between w-full bg-zinc-700  rounded-xl text-lg font-normal h-12 p-2" htmlFor="partners">
-                                    {select?.name}
+                                    {select.name}
                                     {
                                         user.uid !== key &&
                                         <button className="flex text-center justify-center items-center max-h-min w-min  rounded-full bg-black text-white text-base pl-3 pr-3" onClick={() => removeSelect(key)}>

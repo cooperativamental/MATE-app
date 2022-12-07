@@ -39,7 +39,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
         if (program?.account?.group && user) {
             (async () => {
                 const resTeamsWeb3 = await program?.account?.group.all()
-                const findTeam = resTeamsWeb3?.find(team => team.account.name === router.query.team)
+                const findTeam = resTeamsWeb3?.find(team => team.publicKey.toBase58() === router.query.team)
                 setTeams(findTeam.account)
             })()
         }
@@ -69,7 +69,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalBruto: Number((value + value * ((teams.ratio) / 10000)).toFixed(3)),
+                totalBruto: (value + value * ((teams.ratio) / 10000)),
                 partners: {
                     ...project.partners,
                     [user.uid]: {
@@ -83,7 +83,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
             setProject({
                 ...project,
                 [e.target.name]: value,
-                totalNeto: Number((value - value * ((teams.ratio) / 10000)).toFixed(3)),
+                totalNeto: (value - value * ((teams.ratio) / 10000)),
                 partners: {
                     ...project.partners,
                     [user.uid]: {

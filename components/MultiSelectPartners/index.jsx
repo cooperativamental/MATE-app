@@ -10,21 +10,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
     <div className="w-full">
       <div>
         <div className="text-center">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 48 48"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z"
-            />
-          </svg>
-          <h2 className="mt-2 text-lg font-medium">Add team members</h2>
+         
+          <p className="mt-2 text-sm font-light text-left">Search Mate users by email or add email for adding new users.</p>
         </div>
         <div className="flex flex-col sm:flex-row w-full">
 
@@ -40,7 +27,8 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
                   }
                 }}
                 onChange={(e) => setFieldSearch(e.target.value)}
-                className="block w-full rounded-md border-gray-300 text-black focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="block w-full text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm
+                bg-slate-900 appearance-none rounded-xl h-20 text-2xl px-4 ring-1 caret-slate-100"
                 placeholder="Enter email or Phantom wallet address."
               />
               {/* <div className="absolute inset-y-0 right-0 flex items-center">
@@ -51,19 +39,19 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
               </div> */}
             </div>
           </div>
-          <div className="mt-3 sm:mt-0 sm:ml-4 sm:flex-shrink-0">
+          <div className="mt-3 sm:mt-0 sm:ml-4 sm:flex-shrink-0 content-end">
             <button
               onClick={() => searchFunction(fieldSearch)}
-              className="block w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="block w-full h-12 rounded-full border border-transparent bg-indigo-600 px-4 py-2 text-center text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Search Mate
+              Search Mates
             </button>
           </div>
         </div>
 
       </div>
       <div className="mt-10">
-        <h3 className="text-sm font-medium text-gray-500">Team Admin [Up next delegate admin to your MultiSign or DAO]</h3>
+        <h3 className="text-sm font-medium text-gray-500">Remeber that performance is a team job</h3>
         <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {
             options &&
@@ -97,12 +85,12 @@ export const MultiSelectPartners = ({ options, selectState, searchFunction, setO
                             [partnerKey]: partner
                           })
                         }}
-                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" 
-                      />
+                        className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
 
                     </span>
                   }
                 </button>
+                <h3 className="text-sm font-medium text-gray-500">Add with + Remove with -</h3>
               </li>
             ))
           }

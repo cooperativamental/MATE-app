@@ -74,7 +74,9 @@ const Navbar = () => {
 
 
 
-        <p className="flex absolute font-normal bg-gradient-to-r from-back-color to-blue-color rounded-r-full h-6 px-4 text-center text-md ml-10 sm:m-0">
+        <p
+          className="flex absolute bg-gradient-to-r from-back-color to-blue-color rounded-r-full h-8 px-4 text-center text-md font-light ml-10 sm:m-0"
+        >
           gm, {user?.name}
         </p>
         {
