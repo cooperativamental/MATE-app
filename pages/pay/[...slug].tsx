@@ -64,7 +64,7 @@ const Comment = () => {
 useEffect(()=>{
   if (program) {
       const [pdaPublicKey] = web3.PublicKey.findProgramAddressSync(
-      [Buffer.from("project"), Buffer.from(slug[0]), Buffer.from(slug[1])],
+      [Buffer.from("project"), Buffer.from(slug[1]), Buffer.from(slug[0])],
       program.programId,
     )
     setPda(pdaPublicKey.toString())
