@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
         if (resUser && dbFirestore) {
           const unSubscribeSnapshot = onSnapshot(doc(dbFirestore, "users", resUser.uid),
             async (res) => {
-              console.log(res.data())
               const existInvite = await get(query(ref(db, "inviteTeam"), orderByChild("email"), equalTo(res.data().email)))
               if (existInvite.exists()) {
                 const invitation = Object.entries(existInvite.val())

@@ -36,19 +36,20 @@ export const CollectPending = ({ project, keyProject }) => {
             const emailClient = Object.values(project.client).map(client => { return { name: client.clientName, email: client.email } })[0]
             update(ref(db, `projects/${keyProject}`), resObj)
                 .then(res => {
-            sendEmail({
-                from: {
-                    name: user.name,
-                    email: user.email
-                },
-                to: emailClient,
-                subject: `Checkout ${project.nameProject}`,
-                redirect: `${host}/checkout/${keyProject}`,
-                text: [
-                    `Please checkout the project ${project.nameProject}.`
-                ],
-            })
-            })
+                    // host/pay/(nombregrupo)/(nombreproyecto)
+                    sendEmail({
+                        from: {
+                            name: user.name,
+                            email: user.email
+                        },
+                        to: emailClient,
+                        subject: `Checkout ${project.nameProject}`,
+                        redirect: `${host}/checkout/${keyProject}`,
+                        text: [
+                            `Please checkout the project ${project.nameProject}.`
+                        ],
+                    })
+                })
         }
     }
 
