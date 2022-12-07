@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as web3 from "@solana/web3.js"
-import { PublicKey } from "@solana/web3.js"
+import { PublicKey, SystemProgram } from "@solana/web3.js"
 import { useProgram } from "../../hooks/useProgram/index"
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { createQR, encodeURL, fetchTransaction,} from "@solana/pay";
@@ -89,6 +89,33 @@ useEffect(() => {
   getTransaction()
 }, [publicKey])
 
+
+const payProject = async (pda) => {
+  console.log("pda", pda)
+  const project = await program.account.project.fetch(pda)
+  console.log(project)
+  const members = project.payments.map((payment)=>payment.member)
+  
+  const tx = await program.rpc.payProject({accounts:{
+    payer: publicKey,
+    project: pda,
+    member0: members.length > 0 ? members[0]: pda,
+    member1: members.length > 1 ? members[1]: pda,
+    member2: members.length > 2 ? members[2]: pda,
+    member3: members.length > 3 ? members[3]: pda,
+    member4: members.length > 4 ? members[4]: pda,
+    member5: members.length > 5 ? members[5]: pda,
+    member6: members.length > 6 ? members[6]: pda,
+    member7: members.length > 7 ? members[7]: pda,
+    member8: members.length > 8 ? members[8]: pda,
+    member9: members.length > 9 ? members[9]: pda,
+    systemProgram: SystemProgram.programId,
+  }})
+  console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`)
+  const payedProject = await program.account.project.fetch(pda)
+  console.log(payedProject)
+}
+
   // Send the fetched transaction to the connected wallet
   async function trySendTransaction() {
     if (!transaction) {
@@ -108,7 +135,7 @@ useEffect(() => {
 
   return (
     <>
-      <h1>Slug: {slug.join('/')}</h1>
+      <button onClick={()=>payProject(pda)}>pay project</button>
       <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500" />
     </>
   )
