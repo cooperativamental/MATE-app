@@ -79,40 +79,12 @@ async function post(
       return
     }
 
-    // We get the shop private key from .env - this is the same as in our script
-    const shopPrivateKey = process.env.SHOP_PRIVATE_KEY as string
-    if (!shopPrivateKey) {
-      res.status(500).json({ error: "Shop private key not available" })
-    }
-    const shopKeypair = Keypair.fromSecretKey(base58.decode(shopPrivateKey))
-
     const buyerPublicKey = new PublicKey(account)
-    const shopPublicKey = shopKeypair.publicKey
 
     const network = WalletAdapterNetwork.Devnet
     const endpoint = clusterApiUrl(network)
     const connection = new Connection(endpoint)
 
-    // Get the buyer and seller coupon token accounts
-    // Buyer one may not exist, so we create it (which costs SOL) as the shop account if it doesn't 
-    const buyerCouponAccount = await getOrCreateAssociatedTokenAccount(
-      connection,
-      shopKeypair, // shop pays the fee to create it
-      couponAddress, // which token the account is for
-      buyerPublicKey, // who the token account belongs to (the buyer)
-    )
-
-    const shopCouponAddress = await getAssociatedTokenAddress(couponAddress, shopPublicKey)
-
-    // If the buyer has at least 5 coupons, they can use them and get a discount
-    const buyerGetsCouponDiscount = buyerCouponAccount.amount >= 5
-
-    // Get details about the USDC token
-    const usdcMint = await getMint(connection, usdcAddress)
-    // Get the buyer's USDC token account address
-    const buyerUsdcAddress = await getAssociatedTokenAddress(usdcAddress, buyerPublicKey)
-    // Get the shop's USDC token account address
-    const shopUsdcAddress = await getAssociatedTokenAddress(usdcAddress, shopPublicKey)
 
     // Get a recent blockhash to include in the transaction
     const { blockhash } = await (connection.getLatestBlockhash('finalized'))
@@ -122,9 +94,6 @@ async function post(
       // The buyer pays the transaction fee
       feePayer: buyerPublicKey,
     })
-
-    // If the buyer has the coupon discount, divide the amount in USDC by 2
-    const amountToPay = buyerGetsCouponDiscount ? amount.dividedBy(2) : amount
 
     const member1 = new PublicKey("EjPpXXDykPawauyZHsBMtxGwG7K4iFmxdvB6ockM56ZN")
     const member2 = new PublicKey("CUtKCTar8gb5VYCDWbX5yFMVrhbnod9aCNf4cfhD2qPK")
@@ -169,10 +138,6 @@ async function post(
     // Add both instructions to the transaction
     transaction.add(transferInstruction)
 
-    // Sign the transaction as the shop, which is required to transfer the coupon
-    // We must partial sign because the transfer instruction still requires the user
-    transaction.partialSign(shopKeypair)
-
     // Serialize the transaction and convert to base64 to return it
     const serializedTransaction = transaction.serialize({
       // We will need the buyer to sign this transaction after it's returned to them
@@ -182,7 +147,7 @@ async function post(
 
     // Insert into database: reference, amount
 
-    const message = buyerGetsCouponDiscount ? "50% Discount! 🍪" : "Thanks for your order! 🍪"
+    const message = "Thanks for your order! 🍪"
 
     // Return the serialized transaction
     res.status(200).json({
