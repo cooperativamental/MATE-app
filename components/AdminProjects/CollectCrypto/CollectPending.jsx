@@ -44,7 +44,7 @@ export const CollectPending = ({ project, keyProject }) => {
                         },
                         to: emailClient,
                         subject: `Checkout ${project.nameProject}`,
-                        redirect: `${host}/checkout/${keyProject}`,
+                        redirect: `${host}/pay/${project.nameProject}/${project.team}`,
                         text: [
                             `Please checkout the project ${project.nameProject}.`
                         ],
@@ -52,6 +52,7 @@ export const CollectPending = ({ project, keyProject }) => {
                 })
         }
     }
+    console.log(project)
 
     return (
         <div className="w-full mt-8">
