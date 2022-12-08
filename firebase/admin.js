@@ -1,7 +1,6 @@
 import firebase from 'firebase-admin'
 
 let firestoreApp
-
 const firebaseConfig = {
     "type": process.env.NEXT_PUBLIC_TYPE,
     "project_id": process.env.NEXT_PUBLIC_PROJECT_ID,
