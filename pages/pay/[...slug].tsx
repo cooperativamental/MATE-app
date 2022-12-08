@@ -11,6 +11,14 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { MakeTransactionInputData, MakeTransactionOutputData } from "../api/solana/makeTransaction";
 
 const Comment = () => {
+  const { asPath } = useRouter();
+    const origin =
+        typeof window !== 'undefined' && window.location.origin
+            ? window.location.origin
+            : '';
+
+
+
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [pda, setPda] = useState<string | null>();
   const [url, setUrl] = useState<string | null>()
@@ -40,7 +48,7 @@ const Comment = () => {
     const body: MakeTransactionInputData = {
       account: publicKey.toString(),
     }
-    setUrl(`solana:https://mate-web-a2wp9nr4l-mental-coop.vercel.app/api/makeTransaction?${searchParams.toString()}`)
+    setUrl(`solana:${origin}/api/makeTransaction?${searchParams.toString()}`)
     const response = await fetch(`/api/solana/makeTransaction?${searchParams.toString()}`, {
       method: 'POST',
       headers: {
