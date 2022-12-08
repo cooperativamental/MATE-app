@@ -112,14 +112,14 @@ const CreateClient = () => {
 
   return (
     <div className="flex flex-col w-10/12 gap-4 items-center py-4">
-      <h1 className="text-2xl font-bold">Crear Cliente</h1>
-      <p>Introduzca los datos para poder crear el cliente.</p>
-      <div className="flex w-full justify-between text-2xl font-medium">
-        <p>Team:</p>
-        <p>{router?.query?.team}</p>
+      <h1 className="text-2xl font-bold">Create New Client</h1>
+      <p>Complete the form:</p>
+      <div className="flex w-full justify-between text-md font-medium">
+        <p></p>
+        <p>Team Wallet Address: {router?.query?.team}</p>
       </div>
       <InputSelect
-        placeholder="Nombre de Cliente"
+        placeholder="Client´s Name"
         type="text"
         value={clientReg.clientName}
         name="clientName"
@@ -133,7 +133,7 @@ const CreateClient = () => {
         onChange={clientChange}
       /> */}
       <InputSelect
-        placeholder="wallet"
+        placeholder="Paying Wallet Address"
         type="text"
         name="wallet"
         value={clientReg.wallet}
@@ -158,7 +158,7 @@ const CreateClient = () => {
         <option>ARS</option>
       </InputSelect> */}
       <InputSelect
-        placeholder="Email para envio de facturas."
+        placeholder="Email for Invoices"
         type="email"
         name="email"
         value={clientReg.email}
@@ -166,7 +166,7 @@ const CreateClient = () => {
       />
       <ComponentButton
         buttonEvent={createClient}
-        buttonText="Crear Cliente"
+        buttonText="Create Client"
       />
     </div>
   );

@@ -188,7 +188,7 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
         </InputSelect>
 
         <ComponentButton
-          buttonText="Create Client"
+          buttonText="Add new client"
           buttonEvent={() => {
             router.push({
               pathname: "/createclient",
@@ -256,6 +256,7 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
           // buttonStyle={`${Object.values(errors).find(error => !!error) ? "bg-gray-400" : ""} font-medium text-xl text-white ring-1 hover:ring-2 ring-slate-400`}
           buttonText="Confirm"
           buttonEvent={handlerConfirm}
+          buttonStyle="sm:w-6/12"
         />
         {
           Object.keys(errors).length > 0 &&
