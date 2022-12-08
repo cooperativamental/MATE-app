@@ -8,10 +8,23 @@ import base58 from 'bs58'
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Mate } from "../../../types/mate"
+import idl from "../../../hooks/useProgram/mate.json"
+import * as web3 from "@solana/web3.js"
 
-const anchorProvider = anchor.Provider.env();
-anchor.setProvider(anchorProvider);
-const program = anchor.workspace.Mate as Program<Mate>;
+const MATE_PROGRAM = idl.metadata.address;
+const programID = new PublicKey(MATE_PROGRAM);
+const network = WalletAdapterNetwork.Devnet
+const endpoint = clusterApiUrl(network)
+const connection = new Connection(endpoint)
+const signer = web3.Keypair.generate()
+const wallet : any= {...signer}
+wallet.signAllTransactions=(txs: Transaction[]): Promise<Transaction[]>=>[] as unknown as Promise<Transaction[]>
+wallet.signTransaction=(tx: Transaction):Promise<Transaction>=>[] as unknown as Promise<Transaction>
+const provider = new anchor.Provider(connection,wallet, {
+  preflightCommitment: "recent",
+  commitment: "processed",
+});
+const program = new anchor.Program(idl as any, programID, provider);
 
 export type MakeTransactionInputData = {
   account: string,

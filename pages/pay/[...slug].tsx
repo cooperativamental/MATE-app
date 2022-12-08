@@ -40,15 +40,15 @@ const Comment = () => {
     const body: MakeTransactionInputData = {
       account: publicKey.toString(),
     }
-    setUrl(`/api/makeTransaction?${searchParams.toString()}`)
-    const response = await fetch(`/api/makeTransaction?${searchParams.toString()}`, {
+    setUrl(`solana:https://mate-web-a2wp9nr4l-mental-coop.vercel.app/api/makeTransaction?${searchParams.toString()}`)
+    const response = await fetch(`/api/solana/makeTransaction?${searchParams.toString()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body),
     })
-
+    console.log(url, response)
     const json = await response.json() as MakeTransactionOutputData
 
     if (response.status !== 200) {
@@ -83,7 +83,7 @@ useEffect(()=>{
 
 useEffect(() => {
   getTransaction()
-}, [publicKey])
+}, [publicKey, pda, getTransaction])
 
 
 const payProject = async (pda) => {
