@@ -127,7 +127,6 @@ const Comment = () => {
         headers: {
           "Content-Type": "json",
         },
-        contentType: "application/json"
       }
     )
   }
