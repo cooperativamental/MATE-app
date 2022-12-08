@@ -58,7 +58,7 @@ export const MultiSelect = ({ label, options, searchFunction, setSelectState, se
           }
         </div>
         <div onClick={() => setDisplayShow(!displayShow)}>
-          <button className={`border-t-white border-t-2 border-r-2 border-r-white h-4 w-4 ${!displayShow ? "rotate-[135deg]" : "-rotate-45"}`} ></button>
+          <button className={`border-t-white border-t-2 border-r-2 border-r-white h-4 w-4 m-4 ${!displayShow ? "rotate-[135deg]" : "-rotate-45"}`} ></button>
         </div>
       </div>
       {

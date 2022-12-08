@@ -88,7 +88,7 @@ const Notification = () => {
       width: "17rem",
       height: "75vh",
       top: 0,
-      backgroundColor: ["#FA9972", "#000"],
+      backgroundColor: ["#1A1735", "#1A1735"],
       borderRadius: "0 0 0 1rem",
       transition: {
         duration: 1
@@ -134,14 +134,14 @@ const Notification = () => {
     },
     openIcon: {
       rotate: ["0deg", "-6deg", "6deg", "-6deg", "6deg", "0deg"],
-      color: "rgb(255,255,255)",
+      color: "#FCF776",
       transition: {
         duration: 2
       }
     },
     closeIcon: {
       rotate: ["0deg", "-6deg", "6deg", "-6deg", "6deg", "0deg"],
-      color: "#7e22ce",
+      color: "#FCF776",
       transition: {
         duration: 1
       }
@@ -426,13 +426,13 @@ const Notification = () => {
         initial={{ display: "flex", height: "1rem", width: "3rem" }}
         animate={open ? "openContainer" : "closedContainer"}
         ref={refContainer}
-        className={`fixed rounded-l-md flex z-30 right-0 top-3 shadow-sm p-0 bg-orange-color`}
+        className={`fixed rounded-l-md flex z-30 right-0 top-3 shadow-sm p-0`}
       >
         <motion.div
           variants={sidebar}
           initial={{ display: "flex", rotate: 0 }}
           animate={[open === true && "openIcon", open === false && "closeIcon", !!lastNotification && "newNoti"]}
-          className={` text-white rotate-0 h-max w-max max-w-max before:z-10`}
+          className={`text-white rotate-0 h-max w-max max-w-max before:z-10 right-0 cursor-pointer`}
           onClick={() => {
 
             handleNotification()

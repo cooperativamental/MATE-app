@@ -170,7 +170,7 @@ const ConfirmTeam = () => {
     return (
         <div className="flex flex-col py-8 h-min w-6/12 gap-8">
             <div className="flex w-full justify-between items-center">
-                <div>
+                <div className="bg-box-color p-6">
                     <p>Team Name:</p>
                     <h1 className="text-2xl font-semibold">
                         {team?.name}
@@ -179,23 +179,13 @@ const ConfirmTeam = () => {
             </div>
             <div className="flex w-full justify-between items-center">
                 <div>
-                    <p className="font-semibold">
-                        Treasury {team?.treasury}%
+                    <p className="font-semibold text-yellow-color">
+                        Treasury Agreement: {team?.treasury}%
                     </p>
-                    <button
-                        className=" text-secondary-color font-semibold"
-                    >
-                        Vote Review (ComingUp)
-                    </button>
-                </div>
-                <button
-                    className=" text-secondary-color font-semibold"
-                >
-                    Treasury Funds Proposal (ComingUp)
-                </button>
+                </div> 
             </div>
             <div className="flex flex-col gap-4">
-                <p className="text-xl font-bold">Associate Members</p>
+                <p className="text-xl font-bold">Members</p>
                 <div className="flex flex-col gap-8">
                     {
                         team?.guests && Object.entries(team?.guests).map(([keyUser, userTeam]) => {
@@ -237,7 +227,7 @@ const ConfirmTeam = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <p className="text-xl font-bold">Associate Members</p>
+                <p className="text-xl font-bold">Members</p>
                 <div className="flex flex-col gap-8">
                     {
                         team?.invitedNotRegistered?.map(invited => {

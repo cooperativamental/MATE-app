@@ -202,7 +202,7 @@ const InfoProject = ({ setProject, project, team, confirmInfoProject, confirmati
               }
             )
           }}
-          buttonStyle="sm:w-6/12 "
+          buttonStyle="sm:w-6/12"
         />
       </div>
       <div className={`flex w-full items-center flex-col sm:flex-row gap-8`} >

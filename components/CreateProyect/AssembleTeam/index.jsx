@@ -186,11 +186,11 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
             {
                 selectPartners &&
                 <MultiSelect
-                    label="Select your partners"
+                    label="Select your mates"
                     options={partners}
                     setSelectState={setSelectPartners}
                     selectState={selectPartners}
-                    placeholder="Select your partners"
+                    placeholder="Select your mates"
                     blockOption={user.uid}
                 />
             }
@@ -199,7 +199,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
                 {
                     selectPartners && Object.entries(selectPartners).map(([key, select]) => {
                         return (
-                            <div key={key} className={`flex flex-col rounded-xl border-[1px] border-white bg-zinc-800 shadow-lg shadow-zinc-700 p-2 gap-2`}>
+                            <div key={key} className={`flex flex-col rounded-xl border-[1px] border-white bg-box-color shadow-lg shadow-zinc-700 p-2 gap-2`}>
                                 <label className="flex flex-row justify-between w-full bg-zinc-700  rounded-xl text-lg font-normal h-12 p-2" htmlFor="partners">
                                     {select?.name}
                                     {
@@ -263,7 +263,7 @@ const AssembleTeam = ({ project, setProject, confirmInfoProject, available, erro
             <ComponentButton
                 buttonEvent={handleConfirm}
                 buttonText="Confirm Team"
-                buttonStyle={`h-14 ${(!!Object.values(errors).find(error => !!error)) ? "bg-[grey]" : "bg-[#5A31E1]"}`}
+                buttonStyle={`sm:w-6/12 h-14 ${(!!Object.values(errors).find(error => !!error)) ? "bg-[grey]" : "bg-[#5A31E1]"}`}
                 conditionDisabled={errors.partners}
             />
         </div>

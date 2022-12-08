@@ -166,7 +166,8 @@ const CreateClient = () => {
       />
       <ComponentButton
         buttonEvent={createClient}
-        buttonText="Create Client"
+        buttonText="Add Client"
+        buttonStyle="sm:w-6/12"
       />
     </div>
   );

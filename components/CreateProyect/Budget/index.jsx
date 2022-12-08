@@ -214,6 +214,7 @@ const Budget = ({ setProject, project, confirmInfoProject, available, errors, co
                 buttonEvent={handleConfirm}
                 buttonText="Confirm Budget"
                 conditionDisabled={available < 0 || errors.thirdParties}
+                buttonStyle="sm:w-6/12"
             />
         </div>
     )
