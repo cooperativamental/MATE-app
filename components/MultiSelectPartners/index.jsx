@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Image } from "next/image"
+import Image from "next/image"
 import { PlusIcon, MinusIcon } from '@heroicons/react/20/solid'
 
 export const MultiSelectPartners = ({ options, selectState, searchFunction, setOptions,  setSelectState, blockOption }) => {
