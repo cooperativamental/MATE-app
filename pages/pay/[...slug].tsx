@@ -91,7 +91,7 @@ useEffect(()=>{
 
 useEffect(() => {
   getTransaction()
-}, [pda])
+}, [publicKey, pda])
 
 
 const payProject = async (pda) => {
