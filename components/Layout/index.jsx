@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
   const { user, firestore } = useAuth()
   const router = useRouter()
   const { openers } = useBalance()
-  const paths = ['/register', '/', '/resetPass', '/checkout/[prjID]'];
+  const paths = ['/register', '/', '/resetPass', '/pay/[...slug]'];
 
   const existPath = paths.find(path => path === router.route.split('?')[0])
 

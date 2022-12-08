@@ -29,7 +29,7 @@ export const RouteGuard = ({ children }) => {
 
   const authCheck = (url) => {
     // redirect to login page if accessing a private page and not logged in
-    const publicPaths = ["/login", "/register", "/", "/resetPass", "/example", "/checkout/[prjID]", "/ejemplo-pago/qr"];
+    const publicPaths = ["/login", "/register", "/", "/resetPass", "/example", "/pay/[...slug]", "/ejemplo-pago/qr"];
     // const privatesPaths = ["/admin/transferences", "/admin/project", "/admin/createclient",  "/admin/currencyconversion"];
     const path = url.split("?")[0];
     if (!user) {
