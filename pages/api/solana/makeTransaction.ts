@@ -139,10 +139,7 @@ async function post(
     transaction.add(transferInstruction)
 
     // Serialize the transaction and convert to base64 to return it
-    const serializedTransaction = transaction.serialize({
-      // We will need the buyer to sign this transaction after it's returned to them
-      requireAllSignatures: false
-    })
+    const serializedTransaction = transaction.serialize()
     const base64 = serializedTransaction.toString('base64')
 
     // Insert into database: reference, amount
