@@ -108,9 +108,6 @@ const ConfirmTeam = () => {
             //     ...group,
             //     treasury: group.treasury / 100
             // })
-            await updateDoc(doc(firestore, "users", user.uid), {
-                team: team.name
-            })
             await update(ref(db, `team/${router.query.team}/`),
                 {
                     status: "CREATED",
@@ -121,8 +118,9 @@ const ConfirmTeam = () => {
                     status: "CREATED",
                 })
             Object.keys(team?.guests).map(async (keyPartner) => {
+                console.log()
                 await updateDoc(doc(firestore, "users", keyPartner), {
-                    team: team.name
+                    team: arrayUnion(team.name)
                 })
             })
             console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`);

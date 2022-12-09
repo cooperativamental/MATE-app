@@ -78,8 +78,10 @@ const Team = () => {
 
         if (program?.account?.group) {
             (async () => {
+                console.log(router.query.team)
                 const resTeamWeb3 = await program?.account?.group.all()
                 const teamQuery = resTeamWeb3?.find(team => team.account.name === router.query.team)
+                console.log(teamQuery)
                 const unSubscribeSnapshot = onSnapshot(queryFirestore(collection(firestore, "users"), where("team", "array-contains", teamQuery?.account.name)),
                     (resUsers) => {
                         let users = {}
