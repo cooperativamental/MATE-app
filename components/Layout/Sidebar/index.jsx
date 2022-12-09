@@ -106,7 +106,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
       animate={!window.matchMedia("(min-width:600px)").matches ? (open ? "openContainer" : "closedContainer") : { height: "100vh", width: "15%", backgroundColor: "#1A1735" }}
       // custom={whidth}
       ref={refContainer}
-      className={`${(window.matchMedia("(min-width:600px)").matches && isMedium) ? "static" : "fixed"}  z-30 left-0 top-3 shadow-sm shadow-[#000000] `}
+      className={`${(window.matchMedia("(min-width:600px)").matches && isMedium) ? "static" : "fixed"} cursor-pointer z-30 left-0 top-3 `}
     >
       <motion.div
         variants={sidebar}
@@ -118,7 +118,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
         <Bars3Icon
           onClick={() => { setOpen(!open) }}
           alt="menu open"
-          className="md:hidden h-5"
+          className="md:hidden h-5 text-green-color"
         />
       </motion.div>
       <motion.div
@@ -165,7 +165,7 @@ const Menu = ({ openMenu, closeSideBar }) => {
               }}>Sign Out</button>
           </li>
         </ul>
-        <p className=" flex items-end justify-center text-sm border-b-[1px] h-10 bg-back-color mb-5 font-bold text-white" >Mate Protocol</p>
+        <p className="flex items-end justify-center text-xs border-b-[1px] h-10 border-back-color mb-5 font-thin text-white" >Mate Protocol</p>
       </motion.div>
     </motion.div>
 
