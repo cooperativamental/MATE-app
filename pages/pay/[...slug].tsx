@@ -114,7 +114,7 @@ const Comment = () => {
         systemProgram: SystemProgram.programId,
       }
     })
-    console.log(`https://explorer.solana.com/tx/${tx}?cluster=devnet`)
+    console.log(`https://explorer.solana.com/tx/${tx}?cluster=${process.env.NEXT_PUBLIC_NETWORK ? `custom&customUrl=${process.env.NEXT_PUBLIC_NETWORK}` : "devnet"}`)
     const payedProject = await program.account.project.fetch(pda)
     // commonExpenses para terceros.
     console.log(payedProject)

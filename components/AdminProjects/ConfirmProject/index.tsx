@@ -101,18 +101,18 @@ const ConfirmProject = ({ keyProject, project }) => {
           status: "INVOICE_PENDING",
           treasuryKey: respCreateProjectWeb3.keyTreasury
         })
-      console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
+      console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${process.env.NEXT_PUBLIC_NETWORK ? `custom&customUrl=${process.env.NEXT_PUBLIC_NETWORK}` : "devnet"}`)
       handlePopUp({
         text:
           <div className="">
             <p>View on Explorer</p>
             <Link
-              href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+              href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${process.env.NEXT_PUBLIC_NETWORK ? `custom&customUrl=${process.env.NEXT_PUBLIC_NETWORK}` : "devnet"}`}
             >
               <a
                 target="_blank"
                 className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
-                {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
+                {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${process.env.NEXT_PUBLIC_NETWORK ? `custom&customUrl=${process.env.NEXT_PUBLIC_NETWORK}` : "devnet"}`}
               </a>
             </Link>
           </div>
