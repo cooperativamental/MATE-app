@@ -68,8 +68,13 @@ const AdminProjects = ({ prj }) => {
           keyProject={keyProject}
           project={project}
         />,
-      paid:
+      distributed:
         <CollectCall
+          keyProject={keyProject}
+          project={project}
+        />,
+      payed:
+        <ProjectSheets
           keyProject={keyProject}
           project={project}
         />
@@ -157,23 +162,6 @@ const AdminProjects = ({ prj }) => {
       }
     }
   }, [db, user, keyProject])
-
-  // useEffect(() => {
-  //   if (keyProject && user && project.treasuryKey) {
-  //     const interval = setInterval(async () => {
-  //       try {
-  //         const bal = await connection.getBalance(new PublicKey(project.treasuryKey));
-  //         console.log(bal)
-  //         if (bal && project.status !== "PAID") {
-  //           update(ref(db, `projects/${keyProject}`), { status: "PAID" })
-  //         }
-  //       } catch (e) {
-  //         console.error('Unknown error', e)
-  //       }
-  //     }, 500)
-  //     return () => clearInterval(interval)
-  //   }
-  // }, [project])
 
   const handleInfoProject = async (propProject) => {
     router.push({

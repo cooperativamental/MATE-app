@@ -9,6 +9,7 @@ import BigNumber from "bignumber.js";
 import { Keypair, Transaction } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { MakeTransactionInputData, MakeTransactionOutputData } from "../api/solana/makeTransaction";
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 const Comment = () => {
   const [transaction, setTransaction] = useState<Transaction | null>(null);
@@ -62,7 +63,7 @@ const Comment = () => {
   }
 
   useEffect(() => {
-    if (program && slug.length >= 2 ) {
+    if (program && slug.length >= 2) {
       console.log(slug)
       const [pdaPublicKey] = web3.PublicKey.findProgramAddressSync(
         [Buffer.from("project"), Buffer.from(slug[0]), Buffer.from(slug[1])],
@@ -124,7 +125,8 @@ const Comment = () => {
       {
         method: "POST",
         body: JSON.stringify({
-          pda: `${pda}`
+          pda: `${pda}`,
+          status: "DISTRIBUTED"
         }),
         headers: {
           "Content-Type": "json",
@@ -152,8 +154,16 @@ const Comment = () => {
 
   return (
     <>
-      <button onClick={() => payProject(pda)}>pay project</button>
-      <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500" />
+      {
+
+        (!connection || !wallet) ?
+          <WalletMultiButton>Connect Wallet</WalletMultiButton>
+          :
+          <>
+            <button onClick={() => payProject(pda)}>pay project</button>
+            <div ref={qrRef} className="text-3xl font-bold p-12 rounded-md text-black bg-gradient-to-r from-purple-700 to-cyan-500" />
+          </>
+      }
     </>
   )
 }
