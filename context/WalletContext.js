@@ -9,7 +9,7 @@ import * as WalletAdapterWallets from "@solana/wallet-adapter-wallets";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function WalletContextProvider({ children }) {
-  const endpoint = process.env.NEXT_PUBLIC_NETWORK ?? Web3.clusterApiUrl("devnet");;
+  const endpoint = ["devnet", "mainnet", "testnet"].includes(process.env.NEXT_PUBLIC_NETWORK) ? Web3.clusterApiUrl(process.env.NEXT_PUBLIC_NETWORK) : process.env.NEXT_PUBLIC_NETWORK ?? Web3.clusterApiUrl("devnet");
   const phantom = new WalletAdapterWallets.PhantomWalletAdapter();
   const solflare = new WalletAdapterWallets.SolflareWalletAdapter();
 
