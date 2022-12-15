@@ -29,7 +29,9 @@ const Layout = ({ children }) => {
   const { openers } = useBalance()
   const paths = ['/register', '/', '/resetPass', '/pay/[...slug]'];
 
+  
   const existPath = paths.find(path => path === router.route.split('?')[0])
+  console.log(router.route, existPath)
 
   const { connection } = useConnection()
   const { publicKey } = useWallet()
@@ -54,6 +56,8 @@ const Layout = ({ children }) => {
     )()
   }, [db, user, connection, publicKey])
 
+
+
   return (
     <>
       <Favicon />
@@ -61,7 +65,7 @@ const Layout = ({ children }) => {
       <PopUpProvider>
         <div className="flex w-full">
           {
-            (user || !existPath) &&
+            (user && !existPath) &&
             <SideBar />
           }
           <div className="flex flex-col w-full">

@@ -13,17 +13,25 @@ import {
 
 import ComponentButton from "../../Elements/ComponentButton"
 
-
-import { useConnection } from '@solana/wallet-adapter-react'
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
+import * as web3 from "@solana/web3.js"
+import * as anchor from "@project-serum/anchor";
+import { useAnchorWallet } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { LAMPORTS_PER_SOL, PublicKey, SystemProgram } from "@solana/web3.js"
 import { useHost } from "../../../context/host"
+import InputSelect from "../../Elements/InputSelect"
+import { useProgram } from "../../../hooks/useProgram";
 
 export const CollectCall = ({ project, team, keyProject }) => {
     const db = getDatabase()
     const { host } = useHost()
-    const { connection } = useConnection()
 
-    const [balance, setBalance] = useState()
+    const { connection } = useConnection()
+    const wallet = useAnchorWallet();
+    const { program } = useProgram({ connection, wallet });
+    const [pda, setPda] = useState()
+    const [adressThirdParties, setAdressThirdParties] = useState()
+
     const [dateInvoiceOrder, setDateInvoiceOrder] = useState({
         date: "",
         status: false
@@ -34,45 +42,33 @@ export const CollectCall = ({ project, team, keyProject }) => {
     })
 
     useEffect(() => {
+        if (project && program) {
+            const [pdaPublicKey] = web3.PublicKey.findProgramAddressSync(
+                [Buffer.from("project"), Buffer.from(project.nameProject), Buffer.from(project.team)],
+                program.programId,
+            )
+            setPda(pdaPublicKey.toString())
+        }
+    }, [project])
 
-        get(ref(db, `projects/${keyProject}`))
-            .then(async res => {
-                const interval = setInterval(async () => {
-                    try {
-                        const bal = await connection.getBalance(new PublicKey(res.val().treasuryKey));
-                        setBalance(bal)
-                    } catch (e) {
-                        console.error('Unknown error', e)
+    const confirmInvoice = async () => {
+        if (program) {
+
+            const payedProject = await program?.account?.project?.fetch(pda)
+            const tx = await program.rpc.useProjectTreasury(payedProject.commonExpenses
+                ,
+                {
+                    accounts: {
+                        payer: wallet.publicKey,
+                        project: pda,
+                        receiver: adressThirdParties,
+                        systemProgram: SystemProgram.programId,
                     }
-                }, 500)
-                return () => {
-                    clearInterval(interval)
-                }
-            })
-    }, [])
-
-    const confirmInvoice = () => {
-        update(ref(db, `projects/${keyProject}`), { status: "COLLECT_ORDER" })
-            .then(res => {
-                sendEmail({
-                    ...invoice_call.textEmail({
-                        nameProject: project.nameProject,
-                    }),
-                    from: {
-                        name: user.name,
-                        email: user.email
-                    },
-                    to: {
-                        ...Object.values(project.projectHolder)
-                            .map(values => ({
-                                name: values.name,
-                                email: values.email
-                            }))[0]
-                    },
-                    redirect: `${host}`
                 })
+            console.log(tx, pda, payedProject)
+            update(ref(db, `projects/${keyProject}`), { status: "PAYED"})
 
-            })
+        }
     }
 
     return (
@@ -93,24 +89,7 @@ export const CollectCall = ({ project, team, keyProject }) => {
                 <p>Project name: </p>
                 <p>{project?.nameProject}</p>
             </div>
-            <div className="flex w-full justify-between text-lg">
-                <p>Project wallet: </p>
-                <p>{balance}</p>
-            </div>
 
-            {/* <div className="flex justify-between text-lg w-full">
-                <p>Quedara por facturar un total de: </p>
-                <p>
-                    {
-                        project?.amountToInvoice
-                            ?
-                            Math.round(project?.amountToInvoice - (project?.totalBruto / project?.percentage)).toFixed(2)
-                            :
-                            project && Math.round(project?.totalBruto - (project?.totalBruto / project?.percentage))
-                                .toLocaleString('es-ar', { minimumFractionDigits: 2 })
-                    }
-                </p>
-            </div> */}
             <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
             <div className="flex flex-col gap-4 text-lg w-full">
                 <p className="text-lg font-normal">Details for invoice: </p>
@@ -119,7 +98,13 @@ export const CollectCall = ({ project, team, keyProject }) => {
                 </p>
             </div>
             <div className="flex flex-col items-center gap-4">
-                <p className="text-normal font-bold">Share the invoice with your client</p>
+                <p className="text-normal font-bold"></p>
+                <InputSelect
+                    title="Introduce public adress"
+                    onChange={(e) => {
+                        setAdressThirdParties(e.target.value)
+                    }}
+                />
                 <ComponentButton
                     buttonStyle={
                         !dateInvoiceOrder?.date && dateInvoiceOrder?.status ?
@@ -128,7 +113,7 @@ export const CollectCall = ({ project, team, keyProject }) => {
                     }
                     conditionDisabled={!dateInvoiceOrder?.date && dateInvoiceOrder?.status}
                     buttonEvent={() => confirmInvoice(project?.status)}
-                    buttonText="Send Invoice"
+                    buttonText="To pay"
                 />
             </div>
         </div>

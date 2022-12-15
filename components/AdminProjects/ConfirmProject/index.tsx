@@ -94,25 +94,25 @@ const ConfirmProject = ({ keyProject, project }) => {
         endDate: new Date(project.end).getTime(),
         client: client
       }
-      const cluster = ["devnet", "mainnet", "testnet"].includes(process.env.NEXT_PUBLIC_NETWORK) ? process.env.NEXT_PUBLIC_NETWORK : `custom&customUrl=${process.env.NEXT_PUBLIC_NETWORK}`
+
       const respCreateProjectWeb3 = await createProject(projectWeb3)
       update(ref(db, `projects/${keyProject}`),
         {
           status: "INVOICE_PENDING",
           treasuryKey: respCreateProjectWeb3.keyTreasury
         })
-      console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${cluster}`)
+      console.log(`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`)
       handlePopUp({
         text:
           <div className="">
             <p>View on Explorer</p>
             <Link
-              href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${cluster}`}
+              href={`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
             >
               <a
                 target="_blank"
                 className="flex w-8/12 font-semibold text-xl overflow-hidden text-clip">
-                {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=${cluster}`}
+                {`https://explorer.solana.com/tx/${respCreateProjectWeb3.tx}?cluster=devnet`}
               </a>
             </Link>
           </div>
