@@ -148,13 +148,13 @@ const ConfirmProject = ({ keyProject, project }) => {
       </div>
       <hr className="h-[3px] bg-slate-300 border-[1px] w-full  " />
 
-      <h3 className="text-xl font-bold ">Project partners</h3>
+      <h3 className="text-xl font-bold ">Project partners:</h3>
       <div className="grid w-full items-center gap-4">
         {
           project && project.partners &&
           Object.entries(project?.partners)?.map(([key, value]: any) => {
             return (
-              <div key={key} className="flex flex-col justify-between gap-4 bg-slate-500 text-black p-4 rounded-md">
+              <div key={key} className="flex flex-col justify-between gap-4 bg-orange-color text-black p-4 rounded-md">
                 <p className="text-lg font-semibold">{value.name}</p>
                 <div className="flex w-full justify-between font-normal">
                   <p>Amount agreed: </p>
@@ -181,7 +181,7 @@ const ConfirmProject = ({ keyProject, project }) => {
               routeBack=""
               buttonText="Confirm & Sign Project"
               buttonEvent={confirmProject}
-              buttonStyle=""
+              buttonStyle="rounded-full sm:w-6/12"
               conditionDisabled={errors?.confirm || errors?.wallet}
             />
             {

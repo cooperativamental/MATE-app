@@ -204,11 +204,10 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                 renderInfo(project.partners)
             }
             <div className="flex flex-col items-center gap-4 m-4">
-
-                <p className="text-base font-normal">Send proposals to your partners</p>
-                <div className="w-8/12">
+            <div className="">
                     <ComponentButton
                         buttonText="Edit"
+                        buttonStyle="sm:h-6 text-sm sm:w-6/12"
                         buttonEvent={() => { setConfirmation({
                             INFO_PROJECT: false,
                             BUDGET: false,
@@ -216,6 +215,8 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                           })}}
                     />
                 </div>
+                <p className="text-base font-normal">Send proposals to your partners</p>
+                
                 {
                     retrySendProposal.status ?
                         <ComponentButton
@@ -226,6 +227,7 @@ const PreviewProject = ({ project, setProject, setConfirmation }) => {
                         <ComponentButton
                             buttonEvent={confirmProject}
                             buttonText="Gather Team"
+                            buttonStyle="sm:w-6/12"
 
                         />
 

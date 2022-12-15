@@ -147,7 +147,7 @@ const Team = () => {
                             }}
                         />
                         <ComponentButton
-                            buttonText="CreateClient"
+                            buttonText="Add Client"
                             buttonStyle="w-max"
                             buttonEvent={() => {
                                 router.push({
