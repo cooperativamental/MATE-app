@@ -120,13 +120,7 @@ const ConfirmProject = ({ keyProject, project }) => {
         title: `Project Confirmed & Signed`,
       })
     }
-    // router.push(router.pathname)
-    // } else {
-    //   update(ref(db, `projects/${keyProject}`), {status: "INVOICE_PENDING"})
-    //   router.push(router.pathname)
-    // }
-
-    // }
+    router.push(router.pathname)
   };
 
 

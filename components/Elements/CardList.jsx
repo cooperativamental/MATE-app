@@ -24,18 +24,18 @@ export default function CardList({ list }) {
                                     className="block hover:bg-rose-color"
                                 >
                                     <div className="flex items-center px-4 py-4 sm:px-6">
-                                        <div onClick={position.redirect} className="cursor-pointer h-full min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                                        <div onClick={position.redirect} className="cursor-pointer h-full min-w-0 flex-1 sm:grid sm:grid-cols-3">
                                             <div className="truncate sm:w-3/12">
                                                 <div className="flex text-lg">
                                                     <p className="truncate font-medium text-white">{position.name}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex sm:w-min overflow-hidden text-sm text-yellow-color transition-all duration-500 ">
+                                            <div className="flex overflow-hidden text-sm text-yellow-color transition-all duration-500 ">
                                                 {position.info}
                                             </div>
                                             {
                                                 position?.partners &&
-                                                <div className="flex w-3/12 mt-4 flex-shrink-0 sm:mt-0 sm:ml-5 -space-x-1  ">
+                                                <div className="flex items-center mt-4 flex-shrink-0 sm:mt-0 sm:ml-5 -space-x-1  ">
                                                     {position?.partners?.map((partner) => {
                                                         return (
                                                             <div

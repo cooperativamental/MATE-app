@@ -79,7 +79,7 @@ const PageHomeProjects = () => {
                           {`Client: ${Object.values(prj.client).map(client => client.clientName)[0]}`}
                         </p>
                         <p>
-                          {`Status: ${prj.status}`} 
+                          {`Status: ${prj.status}`}
                         </p>
                       </div>
                     ,
@@ -119,7 +119,16 @@ const PageHomeProjects = () => {
                         })
                         return {
                           name: value.nameProject,
-                          info: `Client: ${Object.values(value.client).map(client => client.clientName)[0]}`,
+                          info:
+                            <div className="flex flex-col text-left">
+                              <p>
+                                {`Client: ${Object.values(value.client).map(client => client.clientName)[0]}`}
+                              </p>
+                              <p>
+                                {`Status: ${value.status}`}
+                              </p>
+                            </div>
+                          ,
                           partners: arrPartner,
                           redirect: () => handleInfoProject(key),
                           id: key,

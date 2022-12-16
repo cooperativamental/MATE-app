@@ -44,7 +44,7 @@ const LogIn = () => {
       if (router.query.hasOwnProperty("returnUrl")) {
         router.push(router.query.returnUrl)
       } else {
-        router.push('/wallet')
+        router.push('/team')
       }
     }
   }

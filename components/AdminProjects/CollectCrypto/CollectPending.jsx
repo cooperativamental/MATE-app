@@ -44,7 +44,7 @@ export const CollectPending = ({ project, keyProject }) => {
                         },
                         to: emailClient,
                         subject: `Checkout ${project.nameProject}`,
-                        redirect: `${host}/pay/${project.nameProject}/${project.team}`,
+                        redirect: `${host}/pay/${project.team}/${project.nameProject}`,
                         text: [
                             `Please checkout the project ${project.nameProject}.`
                         ],
