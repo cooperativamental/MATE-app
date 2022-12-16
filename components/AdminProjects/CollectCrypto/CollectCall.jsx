@@ -67,7 +67,6 @@ export const CollectCall = ({ project, team, keyProject }) => {
                 })
             console.log(tx, pda, payedProject)
             update(ref(db, `projects/${keyProject}`), { status: "PAYED"})
-
         }
     }
 

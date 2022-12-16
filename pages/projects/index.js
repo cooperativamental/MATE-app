@@ -73,7 +73,16 @@ const PageHomeProjects = () => {
                     partners: arrPartner,
                     name: prj.nameProject,
                     redirect: () => handleInfoProject(key),
-                    info: `Client: ${Object.values(prj.client).map(client => client.clientName)[0]}`,
+                    info:
+                      <div className="flex flex-col text-left">
+                        <p>
+                          {`Client: ${Object.values(prj.client).map(client => client.clientName)[0]}`}
+                        </p>
+                        <p>
+                          {`Status: ${prj.status}`} 
+                        </p>
+                      </div>
+                    ,
                     id: key,
                   })
                 }),

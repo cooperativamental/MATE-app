@@ -30,10 +30,8 @@ export default function CardList({ list }) {
                                                     <p className="truncate font-medium text-white">{position.name}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex sm:w-3/12 items-center overflow-hidden text-sm text-yellow-color">
-                                                <p className=" whitespace-nowrap float-right transition-all duration-500 hover:float-left">
-                                                    {position.info}
-                                                </p>
+                                            <div className="flex sm:w-min overflow-hidden text-sm text-yellow-color transition-all duration-500 ">
+                                                {position.info}
                                             </div>
                                             {
                                                 position?.partners &&
