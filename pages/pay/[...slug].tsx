@@ -97,12 +97,16 @@ const Comment = () => {
     const project = await program.account.project.fetch(pda)
     console.log(project)
     const members = project.payments.map((payment) => payment.member)
-
+    const [groupPublicKey] = web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("group"), Buffer.from(project.group)],
+      program.programId,
+    )
     const tx = await program.rpc.payProject({
       accounts: {
         payer: publicKey,
         project: pda,
         member0: members.length > 0 ? members[0] : pda,
+        group: groupPublicKey,
         member1: members.length > 1 ? members[1] : pda,
         member2: members.length > 2 ? members[2] : pda,
         member3: members.length > 3 ? members[3] : pda,
