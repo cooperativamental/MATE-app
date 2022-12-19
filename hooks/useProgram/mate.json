@@ -149,8 +149,8 @@
           "isSigner": false
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
+          "name": "group",
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -201,6 +201,11 @@
         {
           "name": "member9",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
           "isSigner": false
         }
       ],
@@ -334,6 +339,6 @@
     }
   ],
   "metadata": {
-    "address": "9J76wGuSfdWBbJma8hCTiskqyv5rTSt1y1D8JaBxMmMQ"
+    "address": "FGm2MQGMoHGyjKnkw38Q77L6qyJEy5dxmVpuFb2a9UbK"
   }
 }
